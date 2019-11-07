@@ -194,3 +194,15 @@ rm -rf $1/priv-app/wssyncmldm
 rm -rf $1/recovery-from-boot.p
 rm -rf $1/tts
 rm -rf $1/voicebargeindata
+
+rm -rf $1/priv-app/SamsungAvatarAuthoring_Lite
+rm -rf $1/priv-app/DualOutFocusViewer
+rm -rf $1/priv-app/StickerFaceAR
+rm -rf $1/priv-app/OneDrive_Samsung_v3
+rm -rf $1/priv-app/StickerFaceAR3D
+rm -rf $1/priv-app/PhotoStudio_Beyond
+rm -rf $1/priv-app/AirtelStub
+rm -rf $1/priv-app/Excel_SamsungStub
+rm -rf $1/priv-app/PowerPoint_SamsungStub
+rm -rf $1/priv-app/SamsungPayStubMini
+rm -rf $1/priv-app/Word_SamsungStub
