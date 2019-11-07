@@ -38,4 +38,7 @@ cp -fpr $thispath/erfan $1/
 python $thispath/../../../scripts/custom_manifest.py $thispath/../../../tmp/manifest.xml $thispath/manifest.xml $1/etc/vintf/manifest.xml
 cp -fpr $thispath/../../../tmp/manifest.xml $1/etc/vintf/manifest.xml
 
+#fix bootloop (missing priv-app/GoogleTimeZoneData)
+cp -fpr $thispath/priv-app/* $1/priv-app/
+
 $thispath/debloat.sh "$systempath"
