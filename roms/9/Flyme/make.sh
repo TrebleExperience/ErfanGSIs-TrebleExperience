@@ -25,6 +25,9 @@ sudo mount $thispath/../../../working/vendor.img $vendorpath
 cp -frp $vendorpath/overlay/FrameworksResCommon.apk $1/product/overlay/VendorFrameworksResCommon.apk
 sudo umount $vendorpath
 
+# remove rounded corners
+zip -d $1/framework/flyme-res.apk 'res/*/angular*' 2>/dev/null
+
 # hack bootprof
 sed -i "s|/sys/bootprof/bootprof|/system/erfan/bootprof|g" $1/lib/libsurfaceflinger.so
 sed -i "s|/sys/bootprof/bootprof|/system/erfan/bootprof|g" $1/lib64/libsurfaceflinger.so
