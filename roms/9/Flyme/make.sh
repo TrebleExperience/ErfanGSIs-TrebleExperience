@@ -17,6 +17,14 @@ cp -fpr $thispath/framework/* $1/framework/
 # Append to phh script
 cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
 
+## Fix Flyme Call
+"$thispath/../../../zip2img.sh" "$FIRMWARE_PATH" "$thispath/../../../working/" "-v"
+vendorpath="$thispath/../../../working/vendor"
+mkdir $vendorpath
+sudo mount $thispath/../../../working/vendor.img $vendorpath
+cp -frp $vendorpath/overlay/FrameworksResCommon.apk $1/product/overlay/VendorFrameworksResCommon.apk
+sudo umount $vendorpath
+
 # hack bootprof
 sed -i "s|/sys/bootprof/bootprof|/system/erfan/bootprof|g" $1/lib/libsurfaceflinger.so
 sed -i "s|/sys/bootprof/bootprof|/system/erfan/bootprof|g" $1/lib64/libsurfaceflinger.so
