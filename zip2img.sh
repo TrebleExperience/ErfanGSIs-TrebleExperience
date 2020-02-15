@@ -84,6 +84,7 @@ nb0_extract="$toolsdir/$HOST/bin/nb0-extract"
 kdz_extract="$toolsdir/kdztools/unkdz.py"
 dz_extract="$toolsdir/kdztools/undz.py"
 ruu="$toolsdir/$HOST/bin/RUU_Decrypt_Tool"
+brotli_exec="$toolsdir/$HOST/bin/brotli"
 
 romzip="$(realpath $1)"
 romzipext="${romzip##*.}"
@@ -188,7 +189,7 @@ if [[ $(7z l -ba "$romzip" | grep system.new.dat) ]]; then
             fi
             if [[ $(echo "$i" | grep "\.dat\.br") ]]; then
                 echo "-> Converting brotli $partition dat to normal"
-                brotli -d "$i"
+                $brotli_exec -d "$i"
                 rm -f "$i"
             fi
             echo "-> Extracting $partition"
