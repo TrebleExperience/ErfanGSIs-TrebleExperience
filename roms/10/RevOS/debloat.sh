@@ -1,0 +1,67 @@
+#!/bin/bash
+
+systempath=$1
+thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
+
+rm -rf $1/app/cit
+rm -rf $1/data-app/XMPass
+rm -rf $1/priv-app/MiWebView
+rm -rf $1/priv-app/Updater
+rm -rf $1/app/Mipay
+rm -rf $1/data-app/Health
+rm -rf $1/data-app/com.eg.android.AlipayGphone
+rm -rf $1/app/Drive
+rm -rf $1/app/Duo
+rm -rf $1/app/Gmail2
+rm -rf $1/product/app/Chrome
+rm -rf $1/app/Maps
+rm -rf $1/priv-app/Tag
+rm -rf $1/priv-app/MiShare
+rm -rf $1/app/Photos
+rm -rf $1/data-app/*
+rm -rf $1/app/YouDaoEngine
+rm -rf $1/priv-app/MiDrop
+rm -rf $1/app/YouTube
+rm -rf $1/app/XiaomiServiceFramework
+rm -rf $1/priv-app/Provision
+rm -rf $1/app/facebook-appmanager
+rm -rf $1/app/talkback
+rm -rf $1/priv-app/facebook-installer
+rm -rf $1/priv-app/facebook-services
+rm -rf $1/app/Lens
+rm -rf $1/product/priv-app/Velvet
+rm -rf $1/product/priv-app/AndroidAutoStub
+rm -rf $1/product/priv-app/HotwordEnrollmentOKGoogleHEXAGON
+rm -rf $1/product/priv-app/HotwordEnrollmentXGoogleHEXAGON
+rm -rf $1/product/app/Chrome
+rm -rf $1/product/app/Gmail2
+rm -rf $1/product/app/GoogleTTS
+rm -rf $1/product/app/Maps
+rm -rf $1/product/app/YouTube
+rm -rf $1/product/app/talkback
+rm -rf $1/app/PaymentService
+rm -rf $1/priv-app/Backup
+rm -rf $1/priv-app/MiRecycle
+rm -rf $1/priv-app/MiuiScanner
+rm -rf $1/priv-app/Updater
+rm -rf $1/app/VoiceAssist
+rm -rf $1/app/Mipay
+rm -rf $1/app/NexyPay
+rm -rf $1/app/com.miui.qr
+rm -rf $1/app/MiuiBugReport
+rm -rf $1/priv-app/PersonalAssistant
+rm -rf $1/data-app/MiShop
+rm -rf $1/data-app/XiaoAiSpeechEngine
+rm -rf $1/data-app/MiuiScanner
+rm -rf $1/data-app/MiuiCompass
+rm -rf $1/data-app/VirtualSim
+rm -rf $1/data-app/VipAccount
+rm -rf $1/data-app/GameCenter
+rm -rf $1/data-app/com.sina.weibo
+rm -rf $1/data-app/com.taobao.taobao
+rm -rf $1/data-app/Youpin
+rm -rf $1/data-app/XMRemoteController
+rm -rf $1/data-app/com.moji.mjweather
+rm -rf $1/data-app/MiGalleryLockscreen
+rm -rf $1/data-app/com.xunmeng.pinduoduo
+rm -rf $1/data-app/com.baidu.haokan

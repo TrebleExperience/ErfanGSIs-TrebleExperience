@@ -1,0 +1,4 @@
+service airtrigger-hal-1-1 /system/bin/hw/vendor.ims.airtrigger@1.1-service
+    class hal
+    user system
+    group system

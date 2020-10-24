@@ -1,0 +1,20 @@
+    <hal format="hidl">
+        <name>com.blackshark.factoryhelper.hal</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IFactoryHelper</name>
+            <instance>default</instance>
+        </interface>
+        <fqname>@1.0::IFactoryHelper/default</fqname>
+    </hal>
+    <hal format="hidl">
+        <name>com.blackshark.oeminfo</name>
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IOeminfo</name>
+            <instance>default</instance>
+        </interface>
+        <fqname>@1.0::IOeminfo/default</fqname>
+    </hal>
