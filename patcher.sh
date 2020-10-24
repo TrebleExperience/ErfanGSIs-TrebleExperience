@@ -12,9 +12,9 @@ usage() {
 LOCALDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 TOOLSDIR="$LOCALDIR/tools"
 if [[ ! -d "$TOOLSDIR/update_payload_extractor" ]]; then
-    git clone -q https://github.com/erfanoabdi/update_payload_extractor.git "$TOOLSDIR/update_payload_extractor"
+    git clone -q https://github.com/erfanoabdi/update_payload_extractor.git "$TOOLSDIR/update_payload_extractor" > /dev/null 2>&1
 else
-    git -C "$TOOLSDIR/update_payload_extractor" pull
+    git -C "$TOOLSDIR/update_payload_extractor" pull > /dev/null 2>&1
 fi
 PAYLOAD_EXTRACTOR="$TOOLSDIR/update_payload_extractor/extract.py"
 VERBOSE=n
@@ -48,7 +48,7 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 if [[ ! -n $2 ]]; then
-    echo "ERROR: Enter all needed parameters"
+    echo "-> ERROR: Enter all needed parameters"
     usage
     exit
 fi
@@ -59,7 +59,7 @@ shift
 TMPDIR="$OUTDIR/tmp"
 mkdir -p "$TMPDIR"
 
-echo "Extracting Base Firmware"
+echo "-> Extracting Base Firmware"
 if [[ "$VERBOSE" = "n" ]]; then
     "$LOCALDIR"/extractor.sh "$BASE_FIRMWARE" "$TMPDIR/source" > /dev/null 2>&1
 else
@@ -70,7 +70,7 @@ for OTA_FILE in $@; do
     ((OTA_NO++))
     echo "Patching OTA Number $OTA_NO"
     if [[ ! $(7z l -ba $OTA_FILE | grep "payload.bin") ]]; then
-        echo "$OTA_FILE is bad OTA zip"
+        echo "-> $OTA_FILE is bad OTA zip"
         continue
     fi
     7z e -y "$OTA_FILE" "payload.bin" -o"$TMPDIR/" > /dev/null 2>&1
