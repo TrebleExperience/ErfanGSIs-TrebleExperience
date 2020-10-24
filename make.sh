@@ -145,7 +145,7 @@ if [[ ! -f "$systemdir/system/lib64/libandroid.so" ]]; then
 fi
 
 # Debloat
-if [ -f "$romsdir/$sourcever/$romtype/debloat.sh" || -f "$romsdir/$sourcever/$romtype/$romtypename/debloat.sh" ]; then
+if [[ -f "$romsdir/$sourcever/$romtype/debloat.sh" ]]; then
     echo "-> De-bloating"
     $romsdir/$sourcever/$romtype/debloat.sh "$systemdir/system" 2>/dev/null
     $romsdir/$sourcever/$romtype/$romtypename/debloat.sh "$systemdir/system" 2>/dev/null
