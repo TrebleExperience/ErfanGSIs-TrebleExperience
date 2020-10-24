@@ -122,9 +122,6 @@ LEAVE()
     exit 1
 }
 
-echo "-> Updating tools..."
-"$PROJECT_DIR"/update.sh
-
 # Create input & working directory if it does not exist
 mkdir -p "$PROJECT_DIR/input" "$PROJECT_DIR/working" "$PROJECT_DIR/output"
 
