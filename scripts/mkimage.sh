@@ -79,7 +79,7 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     echo "/factory                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/addon.d                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/oneplus                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
-    echo "/lgocat                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/logcat                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/spu                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/oneplus(/.*)?          u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/op_odm                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
