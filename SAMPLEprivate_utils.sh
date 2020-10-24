@@ -4,8 +4,8 @@
 
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-TOKEN=xxxxxxxxxx
-CHAT_ID=xxxxxxxx
+TOKEN=
+CHAT_ID=
 BOTURL="https://api.telegram.org/bot$TOKEN/sendMessage"
 
 urlencode() {
@@ -31,15 +31,20 @@ UPLOAD()
     DATE=`date +%Y%m%d`
     TIME=`date +%H%M`
 
-    IMAGEABNAME="${SRCTYPENAME}-AB-*-${DATE}-*.img"
-    INFOABNAME="${SRCTYPENAME}-AB-*-${DATE}-*.txt"
+    IMAGEABNAME="${SRCTYPENAME}-AB-*-${DATE}-*-VelanGSI.img"
+    INFOABNAME="${SRCTYPENAME}-AB-*-${DATE}-*-VelanGSI.txt"
     IMAGEABPATH="${OUTPUTDIR}/${IMAGEABNAME}"
     INFOABPATH="${OUTPUTDIR}/${INFOABNAME}"
 
-    IMAGEAONAME="${SRCTYPENAME}-Aonly-*-${DATE}-*.img"
-    INFOAONAME="${SRCTYPENAME}-Aonly-*-${DATE}-*.txt"
+    IMAGEAONAME="${SRCTYPENAME}-Aonly-*-${DATE}-*-VelanGSI.img"
+    INFOAONAME="${SRCTYPENAME}-Aonly-*-${DATE}-*-VelanGSI.txt"
     IMAGEAOPATH="${OUTPUTDIR}/${IMAGEAONAME}"
     INFOAOPATH="${OUTPUTDIR}/${INFOAONAME}"
+
+    # Set your sourceforge.net credentials
+    USER=
+    SFDIR=
+    PASSWORD=
 
     if [ $AB == true ]; then
         IMAGEABPATH="$(ls $IMAGEABPATH)"
@@ -49,9 +54,8 @@ UPLOAD()
         INFONAME=$INFOABNAME
         INFOPATH=$INFOABPATH
         if [[ -f "$IMAGEABPATH" ]]; then
-            echo "Compressing $IMAGEABPATH-${TIME}.7z"
+            echo "-> Compressing $IMAGEABPATH-${TIME}.7z"
             7z a "$IMAGEABPATH-${TIME}.7z" "$IMAGEABPATH" 2>/dev/null >> "$OUTPUTDIR/zip.log"
-            mv "$IMAGEABPATH-${TIME}.7z" /data/web/gsis/
         fi
     fi
 
@@ -63,10 +67,37 @@ UPLOAD()
         INFONAME=$INFOAONAME
         INFOPATH=$INFOAOPATH
         if [[ -f "$IMAGEAOPATH" ]]; then
-            echo "Compressing $IMAGEAOPATH-${TIME}.7z"
+            echo "-> Compressing $IMAGEAOPATH-${TIME}.7z"
             7z a "$IMAGEAOPATH-${TIME}.7z" "$IMAGEAOPATH" 2>/dev/null >> "$OUTPUTDIR/zip.log"
-            mv "$IMAGEAOPATH-${TIME}.7z" /data/web/gsis/
         fi
+    fi
+
+    if [[ $AONLY == true ]]; then
+        cd "${OUTPUTDIR}"
+        echo "-> Uploading to SourceForge"
+        expect -c "
+        spawn sftp $USER@frs.sourceforge.net
+        expect \"Password\"
+        send \"$PASSWORD\r\"
+        expect \"sftp> \"
+        send \"cd $SFDIR\r\"
+        set timeout -1.
+        send \"put $IMAGEAONAME-${TIME}.7z\r\"
+        expect \"sftp>\"
+        send \"bye\r\"
+        interact" > /dev/null 2>&1;
+        expect -c "
+        spawn sftp $USER@frs.sourceforge.net
+        expect \"Password\"
+        send \"$PASSWORD\r\"
+        expect \"sftp> \"
+        send \"cd $SFDIR\r\"
+        set timeout -1
+        send \"put $IMAGEABNAME-${TIME}.7z\r\"
+        expect \"sftp>\"
+        send \"bye\r\"
+        interact" > /dev/null 2>&1;
+        echo "-> Upload to SourceForge completed"
     fi
 
     rm -rf "$IMAGEABPATH" "$IMAGEAOPATH"
@@ -75,10 +106,10 @@ UPLOAD()
     if [ $AB == true ] && [ $AONLY == false ]; then DEVICE_TEXT="AB Devices"; fi
     if [ $AB == false ] && [ $AONLY == true ]; then DEVICE_TEXT="A-Only Devices"; fi
 
-    MSGTEXT="*$SRCTYPENAME GSI For $DEVICE_TEXT*  \n  \n"
+    MSGTEXT="*$SRCTYPENAME GSI For $DEVICE_TEXT*\n\n"
     if [[ "$URL" == "http"* ]]; then
         # URL detected
-        MSGTEXT="${MSGTEXT}*Base Firmware Link:* [Click]($URL)  \n  \n"
+        MSGTEXT="${MSGTEXT}*Base Firmware Link:* [Click]($URL)\n\n"
     fi
     if [[ -f "$INFOPATH" ]]; then
         MSGTEXT="${MSGTEXT}*Information:*\`\`\`"
@@ -86,18 +117,20 @@ UPLOAD()
     fi
     AUTHORS=$(git log --all --format='%aN' | sort -u | nc termbin.com 9999)
     if [ ! -z "$AUTHORS" ]; then
-        MSGTEXT="${MSGTEXT}*Thanks to:*  \n"
-        MSGTEXT="${MSGTEXT}[Contributors List]($AUTHORS)  \n  \n"
+        MSGTEXT="${MSGTEXT}*Thanks to:*\n"
+        MSGTEXT="${MSGTEXT}[Contributors List]($AUTHORS)\n\n"
     fi
-    MSGTEXT="${MSGTEXT}*Download Links*  \n"
+    MSGTEXT="${MSGTEXT}*Download Links*\n"
     if [ $AB == true ]; then
-        MSGTEXT="${MSGTEXT}*AB Devices:*  \n"
-        MSGTEXT="${MSGTEXT}[$IMAGEABNAME-${TIME}.7z](https://myserver.com/gsis/$IMAGEABNAME-${TIME}.7z)  \n  \n"
+        MSGTEXT="${MSGTEXT}*AB Devices:*\n"
+        MSGTEXT="${MSGTEXT}[$IMAGEABNAME-${TIME}.7z](https://sourceforge.net/projects/YourProject/files/GSI/$IMAGEABNAME-${TIME}.7z/download)\n\n"
     fi
     if [ $AONLY == true ]; then
-        MSGTEXT="${MSGTEXT}*A-Only Devices:*  \n"
-        MSGTEXT="${MSGTEXT}[$IMAGEAONAME-${TIME}.7z](https://myserver.com/gsis/$IMAGEAONAME-${TIME}.7z)  \n  \n"
+        MSGTEXT="${MSGTEXT}*A-Only Devices:*\n"
+        MSGTEXT="${MSGTEXT}[$IMAGEAONAME-${TIME}.7z](https://sourceforge.net/projects/YourProject/files/GSI/$IMAGEAONAME-${TIME}.7z/download)\n\n"
     fi
+    MSGTEXT="${MSGTEXT}*Note:* File not found? Wait some minutes ;)\n\n"
+    MSGTEXT="${MSGTEXT}*Name of your channel* - Channel: @OfYourChannel"
 
     printf "${MSGTEXT}" > "$OUTPUTDIR/tg.md"
     tg_send "$(cat $OUTPUTDIR/tg.md)"

@@ -8,7 +8,6 @@ rm -rf $1/product/app/Duo
 rm -rf $1/product/app/Maps
 rm -rf $1/product/app/YouTube
 rm -rf $1/product/app/talkback
-#rm -rf $1/app/Chrome
 rm -rf $1/product/app/CalendarGoogle
 rm -rf $1/product/app/Photos
 rm -rf $1/app/GooglePay

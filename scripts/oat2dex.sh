@@ -37,7 +37,7 @@ function get_file() {
 
 # Extract existing boot.oats to the temp folder
 if [ -z "$ARCHES" ]; then
-	echo "Checking if system is odexed and locating boot.oats..."
+	echo "-> Checking if system is odexed and locating boot.oats..."
     #TODO: add more arch here "arm" "x86_64" "x86"
 	for ARCH in "arm64"; do
 		mkdir -p "$TMPDIR/system/framework/$ARCH"
@@ -50,7 +50,7 @@ if [ -z "$ARCHES" ]; then
 fi
 
 if [ -z "$ARCHES" ]; then
-    echo "System is already fully deodexed"
+    echo "-> System is already fully deodexed"
     rm -rf "$TMPDIR"
 	exit
 fi

@@ -14,15 +14,12 @@ cp -fpr $thispath/bin/* $1/bin/
 cp -fpr $thispath/overlay/* $1/product/overlay/
 cp -fpr $thispath/framework/* $1/framework/
 
+# Append to phh script
+cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
+
 # hack bootprof
 sed -i "s|/sys/bootprof/bootprof|/system/erfan/bootprof|g" $1/lib/libsurfaceflinger.so
 sed -i "s|/sys/bootprof/bootprof|/system/erfan/bootprof|g" $1/lib64/libsurfaceflinger.so
-
-# Remove com.wolfsonmicro.ez2control:ez2control_service for a moment
-# It is crashing from systemserver booted which has triggered RescueParty
-# It hurts performance very much and make device very hot
-# cpufreq is running at a high freq
-rm -rf $1/app/com.wolfsonmicro.ez2control
 
 # Append file_context
 cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Project Capire le treble (CLT) by Erfan Abdi <erfangplus@gmail.com>
+# All credits to Erfan Abdi
 
 usage()
 {
@@ -13,7 +14,8 @@ usage()
 }
 
 if [ "$4" == "" ]; then
-    echo "ERROR: Enter all needed parameters"
+    echo "-> ERROR!"
+    echo " - Enter all needed parameters."
     usage
     exit 1
 fi
@@ -29,7 +31,7 @@ toolsdir="$LOCALDIR/../tools"
 HOST="$(uname)"
 make_ext4fs="$toolsdir/$HOST/bin/make_ext4fs"
 
-echo "Prepare File Contexts"
+echo "-> Prepare: File Contexts"
 p="/plat_file_contexts"
 n="/nonplat_file_contexts"
 for f in "$systemdir/system/etc/selinux" "$systemdir/system/vendor/etc/selinux"; do
@@ -45,6 +47,7 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     echo "/firmware(/.*)?         u:object_r:firmware_file:s0" >> "$tempdir/file_contexts"
     echo "/bt_firmware(/.*)?      u:object_r:bt_firmware_file:s0" >> "$tempdir/file_contexts"
     echo "/persist(/.*)?          u:object_r:mnt_vendor_file:s0" >> "$tempdir/file_contexts"
+    echo "/sec_storage            u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/dsp                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/oem                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/op1                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
@@ -74,10 +77,15 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     echo "/pds                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/tombstones             u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/factory                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
-    echo "/oneplus(/.*)?          u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/addon.d                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/oneplus                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/lgocat                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/spu                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/oneplus(/.*)?          u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/op_odm                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/avb                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/fsg                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/dpolicy                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     fcontexts="$tempdir/file_contexts"
 fi
 sudo rm -rf "$systemdir/persist"
@@ -85,6 +93,8 @@ sudo rm -rf "$systemdir/bt_firmware"
 sudo rm -rf "$systemdir/firmware"
 sudo rm -rf "$systemdir/dsp"
 sudo rm -rf "$systemdir/cache"
+sudo rm -rf "$systemdir/dpolicy"
+sudo mkdir -p "$systemdir/sec_storage"
 sudo mkdir -p "$systemdir/bt_firmware"
 sudo mkdir -p "$systemdir/persist"
 sudo mkdir -p "$systemdir/firmware"
