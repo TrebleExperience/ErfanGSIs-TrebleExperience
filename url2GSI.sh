@@ -8,6 +8,25 @@ AB=true
 AONLY=true
 MOUNTED=false
 CLEAN=false
+LOCK="$PROJECT_DIR/cache/.lock"
+
+echo "-> Warning: That Fork is VelanGSIs (a.k.a: YuMiGSIs), originally from ErfanGSIs"
+
+if [ -f "$LOCK" ]; then
+    echo "-> Stop, wait for the other job to finish before you can start another one."
+    exit 1
+else
+    mkdir "$PROJECT_DIR/cache/"
+    touch "$LOCK"
+    echo "-> Making patch: Cleaning and removing folders that are used to make GSI to avoid problems"
+    if [ -d "$PROJECT_DIR/working/system/" ]; then
+        sudo umount "$PROJECT_DIR/working/system/"
+    fi
+    if [ -d "$PROJECT_DIR/tools/ROM_resigner/tmp/" ]; then
+        sudo rm -rf "$PROJECT_DIR/tools/ROM_resigner/tmp/"
+    fi
+    sudo rm -rf "$PROJECT_DIR/cache/" "$PROJECT_DIR/tmp/" "$PROJECT_DIR/working/"
+fi
 
 usage()
 {
@@ -53,7 +72,9 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 if [[ ! -n $2 ]]; then
-    echo "ERROR: Enter all needed parameters"
+    echo "-> ERROR!"
+    echo " - Enter all needed parameters"
+    sudo rm -rf "$PROJECT_DIR/cache/" "$LOCK"
     usage
     exit
 fi
@@ -75,8 +96,8 @@ DOWNLOAD()
 {
     URL="$1"
     ZIP_NAME="$2"
-    echo "Downloading firmware to: $ZIP_NAME"
-    aria2c -x16 -j$(nproc) -U "Mozilla/5.0" -d "$PROJECT_DIR/input" -o "$ACTUAL_ZIP_NAME" ${URL} || wget -U "Mozilla/5.0" ${URL} -O "$ZIP_NAME"
+    echo "-> Downloading firmware to: $ZIP_NAME"
+    aria2c -x16 -j$(nproc) -U "Mozilla/5.0" -d "$PROJECT_DIR/input" -o "$ACTUAL_ZIP_NAME" ${URL} > /dev/null 2>&1 || wget -U "Mozilla/5.0" ${URL} -O "$ZIP_NAME" > /dev/null 2>&1
 }
 
 MOUNT()
@@ -101,7 +122,7 @@ LEAVE()
     exit 1
 }
 
-echo "Updating tools..."
+echo "-> Updating tools..."
 "$PROJECT_DIR"/update.sh
 
 # Create input & working directory if it does not exist
@@ -140,7 +161,7 @@ fi
 UMOUNT "$PROJECT_DIR/working/system"
 rm -rf "$PROJECT_DIR/working"
 
-echo "Porting ${SRCTYPENAME} GSI done on: $PROJECT_DIR/output"
+echo "-> Porting ${SRCTYPENAME} GSI done on: $PROJECT_DIR/output"
 
 if [[ -f "$PROJECT_DIR/private_utils.sh" ]]; then
     . "$PROJECT_DIR/private_utils.sh"
