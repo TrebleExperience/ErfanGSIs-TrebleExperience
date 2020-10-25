@@ -110,7 +110,7 @@ if [[ $MAGIC == "OPPOENCRYPT!" ]] || [[ "$romzipext" == "ozip" ]]; then
     if [[ -d "$tmpdir/out" ]]; then
         7z a -r "$tmpdir/temp.zip" "$tmpdir/out/*"
     fi
-    "$LOCALDIR/extractor.sh" "$tmpdir/temp.zip" "$outdir"
+    "$LOCALDIR/zip2img.sh" "$tmpdir/temp.zip" "$outdir"
     exit
 fi
 
@@ -370,7 +370,7 @@ elif [[ $(7z l -ba "$romzip" | grep .tar) && ! $(7z l -ba "$romzip" | grep tar.m
     tar=$(7z l -ba "$romzip" | grep .tar | gawk '{ print $NF }')
     echo "-> non AP tar detected"
     7z e -y "$romzip" $tar 2>/dev/null >> $tmpdir/zip.log
-    "$LOCALDIR/extractor.sh" $tar "$outdir"
+    "$LOCALDIR/zip2img.sh" $tar "$outdir"
     exit
 elif [[ $(7z l -ba "$romzip" | grep payload.bin) ]]; then
     echo "-> AB OTA detected"
@@ -389,7 +389,7 @@ elif [[ $(7z l -ba "$romzip" | grep ".*.rar\|.*.zip") ]]; then
     find $tmpdir/zipfiles -name "* *" -type d,f | rename 's/ /_/g' > /dev/null 2>&1
     zip_list=`find $tmpdir/zipfiles -type f -size +300M \( -name "*.rar*" -o -name "*.zip*" \) -printf '%P\n' | sort`
     for file in $zip_list; do
-       "$LOCALDIR/extractor.sh" $tmpdir/zipfiles/$file "$outdir"
+       "$LOCALDIR/zip2img.sh" $tmpdir/zipfiles/$file "$outdir"
     done
     exit
 elif [[ $(7z l -ba "$romzip" | grep "UPDATE.APP") ]]; then
