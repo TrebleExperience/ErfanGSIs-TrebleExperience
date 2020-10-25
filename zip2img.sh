@@ -57,19 +57,19 @@ HOST="$(uname)"
 toolsdir="$LOCALDIR/tools"
 
 if [[ ! -d "$toolsdir/extract_android_ota_payload" ]]; then
-    git clone -q https://github.com/cyxx/extract_android_ota_payload.git "$toolsdir/extract_android_ota_payload"
+    git clone -q https://github.com/cyxx/extract_android_ota_payload.git "$toolsdir/extract_android_ota_payload" > /dev/null 2>&1
 else
-    git -C "$toolsdir/extract_android_ota_payload" pull
+    git -C "$toolsdir/extract_android_ota_payload" pull > /dev/null 2>&1
 fi
 if [[ ! -d "$toolsdir/oppo_ozip_decrypt" ]]; then
-    git clone -q https://github.com/bkerler/oppo_ozip_decrypt.git "$toolsdir/oppo_ozip_decrypt"
+    git clone -q https://github.com/bkerler/oppo_ozip_decrypt.git "$toolsdir/oppo_ozip_decrypt" > /dev/null 2>&1
 else
-    git -C "$toolsdir/oppo_ozip_decrypt" pull
+    git -C "$toolsdir/oppo_ozip_decrypt" pull > /dev/null 2>&1
 fi
 if [[ ! -d "$toolsdir/update_payload_extractor" ]]; then
-    git clone -q https://github.com/erfanoabdi/update_payload_extractor.git "$toolsdir/update_payload_extractor"
+    git clone -q https://github.com/erfanoabdi/update_payload_extractor.git "$toolsdir/update_payload_extractor" > /dev/null 2>&1
 else
-    git -C "$toolsdir/update_payload_extractor" pull
+    git -C "$toolsdir/update_payload_extractor" pull > /dev/null 2>&1
 fi
 
 simg2img="$toolsdir/$HOST/bin/simg2img"
