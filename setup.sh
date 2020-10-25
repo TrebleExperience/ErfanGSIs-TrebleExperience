@@ -14,9 +14,10 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     echo "-> Darwin Detected". 
     echo " - Starting the installation of packages"
     brew install protobuf xz brotli lz4 aria2
-    pip install backports.lzma protobuf pycrypto google
-    pip3 install backports.lzma protobuf pycrypto google
 fi
+
+pip install backports.lzma protobuf pycrypto google
+pip3 install backports.lzma protobuf pycrypto google
 
 sudo chmod -R +x *
 sudo chmod -R 0777 *

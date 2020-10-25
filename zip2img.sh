@@ -92,7 +92,7 @@ PARTITIONS="system vendor cust odm oem factory product xrom modem dtbo boot tz s
 EXT4PARTITIONS="system vendor cust odm oem factory product xrom systemex oppo_product preload_common"
 OTHERPARTITIONS="tz.mbn:tz tz.img:tz modem.img:modem NON-HLOS:modem boot-verified.img:boot dtbo-verified.img:dtbo"
 
-echo "Create Temp and out dir"
+echo "-> Create Temp and out dir"
 outdir="$LOCALDIR/out"
 if [ ! "$2" == "" ]; then
     outdir="$(realpath $2)"
@@ -153,7 +153,7 @@ for otherpartition in $OTHERPARTITIONS; do
     filename=$(echo $otherpartition | cut -f 1 -d ":")
     outname=$(echo $otherpartition | cut -f 2 -d ":")
     if [[ $(7z l -ba "$romzip" | grep $filename) ]]; then
-        echo "$filename detected for $outname"
+        echo "-> $filename detected for $outname"
         foundfiles=$(7z l -ba "$romzip" | gawk '{ print $NF }' | grep $filename)
         7z e -y "$romzip" $foundfiles 2>/dev/null >> $tmpdir/zip.log
         outputs=$(ls *"$filename"*)
