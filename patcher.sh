@@ -61,9 +61,9 @@ mkdir -p "$TMPDIR"
 
 echo "-> Extracting Base Firmware"
 if [[ "$VERBOSE" = "n" ]]; then
-    "$LOCALDIR"/extractor.sh "$BASE_FIRMWARE" "$TMPDIR/source" > /dev/null 2>&1
+    "$LOCALDIR"/zip2img.sh "$BASE_FIRMWARE" "$TMPDIR/source" > /dev/null 2>&1
 else
-    "$LOCALDIR"/extractor.sh "$BASE_FIRMWARE" "$TMPDIR/source"
+    "$LOCALDIR"/zip2img.sh "$BASE_FIRMWARE" "$TMPDIR/source"
 fi
 
 for OTA_FILE in $@; do
