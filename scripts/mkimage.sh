@@ -86,6 +86,8 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     echo "/avb                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/fsg                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/dpolicy                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/logcat                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/preload                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     fcontexts="$tempdir/file_contexts"
 fi
 sudo rm -rf "$systemdir/persist"
