@@ -8,7 +8,6 @@ AB=true
 AONLY=true
 MOUNTED=false
 CLEAN=false
-DEBLOAT=false
 LOCK="$PROJECT_DIR/cache/.lock"
 
 echo "-> Warning: That Fork is VelanGSIs (a.k.a: YuMiGSIs), originally from ErfanGSIs"
@@ -31,12 +30,11 @@ fi
 
 usage()
 {
-    echo "Usage: [--help|-h|-?] [--ab|-b] [--aonly|-a] [--mounted|-m] [--debloat|-d] [--cleanup|-c] $0 <Firmware link> <Firmware type> [Other args]"
+    echo "Usage: [--help|-h|-?] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] $0 <Firmware link> <Firmware type> [Other args]"
     echo -e "\tFirmware link: Firmware download link or local path"
     echo -e "\tFirmware type: Firmware mode"
     echo -e "\t--ab: Build only AB"
     echo -e "\t--aonly: Build only A-Only"
-    echo -e "\t--debloat: Debloat the firmware, If supported"
     echo -e "\t--cleanup: Cleanup downloaded firmware"
     echo -e "\t--help: To show this info"
 }
@@ -55,10 +53,6 @@ case $key in
     --aonly|-a)
     AONLY=true
     AB=false
-    shift
-    ;;
-    --debloat|-d)
-    DEBLOAT=true
     shift
     ;;
     --cleanup|-c)
