@@ -35,9 +35,6 @@ sed -i "s/M-184.95,0 C-168,0.12,-160.84,7.45,-158.7,24.11 c4,31.21,25.33,54.92,6
 cp -fpr $thispath/bin/* $1/bin/
 cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
 
-## OOS Data fix
-chmod 0644 $1/etc/init/flymedata.rc
-
 # Feature_list Tweaks
 feature_list="
 OP_FEATURE_AI_BOOST_PACKAGE
