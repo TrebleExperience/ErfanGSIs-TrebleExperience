@@ -1,0 +1,12 @@
+<manifest version="1.0" type="framework">
+    <hal format="hidl">
+        <name>vendor.qti.hardware.perf</name>
+        <transport>hwbinder</transport>
+        <version>2.0</version>
+        <interface>
+            <name>IOneplusPerf</name>
+            <instance>default</instance>
+        </interface>
+        <fqname>@2.0::IPerf/default</fqname>
+    </hal>
+</manifest>
