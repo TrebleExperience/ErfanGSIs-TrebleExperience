@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 systempath=$1
 thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
@@ -14,14 +14,7 @@ rm -rf $1/product/app/YTMusic
 rm -rf $1/app/GooglePay
 rm -rf $1/product/app/Music2
 rm -rf $1/product/app/Gmail2
-rm -rf $1/app/By_3rd_FBInstallOverSeas
-rm -rf $1/app/By_3rd_FBServicesOverSeas
-rm -rf $1/priv-app/By_3rd_FBInstallOverSeas
-rm -rf $1/priv-app/By_3rd_FBServicesOverSeas
-rm -rf $1/app/By_3rd_NetflixActivationOverSeas
-rm -rf $1/app/By_3rd_NetflixStubOverSeas
-rm -rf $1/app/By_3rd_PlayAutoInstallConfigOverSeas
-rm -rf $1/system_ext/EngineeringMode
+rm -rf $1/app/EngineeringMode
 rm -rf $1/app/Netflix_Activation
 rm -rf $1/app/Netflix_Stub
 rm -rf $1/app/OPYellowpage
@@ -51,7 +44,6 @@ rm -rf $1/reserve/JD
 rm -rf $1/reserve/Meituan
 rm -rf $1/reserve/NeteaseCloudmusic
 rm -rf $1/reserve/NeteaseMail
-
 
 # RIL FIX
 rm -rf $1/product/framework/op-telephony-common.jar
