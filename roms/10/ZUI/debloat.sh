@@ -17,6 +17,7 @@ rm -rf $1/priv-app/ZuiUHealth
 rm -rf $1/priv-app/FindMyPhone
 
 #ZUI12
+rm -rf $1/app/WebViewGoogle
 rm -rf $1/app/Drive
 rm -rf $1/app/AppCenter
 rm -rf $1/app/Camera
@@ -60,7 +61,7 @@ rm -rf $1/MzApp/Reader
 rm -rf $1/MzApp/VidoClips
 rm -rf $1/MzApp/Reader
 
-# Gapps
+rm -rf $1/app/Chrome
 rm -rf $1/priv-app/Maps
 rm -rf $1/priv-app/Velvet
 rm -rf $1/priv-app/VsCamera
@@ -81,6 +82,7 @@ rm -rf $1/app/BBKFMRadio
 rm -rf $1/app/BBKLOG
 rm -rf $1/app/BBKWeatherProvider
 rm -rf $1/app/Backup
+rm -rf $1/app/Chrome
 rm -rf $1/app/Coral
 rm -rf $1/app/Drive
 rm -rf $1/app/Duo
@@ -106,15 +108,54 @@ rm -rf $1/app/vivoCollage
 rm -rf $1/app/vivoDemoVideo
 rm -rf $1/app/Youtube
 rm -rf $1/app/VivoCamera
+
 rm -rf $1/priv-app/Email
 rm -rf $1/priv-app/FloatingCamera
 rm -rf $1/priv-app/GoogleRestore
+rm -rf $1/priv-app/SetupWizard
 rm -rf $1/priv-app/VivoBrowser
 rm -rf $1/priv-app/VivoAppStoreEX
 rm -rf $1/priv-app/facebook-installer
 rm -rf $1/priv-app/facebook-services
+rm -rf $1/priv-app/GmsCore
+
 rm -rf $1/app/AppFilter
 rm -rf $1/app/BBKAccount
+
+# mifavour
+rm -rf $1/priv-app/Maps
+rm -rf $1/priv-app/Velvet
+rm -rf $1/priv-app/VsCamera
+rm -rf $1/app/YouTube
+rm -rf $1/app/Photos
+rm -rf $1/app/Messages
+rm -rf $1/app/Drive
+rm -rf $1/app/Gmail2
+rm -rf $1/app/Translate
+rm -rf $1/app/Duo
+rm -rf $1/app/Keep
+rm -rf $1/app/GoogleTTS
+rm -rf $1/app/talkback
+rm -rf $1/app/Maps
+rm -rf $1/app/Velvet
+rm -rf $1/product/app/Gmail2
+rm -rf $1/product/app/CalculatorGoogle
+rm -rf $1/product/app/CalendarGoogle
+rm -rf $1/product/app/Chrome
+rm -rf $1/product/app/DeskClockGoogle
+rm -rf $1/product/app/Drive
+rm -rf $1/product/app/Duo
+rm -rf $1/product/app/Gmail2
+rm -rf $1/product/app/GoogleTTS
+rm -rf $1/product/app/GoogleWallpapers
+rm -rf $1/product/app/Maps
+rm -rf $1/product/app/Photos
+rm -rf $1/product/app/Videos
+rm -rf $1/product/app/YouTube
+rm -rf $1/product/priv-app/Velvet
+rm -rf $1/product/priv-app/Wellbeing
+rm -rf $1/product/priv-app/GoogleAssistant
+rm -rf $1/priv-app/AppDaily
 rm -rf $1/app/YTMusic
 rm -rf $1/media/video
 rm -rf $1/priv-app/ZuiGameHelper
