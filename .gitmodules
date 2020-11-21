@@ -3,7 +3,7 @@
 	url = https://github.com/erfanoabdi/update_payload_extractor.git
 [submodule "prebuilt/vendor_vndk"]
 	path = prebuilt/vendor_vndk
-	url = https://github.com/Treble-Experience/vendor_vndk.git
+	url = https://github.com/erfanoabdi/vendor_vndk.git
 [submodule "tools/ROM_resigner"]
 	path = tools/ROM_resigner
 	url = https://github.com/erfanoabdi/ROM_resigner.git
