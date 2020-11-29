@@ -122,4 +122,10 @@ rm -rf $1/app/Notes
 rm -rf $1/app/Netflix_activation
 rm -rf $1/app/IdMipay
 rm -rf $1/app/AnalyticsCore
+rm -rf $1/priv-app/GoogleDocumentsUIPrebuilt
 rm -rf $1/data-app/MiCreditInStub
+rm -rf $1/product/app/CalendarGoogle
+rm -rf $1/product/app/GoogleContacts
+rm -rf $1/product/app/GoogleOne
+rm -rf $1/recovery-from-boot.p
+rm -rf $1/product/priv-app/Wellbeing
