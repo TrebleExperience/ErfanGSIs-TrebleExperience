@@ -8,6 +8,7 @@ AB=true
 AONLY=true
 MOUNTED=false
 CLEAN=false
+DYNAMIC=false
 LOCK="$PROJECT_DIR/cache/.lock"
 
 echo "-> Warning: That Fork is VelanGSIs (a.k.a: YuMiGSIs), originally from ErfanGSIs"
@@ -58,6 +59,10 @@ case $key in
     ;;
     --cleanup|-c)
     CLEAN=true
+    shift
+    ;;
+    --dynamic|-d)
+    DYNAMIC=true
     shift
     ;;
     --help|-h|-?)
@@ -140,7 +145,11 @@ if [ $MOUNTED == false ]; then
         DOWNLOAD "$URL" "$ZIP_NAME"
         URL="$ZIP_NAME"
     fi
-    "$PROJECT_DIR"/zip2img.sh "$URL" "$PROJECT_DIR/working" || exit 1
+    if [ "$DYNAMIC" == true ]; then
+       "$PROJECT_DIR"/dynamic.sh "$URL" --odm --product --ext --opproduct
+    elif [ $DYNAMIC == false ] ; then
+       "$PROJECT_DIR"/zip2img.sh "$URL" "$PROJECT_DIR/working" || exit 1
+    fi
     if [ $CLEAN == true ]; then
         rm -rf "$ZIP_NAME"
     fi
