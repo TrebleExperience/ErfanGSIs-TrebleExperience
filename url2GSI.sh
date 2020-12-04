@@ -82,7 +82,7 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-if [[ ! -n $1 ]]; then
+if [[ ! -n $2 ]]; then
     echo "-> ERROR!"
     echo " - Enter all needed parameters"
     sudo rm -rf "$PROJECT_DIR/cache/" "$LOCK"
