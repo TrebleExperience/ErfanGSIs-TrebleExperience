@@ -17,8 +17,6 @@ are met:
    "Built.with.ErfanGSI.Tools" and displayed in about screen.
 4. The name of the author may not be used to endorse or promote products
    derived from this software without specific prior written permission.
-5. The line 224 of make.sh, can't be modified, just to respect the fork
-   and the author.
 
 THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
 IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
