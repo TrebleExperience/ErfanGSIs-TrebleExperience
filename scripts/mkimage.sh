@@ -97,7 +97,18 @@ sudo rm -rf "$systemdir/bt_firmware"
 sudo rm -rf "$systemdir/firmware"
 sudo rm -rf "$systemdir/dsp"
 sudo rm -rf "$systemdir/cache"
-sudo mkdir -p "$systemdir/dpolicy"
+if [ ! -d "$systemdir/dpolicy" ]; then
+   sudo mkdir -p "$systemdir/dpolicy"
+fi
+if [ ! -d "$systemdir/prism" ]; then
+   sudo mkdir -p "$systemdir/prism"
+fi
+if [ ! -d "$systemdir/optics" ]; then
+   sudo mkdir -p "$systemdir/optics"
+fi
+if [ ! -d "$systemdir/spu" ]; then
+   sudo mkdir -p "$systemdir/spu"
+fi
 sudo mkdir -p "$systemdir/sec_storage"
 sudo mkdir -p "$systemdir/bt_firmware"
 sudo mkdir -p "$systemdir/persist"
