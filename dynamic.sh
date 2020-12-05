@@ -5,7 +5,7 @@
 
 # url2GSI.sh is based on Nippon's ErfanGSIs.
 
-echo "-> S(EXT) Merger)"
+echo "-> S(EXT) Merger, by YukoSky (v1.4)"
 echo " - VelanGSIs Edition"
 
 ### Initial vars
