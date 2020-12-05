@@ -524,6 +524,10 @@ if [ "$OVERLAYS_VENDOR" == true ]; then
          zip -r vendorOverlays.zip vendorOverlays/ > /dev/null 2>&1
          echo " - Process of copying vendor overlays is done"
          rm -rf $LOCALDIR/vendorOverlays/
+         if [ ! -d "$LOCALDIR/output/" ]; then
+            mkdir "$LOCALDIR/output/"
+         fi
+         mv vendorOverlays.zip output/.tmpzip
       fi
    fi
 fi
