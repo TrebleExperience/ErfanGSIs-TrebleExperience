@@ -197,7 +197,7 @@ fi
 
 date=`date +%Y%m%d`
 outputname="$romtypename-$outputtype-$sourcever-$date-ErfanGSI-YuMiGSIs"
-outputoverlaysname="$romtypename-$outputtype-$date-ErfanGSI-YuMiGSIs-Overlays.zip"
+outputoverlaysname="$romtypename-$date-ErfanGSI-YuMiGSIs-Overlays.zip"
 # ^ Dynamic feature
 outputimagename="$outputname".img
 outputtextname="$outputname".txt
@@ -252,9 +252,6 @@ OUTPUT_IMAGE="$PROJECT_DIR/output/$outputimagename"
 if [ -f "$OUTPUT_IMAGE" ]; then
    # Builded
    echo "-> Created image ($outputtype): $outputimagename | Size: $(bytesToHuman $systemsize)"
-   if [ -f "$PROJECT_DIR/output/.tmpzip" ]; then
-      mv "$PROJECT_DIR/output/.tmpzip" "$PROJECT_DIR/output/$outputoverlaysname"
-   fi
 else
    # Oops... Error found
    echo "-> Error: Output image for $outputtype: $outputimagename don't exists!"
@@ -264,6 +261,13 @@ fi
 # Remove lock
 if [ "$outputtype" == "Aonly" ]; then
      sudo rm -rf "$PROJECT_DIR/cache"
+fi
+
+# Overlays
+if [ ! -d "$PROJECT_DIR/cache" ]; then
+   if [ -f "$PROJECT_DIR/output/.tmpzip" ]; then
+      mv "$PROJECT_DIR/output/.tmpzip" "$PROJECT_DIR/output/$outputoverlaysname"
+   fi
 fi
 
 echo "-> Removing Tmp/Cache dir"
