@@ -397,33 +397,3 @@ rm -rf $1\priv-app\MyKNOXManager
 rm -rf $1\priv-app\SPDClient
 rm -rf $1\priv-app\SwitchKnoxI
 rm -rf $1\priv-app\SwitchKnoxII
-{vendor}\etc\bluetooth
-{vendor}\overlay\AccentColorBlack
-{vendor}\overlay\AccentColorCinnamon
-{vendor}\overlay\AccentColorGreen
-{vendor}\overlay\AccentColorOcean
-{vendor}\overlay\AccentColorOrchid
-{vendor}\overlay\AccentColorPurple
-{vendor}\overlay\AccentColorSpace
-{vendor}\overlay\DisplayCutoutEmulationCorner
-{vendor}\overlay\DisplayCutoutEmulationDouble
-{vendor}\overlay\DisplayCutoutEmulationTall
-{vendor}\overlay\FontNotoSerifSource
-{vendor}\overlay\IconPackCircularAndroid
-{vendor}\overlay\IconPackCircularLauncher
-{vendor}\overlay\IconPackCircularSettings
-{vendor}\overlay\IconPackCircularSystemUI
-{vendor}\overlay\IconPackCircularThemePicker
-{vendor}\overlay\IconPackFilledAndroid
-{vendor}\overlay\IconPackFilledLauncher
-{vendor}\overlay\IconPackFilledSettings
-{vendor}\overlay\IconPackFilledSystemUI
-{vendor}\overlay\IconPackFilledThemePicker
-{vendor}\overlay\IconPackRoundedAndroid
-{vendor}\overlay\IconPackRoundedLauncher
-{vendor}\overlay\IconPackRoundedSettings
-{vendor}\overlay\IconPackRoundedSystemUI
-{vendor}\overlay\IconShapeRoundedRect
-{vendor}\overlay\IconShapeSquare
-{vendor}\overlay\IconShapeSquircle
-{vendor}\overlay\IconShapeTeardrop
