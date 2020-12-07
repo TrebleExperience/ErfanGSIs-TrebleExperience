@@ -166,6 +166,10 @@ if [ $AB == true ]; then
    "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" AB "$PROJECT_DIR/output" ${@} || LEAVE
 fi
 
+if [ -d "$PROJECT_DIR/tools/ROM_resigner/tmp/" ]; then
+   sudo rm -rf "$PROJECT_DIR/tools/ROM_resigner/tmp/"
+fi
+
 if [ $AONLY == true ]; then
     "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" Aonly "$PROJECT_DIR/output" ${@} || LEAVE
 fi
