@@ -148,11 +148,11 @@ if [ "$SYSTEM_NEW" == true ]; then
       if [ -d "$SYSTEM_NEW_DIR" ]; then
          if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
             echo " - SAR Mount detected in system_new, force umount!"
-            sudo "$SYSTEM_NEW_DIR/"
+            sudo umount "$SYSTEM_NEW_DIR/"
          else
             if [ -d "$SYSTEM_NEW_DIR/etc/" ]; then
                echo " - Aonly Mount detected in system_new, force umount!"
-               sudo "$SYSTEM_NEW_DIR/"
+               sudo umount "$SYSTEM_NEW_DIR/"
             fi
          fi
       fi
