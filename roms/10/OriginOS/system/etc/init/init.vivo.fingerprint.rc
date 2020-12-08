@@ -1,0 +1,32 @@
+###############################################################
+# Fingerprint launcher
+# NOTE: This file name should sort before fingerprint hwbinder
+# start rc since post-fs-data must launcher before the sub dir
+# to create.
+#
+
+# This trigger MUST before fingerprint hwbinder service start.
+on early-fs
+    chmod 0444 /sys/fp_id/fp_id
+    start vivo-fingerprint-sh
+
+on post-fs-data
+    mkdir /data/vendor/fingerprint 0770 system system
+
+# persist property MUST set after load_persist_props, the suitable action may be monitor vold.decrypt
+# this property should be deprecated in feature
+on property:vold.decrypt=trigger_load_persist_props
+    setprop persist.sys.fptype ${vendor.fingerprint.boot}
+on load_persist_props_action
+    setprop persist.sys.fptype ${vendor.fingerprint.boot}
+
+on property:vendor.fingerprint.boot=default
+    stop analysis-service
+
+# All hal should start after this service. And it will set persist.sys.fptype and
+# vendor.fingerprint.boot which will enable specific fingerprint hal service.
+service vivo-fingerprint-sh /system/vendor/bin/sh /system/bin/init.vivo.fingerprint.sh
+    class early_hal
+    user root
+    disabled
+    oneshot
