@@ -1,0 +1,25 @@
+on property:vendor.fingerprint.boot=sidefp_fpc_1540
+    chown system system /sys/bus/platform/devices/soc:fpc_fp/wakeup_enable
+    chown system system /sys/bus/platform/devices/soc:fpc_fp/irq
+    chown system system /sys/bus/platform/devices/soc:fpc_fp/do_wakeup
+    chown system system /sys/bus/platform/devices/soc:fpc_fp/hw_reset
+    chown system system /sys/bus/platform/devices/soc:fpc_fp/clk_enable
+    chown system system /sys/bus/platform/devices/soc:fpc_fp/perf_lock
+    chown system system /sys/bus/platform/devices/soc:fpc_fp/keep_awake
+    chown system system /sys/bus/platform/devices/soc:fpc_fp/regulator_enable
+    enable biometrics-fingerprint-fpc1540
+
+on property:sys.fingerprint.stop=biometrics-fingerprint-fpc1540
+    stop biometrics-fingerprint-fpc1540
+service biometrics-fingerprint-fpc1540 /system/bin/hw/vendor.vivo.hardware.biometrics.fingerprint@2.1-service-fpc1540
+    class late_start
+    user system
+    onrestart restart fpc1540-restart-counter-sh
+    group system input sdcard_rw uhid
+    disabled
+
+service fpc1540-restart-counter-sh /system/vendor/bin/sh /system/bin/init.vivo.fingerprint_restart_counter.sh biometrics-fingerprint-fpc1540 5
+    user system
+    group system
+    disabled
+    oneshot
