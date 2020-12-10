@@ -21,6 +21,9 @@ Telegram channel: https://t.me/ErfanGSI
 * Others
 
 ## YuMi GSIs Info
+[![Download YuMi GSIs - The return](https://img.shields.io/sourceforge/dm/yumi-project.svg)](https://sourceforge.net/projects/yumi-project/files/latest/download)
+[![Download YuMi GSIs - The return](https://img.shields.io/sourceforge/dw/yumi-project.svg)](https://sourceforge.net/projects/yumi-project/files/latest/download)
+[![Download YuMi GSIs - The return](https://img.shields.io/sourceforge/dt/yumi-project.svg)](https://sourceforge.net/projects/yumi-project/files/latest/download)  
 Download link: https://sourceforge.net/projects/yumi-project/files/  
 Telegram group: https://t.me/yumigsis_group  
 Telegram channel: https://t.me/yumigsis_channel  
