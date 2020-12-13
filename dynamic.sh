@@ -3,46 +3,45 @@
 # Merge S-P by YukoSky @ Treble-Experience
 # License: GPL3
 
-# url2GSI.sh is based on Nippon's ErfanGSIs.
-
-echo "-> S(EXT) Merger, by YukoSky (v1.4)"
+echo "-> S(EXT) Merger, by YukoSky (v1.5)"
 echo " - VelanGSIs Edition"
 
 ### Initial vars
 LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
+WORKING="$LOCALDIR/working"
 
 ## Mount Point vars for system_new
-SYSTEM_NEW_DIR="$LOCALDIR/system_new"
-SYSTEM_NEW_IMAGE="$LOCALDIR/system_new.img"
+SYSTEM_NEW_DIR="$WORKING/system_new"
+SYSTEM_NEW_IMAGE="$WORKING/system_new.img"
 SYSTEM_NEW=false
 
 ## Mount Point vars for system
-SYSTEM_DIR="$LOCALDIR/system"
-SYSTEM_IMAGE="$LOCALDIR/system.img"
+SYSTEM_DIR="$WORKING/system"
+SYSTEM_IMAGE="$WORKING/system.img"
 
 ## Mount Point vars for product
-PRODUCT_DIR="$LOCALDIR/product"
-PRODUCT_IMAGE="$LOCALDIR/product.img"
+PRODUCT_DIR="$WORKING/product"
+PRODUCT_IMAGE="$WORKING/product.img"
 PRODUCT=false
 
 ## Mount Point vars for odm
-ODM_DIR="$LOCALDIR/odm"
-ODM_IMAGE="$LOCALDIR/odm.img"
+ODM_DIR="$WORKING/odm"
+ODM_IMAGE="$WORKING/odm.img"
 ODM=false
 
 ## Mount Point vars for opproduct
-OPPRODUCT_DIR="$LOCALDIR/opproduct"
-OPPRODUCT_IMAGE="$LOCALDIR/opproduct.img"
+OPPRODUCT_DIR="$WORKING/opproduct"
+OPPRODUCT_IMAGE="$WORKING/opproduct.img"
 OPPRODUCT=false
 
 ## Mount Point vars for system_ext
-SYSTEM_EXT_DIR="$LOCALDIR/system_ext"
-SYSTEM_EXT_IMAGE="$LOCALDIR/system_ext.img"
+SYSTEM_EXT_DIR="$WORKING/system_ext"
+SYSTEM_EXT_IMAGE="$WORKING/system_ext.img"
 SYSTEM_EXT=false
 
 ## Mount Point vars for vendor
-VENDOR_DIR="$LOCALDIR/vendor"
-VENDOR_IMAGE="$LOCALDIR/vendor.img"
+VENDOR_DIR="$WORKING/vendor"
+VENDOR_IMAGE="$WORKING/vendor.img"
 OVERLAYS_VENDOR=false
 
 CREDITS() {
@@ -107,15 +106,20 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional
 
+if [ ! -d "$WORKING/" ]; then
+   mkdir -p "$WORKING"
+fi
+
 if [[ ! -n $1 ]]; then
     echo "-> ERROR!"
     echo " - Enter all needed parameters"
+    rm -rf "$WORKING"
     usage
     exit
 fi
 
 echo "-> Starting the process..."
-bash $LOCALDIR/zip2img.sh "$1" "$LOCALDIR"
+bash $LOCALDIR/zip2img.sh "$1" "$WORKING"
 
 # system.img
 if [ "$SYSTEM_NEW" == true ]; then
@@ -348,7 +352,7 @@ if [ "$SYSTEM_NEW" == true ]; then
    echo "-> Copy system files to system_new"
    cp -v -r -p $SYSTEM_DIR/* $SYSTEM_NEW_DIR/ > /dev/null 2>&1 && sync
    if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
-      cd $LOCALDIR/system_new/system/
+      cd $WORKING/system_new/system/
       CREDITS
    else
       if [ ! -f "$SYSTEM_NEW_DIR/build.prop" ]; then
@@ -361,14 +365,14 @@ if [ "$SYSTEM_NEW" == true ]; then
    echo "-> Umount system"
    umount $SYSTEM_DIR/
 fi
-cd $LOCALDIR
+cd $WORKING
 
 if [ "$PRODUCT" == true ]; then
    if [ -f "$PRODUCT_IMAGE" ]; then
       echo "-> Copy product files to system_new"
       if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
          echo " - Using SAR method"
-         cd $LOCALDIR/system_new/
+         cd $WORKING/system_new/
          rm -rf product; cd system; rm -rf product
          mkdir -p product/
          cp -v -r -p $PRODUCT_DIR/* product/ > /dev/null 2>&1
@@ -386,10 +390,10 @@ if [ "$PRODUCT" == true ]; then
          rm -rf product
          mkdir product && cd ../
          cp -v -r -p $PRODUCT/* $SYSTEM_NEW/product/ > /dev/null 2>&1 && sync
-         cd $LOCALDIR
+         cd $WORKING
       fi
    fi
-   cd $LOCALDIR
+   cd $WORKING
 fi
 
 if [ "$PRODUCT" == true ]; then
@@ -404,7 +408,7 @@ if [ "$ODM" == true ]; then
      echo "-> Copy odm files to system_new"
      if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
         echo " - Using SAR method"
-        cd $LOCALDIR/system_new/
+        cd $WORKING/system_new/
         rm -rf odm; cd system; rm -rf odm
         mkdir -p odm/
         cp -v -r -p $ODM_DIR/* odm/ > /dev/null 2>&1
@@ -422,10 +426,10 @@ if [ "$ODM" == true ]; then
      rm -rf odm
      mkdir odm && cd ../
      cp -v -r -p $ODM/* $SYSTEM_NEW_DIR/odm/ > /dev/null 2>&1 && sync
-     cd $LOCALDIR
+     cd $WORKING
    fi
 fi
-cd $LOCALDIR
+cd $WORKING
 fi
 
 if [ "$ODM" == true ]; then
@@ -440,7 +444,7 @@ if [ "$OPPRODUCT" == true ]; then
    echo "-> Copy opproduct files to system_new"
       if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
          echo " - Using SAR method"
-         cd $LOCALDIR/system_new/
+         cd $WORKING/system_new/
          rm -rf oneplus; cd system; rm -rf oneplus
          mkdir -p oneplus/
          cp -v -r -p $OPPRODUCT_DIR/* oneplus/ > /dev/null 2>&1
@@ -458,10 +462,10 @@ if [ "$OPPRODUCT" == true ]; then
       rm -rf oneplus
       mkdir oneplus && cd ../
       cp -v -r -p $OPPRODUCT_DIR/* $SYSTEM_NEW_DIR/oneplus/ > /dev/null 2>&1 && sync
-      cd $LOCALDIR
+      cd $WORKING
    fi
 fi
-cd $LOCALDIR
+cd $WORKING
 fi
 
 if [ "$OPPRODUCT" == true ]; then
@@ -476,7 +480,7 @@ if [ "$SYSTEM_EXT" == true ]; then
    echo "-> Copy system_ext files to system_new"
       if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
          echo " - Using SAR method"
-         cd $LOCALDIR/system_new/
+         cd $WORKING/system_new/
          rm -rf system_ext; cd system; rm -rf system_ext
          mkdir -p system_ext/
          cp -v -r -p $SYSTEM_EXT_DIR/* system_ext/ > /dev/null 2>&1
@@ -494,10 +498,10 @@ if [ "$SYSTEM_EXT" == true ]; then
       rm -rf system_ext
       mkdir system_ext && cd ../
       cp -v -r -p $SYSTEM_EXT/* $SYSTEM_NEW_DIR/system_ext/ > /dev/null 2>&1 && sync
-      cd $LOCALDIR
+      cd $WORKING
    fi
 fi
-cd $LOCALDIR
+cd $WORKING
 fi
 
 if [ "$SYSTEM_EXT" == true ]; then
@@ -518,7 +522,7 @@ if [ "$OVERLAYS_VENDOR" == true ]; then
       if [ -d "$VENDOR_DIR/overlay" ]; then
          # If yes we'll copy overlays
          echo " - Copying overlays from vendor..."
-         mkdir -p "$LOCALDIR/vendorOverlays"
+         mkdir -p "$WORKING/vendorOverlays"
          cp -v -r -p $VENDOR_DIR/overlay/* vendorOverlays/ > /dev/null 2>&1
          rm -rf vendorOverlays/home/
          zip -r vendorOverlays.zip vendorOverlays/ > /dev/null 2>&1
@@ -539,18 +543,13 @@ if [ "$OVERLAYS_VENDOR" == true ]; then
    fi
 fi
 
+mv $WORKING/system_new.img $WORKING/system.tmp
 echo "-> Remove tmp folders and files"
-sudo rm -rf $SYSTEM_DIR $SYSTEM_NEW_DIR $PRODUCT_DIR $SYSTEM_IMAGE $PRODUCT_IMAGE $SYSTEM_EXT_DIR $SYSTEM_EXT_IMAGE $OPPRODUCT_DIR $OPPRODUCT_IMAGE $ODM_DIR $ODM_IMAGE $VENDOR_DIR $VENDOR_IMAGE
+sudo rm -rf $SYSTEM_DIR $SYSTEM_NEW_DIR $PRODUCT_DIR $SYSTEM_IMAGE $PRODUCT_IMAGE $SYSTEM_EXT_DIR $SYSTEM_EXT_IMAGE $OPPRODUCT_DIR $OPPRODUCT_IMAGE $ODM_DIR $ODM_IMAGE $VENDOR_DIR $VENDOR_IMAGE $WORKING/*.img
 
 if [ "$SYSTEM_NEW" == true ]; then
-   echo " - Final setup..."
-   if [ ! -d "$LOCALDIR/working/" ]; then
-       mkdir -p "$LOCALDIR/working/"
-   fi
-   mv system_new.img system.img
-   cd "$LOCALDIR/working/"; mv ../system.img .
-   cd "$LOCALDIR"
-   sudo rm -rf *.img
+   echo " - Making final change..."
+   mv system.tmp system.img
 fi
 
 echo "-> Work done."
