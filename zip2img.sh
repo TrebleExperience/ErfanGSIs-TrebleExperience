@@ -38,6 +38,7 @@ superimage() {
         fi
     done
     rm -rf super.img.raw
+    $dyn --odm --product --ext --opproduct --overlays --wkf > /dev/null 2> /dev/null
 }
 
 usage() {
@@ -85,6 +86,7 @@ nb0_extract="$toolsdir/$HOST/bin/nb0-extract"
 kdz_extract="$toolsdir/KDZFileTools.py"
 dz_extract="$toolsdir/undz.py"
 ruu="$toolsdir/$HOST/bin/RUU_Decrypt_Tool"
+dyn="$LOCALDIR/dynamic.sh"
 
 romzip="$(realpath $1)"
 romzipext="${romzip##*.}"
@@ -412,6 +414,7 @@ elif [[ $(7z l -ba "$romzip" | grep "UPDATE.APP") ]]; then
             fi
         done
         rm -rf super.img.raw
+        $dyn --odm --product --ext --opproduct --overlays --wkf > /dev/null 2> /dev/null
     fi
 fi
 
