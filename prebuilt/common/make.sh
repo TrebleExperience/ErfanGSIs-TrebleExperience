@@ -34,19 +34,28 @@ sed -i "/ro.build.fingerprint/d" $plat_property
 # Warning for system ext
 if [ -d "$1/system_ext/" ]; then
    echo "" >> $1/system_ext/build.prop
-   echo "#################################" >> $1/system_ext/build.prop
-   echo "# GSI made by: t.me/projektyumi #" >> $1/system_ext/build.prop
-   echo "#       Don't Kang my GSI       #" >> $1/system_ext/build.prop
-   echo "#################################" >> $1/system_ext/build.prop
+   echo "######################################" >> $1/system_ext/build.prop
+   echo "# GSI made by: t.me/yumigsis_channel #" >> $1/system_ext/build.prop
+   echo "#         Don't Kang my GSI          #" >> $1/system_ext/build.prop
+   echo "######################################" >> $1/system_ext/build.prop
 fi
 
-# Warning for Product
+# Warning for product
 if [ -d "$1/product/" ]; then
    echo "" >> $1/product/build.prop
-   echo "#################################" >> $1/product/build.prop
-   echo "# GSI made by: t.me/projektyumi #" >> $1/product/build.prop
-   echo "#       Don't Kang my GSI       #" >> $1/product/build.prop
-   echo "#################################" >> $1/product/build.prop
+   echo "######################################" >> $1/product/build.prop
+   echo "# GSI made by: t.me/yumigsis_channel #" >> $1/product/build.prop
+   echo "#         Don't Kang my GSI          #" >> $1/product/build.prop
+   echo "######################################" >> $1/product/build.prop
+fi
+
+# Warning for build.prop
+if [ -d "$1/product/" ]; then
+   echo "" >> $1/product/build.prop
+   echo "######################################" >> $1/build.prop
+   echo "# GSI made by: t.me/yumigsis_channel #" >> $1/build.prop
+   echo "#         Don't Kang my GSI          #" >> $1/build.prop
+   echo "######################################" >> $1/build.prop
 fi
 
 ## Props
