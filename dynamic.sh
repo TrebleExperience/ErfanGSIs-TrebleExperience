@@ -9,7 +9,6 @@ echo " - VelanGSIs Edition"
 ### Initial vars
 LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 WORKING="$LOCALDIR/working"
-NEED_ZIP2IMG_TOOL=false
 
 ## Mount Point vars for system_new
 SYSTEM_NEW_DIR="$WORKING/system_new"
@@ -63,7 +62,6 @@ usage() {
     echo -e "\t--product: Merge /product partition in the system"
     echo -e "\t--overlays: Take the overlays from /vendor and put them in a temporary folder and compress at the end of the process"
     echo -e "\t--opproduct: Merge /oneplus partition in the system (OxygenOS only)"
-    echo -e "\t--wkf: Don't use zip2img anymore, use images from working folder to work"
 }
 
 POSITIONAL=()
@@ -96,10 +94,6 @@ case $key in
     OVERLAYS_VENDOR=true
     shift
     ;;
-    --wkf)
-    NEED_ZIP2IMG_TOOL=true
-    shift
-    ;;
     --help|-h|-?)
     usage
     exit
@@ -125,13 +119,7 @@ if [[ ! -n $1 ]]; then
 fi
 
 echo "-> Starting the process..."
-if [ "$NEED_ZIP2IMG_TOOL" == false ]; then
-   bash $LOCALDIR/zip2img.sh "$1" "$WORKING"
-fi
-
-if [ "$NEED_ZIP2IMG_TOOL" == true ]; then
-   echo " - Be careful, you are using prebuilt images from working folder!"
-fi
+bash $LOCALDIR/zip2img.sh "$1" "$WORKING"
 
 # system.img
 if [ "$SYSTEM_NEW" == true ]; then
