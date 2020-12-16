@@ -9,6 +9,7 @@ AONLY=true
 MOUNTED=false
 CLEAN=false
 DYNAMIC=false
+ZUI_DYNAMIC=false
 LOCK="$PROJECT_DIR/cache/.lock"
 
 echo "-> Warning: That Fork is VelanGSIs (a.k.a: YuMiGSIs), originally from ErfanGSIs"
@@ -68,6 +69,12 @@ case $key in
     ;;
     --dynamic|-d)
     DYNAMIC=true
+    ZUI_DYNAMIC=false
+    shift
+    ;;
+    --zdynamic|-zd)
+    ZUI_DYNAMIC=true
+    DYNAMIC=false
     shift
     ;;
     --help|-h|-?)
@@ -152,6 +159,8 @@ if [ $MOUNTED == false ]; then
     fi
     if [ "$DYNAMIC" == true ]; then
        "$PROJECT_DIR"/dynamic.sh "$URL" --odm --product --ext --opproduct --overlays
+    elif [ $ZUI_DYNAMIC == false ] ; then
+       "$PROJECT_DIR"/zui.sh "$URL"
     elif [ $DYNAMIC == false ] ; then
        "$PROJECT_DIR"/zip2img.sh "$URL" "$PROJECT_DIR/working" || exit 1
     fi
