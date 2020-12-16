@@ -301,7 +301,7 @@ fi
 if [ "$PRODUCT" == true ]; then
    if [ -f "$PRODUCT_IMAGE" ]; then
       echo " - Mount product"
-      if [ ! -d "$PRODUCT/" ]; then
+      if [ ! -d "$PRODUCT_DIR/" ]; then
          mkdir $PRODUCT_DIR
       fi
       sudo mount -o ro $PRODUCT_IMAGE $PRODUCT_DIR/
