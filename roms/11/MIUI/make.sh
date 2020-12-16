@@ -9,9 +9,6 @@ thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 # drop finddevice, needs to be done before copying system files
 rm -rf $1/priv-app/FindDevice
 
-# Copy system files
-rsync -ra $thispath/system/ $systempath
-
 #fix systemui crash because of FOD
 echo "ro.hardware.fp.fod=true" >> $1/build.prop
 echo "persist.vendor.sys.fp.fod.location.X_Y=445,1260" >> $1/build.prop
@@ -31,6 +28,4 @@ sed -i 's/<bool name="support_round_corner">true/<bool name="support_round_corne
 
 sed -i "/miui.notch/d" $1/build.prop
 
-# Wifi fix
-cp -fpr $thispath/bin/* $1/bin/
 cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
