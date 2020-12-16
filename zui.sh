@@ -3,13 +3,8 @@
 # Merge S-P by YukoSky @ Treble-Experience
 # License: GPL3
 
-echo "##############################"
-echo "#                            #"
-echo "# S(EXT)-P Merger by YukoSky #"
-echo "#         v1.5-Alpha         #"
-echo "#                            #"
-echo "##############################"
-echo ""
+echo "-> S(EXT) Merger, by YukoSky (v1.5)"
+echo " - VelanGSIs Edition"
 
 ### Initial vars
 LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
