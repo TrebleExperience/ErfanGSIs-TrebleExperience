@@ -163,7 +163,7 @@ if [ $MOUNTED == false ]; then
     elif [ $ZUI_DYNAMIC == true ] ; then
        "$PROJECT_DIR"/zui.sh "$URL"
     elif [ $DYNAMIC == false ] ; then
-       "$PROJECT_DIR"/zip2img.sh "$URL" "$PROJECT_DIR/working" --overlays || exit 1
+       "$PROJECT_DIR"/zip2img.sh "$URL" "$PROJECT_DIR/working" || exit 1
     fi
     if [ $CLEAN == true ]; then
         rm -rf "$ZIP_NAME"

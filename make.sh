@@ -198,6 +198,7 @@ fi
 date=`date +%Y%m%d`
 outputname="$romtypename-$outputtype-$sourcever-$date-ErfanGSI-YuMiGSIs"
 outputoverlaysname="$romtypename-$date-ErfanGSI-YuMiGSIs-Overlays.zip"
+# ^ Dynamic feature
 outputimagename="$outputname".img
 outputtextname="$outputname".txt
 if [ "$4" == "" ]; then
