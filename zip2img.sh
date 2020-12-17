@@ -57,6 +57,7 @@ LOCALDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 OVERLAYS=false
 HOST="$(uname)"
 toolsdir="$LOCALDIR/tools"
+key="$1"
 
 case $key in
     --overlays)
