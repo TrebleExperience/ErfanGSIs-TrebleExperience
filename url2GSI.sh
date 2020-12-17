@@ -33,10 +33,11 @@ fi
 
 usage()
 {
-    echo "Usage: [--help|-h|-?] [--dynamic|-d] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] $0 <Firmware link> <Firmware type> [Other args]"
+    echo "Usage: [--help|-h|-?] [--dynamic|-d] [--zdynamic|-zd] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] $0 <Firmware link> <Firmware type> [Other args]"
     echo -e "\tFirmware link: Firmware download link or local path"
     echo -e "\tFirmware type: Firmware mode"
     echo -e "\t--dynamic: Use this option only if the firmware contains dynamic partitions"
+    echo -e "\t--zdynamic: Special option for Legion/ZUI dynamic firmwares"
     echo -e "\t--ab: Build only AB"
     echo -e "\t--aonly: Build only A-Only"
     echo -e "\t--cleanup: Cleanup downloaded firmware"
