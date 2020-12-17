@@ -41,10 +41,9 @@ superimage() {
 }
 
 usage() {
-    echo "Usage: $0 <Path to firmware> [Output Dir] [--overlays]"
+    echo "Usage: $0 <Path to firmware> [Output Dir]"
     echo -e "\tPath to firmware: the zip!"
     echo -e "\tOutput Dir: the output dir!"
-    echo -e "\--overlays: Get the overlays from /vendor"
 }
 
 if [ "$1" == "" ]; then
@@ -54,22 +53,8 @@ if [ "$1" == "" ]; then
 fi
 
 LOCALDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-OVERLAYS=false
 HOST="$(uname)"
 toolsdir="$LOCALDIR/tools"
-
-case $key in
-    --overlays)
-    OVERLAYS=true
-    shift
-    ;;
-    *)
-    POSITIONAL+=("$1")
-    shift
-    ;;
-esac
-done
-set -- "${POSITIONAL[@]}" # restore positional
 
 if [[ ! -d "$toolsdir/extract_android_ota_payload" ]]; then
     git clone -q https://github.com/cyxx/extract_android_ota_payload.git "$toolsdir/extract_android_ota_payload" > /dev/null 2>&1
@@ -461,29 +446,6 @@ for partition in $PARTITIONS; do
         rm "$outdir"/$partition.img
     fi
 done
-
-if [ "$OVERLAYS" == true ]; then
-   if [ -f "$outdir/vendor.img" ]; then
-      if [ ! -d "$outdir/vendor/" ]; then
-         mkdir -p "$outdir/vendor"
-      fi
-      mount -o ro "$outdir/vendor.img" "$outdir/vendor/"
-      if [ -d "$outdir/vendor/overlay" ]; then
-         # If yes we'll copy overlays
-         mkdir -p "$outdir/vendorOverlays"
-         cp -v -r -p $outdir/vendor/overlay/* "$outdir/vendorOverlays/" > /dev/null 2>&1
-         cd "$outdir/vendorOverlays/"
-         rm -rf home && cd ../
-         zip -r "$outdir/vendorOverlays.zip" "$outdir/vendorOverlays/" > /dev/null 2>&1
-         rm -rf "$outdir/vendorOverlays/"
-         if [ ! -d "$LOCALDIR/output/" ]; then
-            mkdir "$LOCALDIR/output/"
-         fi
-         mv "$outdir/vendorOverlays.zip" "$LOCALDIR/output/.tmpzip"
-         umount "$outdir/vendor.img"
-      fi
-   fi
-fi
 
 cd "$LOCALDIR"
 rm -rf "$tmpdir"
