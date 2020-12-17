@@ -44,7 +44,7 @@ usage() {
     echo "Usage: $0 <Path to firmware> [Output Dir] [--overlays]"
     echo -e "\tPath to firmware: the zip!"
     echo -e "\tOutput Dir: the output dir!"
-    echo -e "\--overlays: Get the overlays from /vendor"
+    echo -e "\t--overlays: Get the overlays from /vendor"
 }
 
 if [ "$1" == "" ]; then
@@ -69,7 +69,6 @@ case $key in
     shift
     ;;
 esac
-done
 set -- "${POSITIONAL[@]}" # restore positional
 
 if [[ ! -d "$toolsdir/extract_android_ota_payload" ]]; then
