@@ -16,6 +16,11 @@ rm -rf $1/app/Photos
 rm -rf $1/app/GooglePay
 rm -rf $1/app/Music2
 rm -rf $1/app/Gmail2
+rm -rf $1/product/app/Gmail2
+rm -rf $1/product/app/GoogleTTS
+rm -rf $1/product/app/Maps
+rm -rf $1/product/app/YouTube
+rm -rf $1/product/app/talkback
 rm -rf $1/app/GoogleTTS
 rm -rf $1/app/AppCenterIntl
 rm -rf $1/app/Camera
@@ -36,3 +41,8 @@ rm -rf $1/MzApp/Life
 rm -rf $1/MzApp/MzStore
 rm -rf $1/MzApp/Reader
 rm -rf $1/MzApp/VideoClips
+rm -rf $1/priv-app/GoogleDocumentsUIPrebuilt
+rm -rf $1/product/app/CalendarGoogle
+rm -rf $1/product/app/GoogleContacts
+rm -rf $1/product/app/GoogleOne
+rm -rf $1/product/priv-app/Wellbeing
