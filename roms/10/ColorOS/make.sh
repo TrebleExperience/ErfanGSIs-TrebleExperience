@@ -9,8 +9,15 @@ thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 rm -rf $1/priv-app/OppoBootReg
 cp -fpr $thispath/SetupWizard $1/priv-app/
 
+# Custom files
+cp -fpr $thispath/init/* $1/etc/init/
+cp -fpr $thispath/bin/* $1/bin/
+
 # drop QVRservice
 rm -rf $1/bin/qvrservice
+
+# Append file_context
+cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts
 
 # Fix packageinstaller
 echo "ro.build.version.sdk=29" >> $1/build.prop
