@@ -537,13 +537,13 @@ if [ "$OVERLAYS_VENDOR" == true ]; then
          cp -v -r -p $VENDOR_DIR/overlay/* vendorOverlays/ > /dev/null 2>&1
          cd "$WORKING/vendorOverlays/"
          rm -rf home && cd ../
-         zip -r vendorOverlays.zip vendorOverlays/ > /dev/null 2>&1
+         tar -zcvf vendorOverlays.gz vendorOverlays/ > /dev/null 2>&1
          echo " - Process of copying vendor overlays is done"
          rm -rf $WORKING/vendorOverlays/
          if [ ! -d "$LOCALDIR/output/" ]; then
             mkdir "$LOCALDIR/output/"
          fi
-         mv "$WORKING/vendorOverlays.zip" "$LOCALDIR/output/.tmpzip"
+         mv "$WORKING/vendorOverlays.gz" "$LOCALDIR/output/.tmpzip"
       fi
    fi
 fi
