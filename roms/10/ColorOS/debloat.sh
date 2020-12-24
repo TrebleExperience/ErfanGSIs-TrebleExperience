@@ -46,7 +46,6 @@ rm -rf $1/product/app/GoogleTTS
 rm -rf $1/product/app/Keep
 rm -rf $1/product/app/Maps
 rm -rf $1/product/app/talkback
-rm -rf $1/product/app/WebViewGoogle
 rm -rf $1/product/app/YouTube
 rm -rf $1/product/priv-app/AndroidAutoStub
 rm -rf $1/product/priv-app/GoogleFeedback
