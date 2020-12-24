@@ -1,8 +1,5 @@
 ## Requirements
     Linux or Mac
-    
-## READ
-    If you wanted to modify ErfanGSIs, it is MANDATORY to make Open Source, we must respect the original repository that is Erfan Abdi's ErfanGSIs.
 
 ## Released GSIs (Erfan Abdi/ErfanGSIs)
 Download link: https://mirrors.lolinet.com/firmware/gsi/  
@@ -19,6 +16,9 @@ Telegram channel: https://t.me/ErfanGSI
 * Dalvik patch
 * Additional information when an image is created
 * Others
+
+## Note
+* If you are going to edit the fork, please respect the License and NOTICE!
 
 ## YuMi GSIs Info
 [![Download YuMi GSIs - The return](https://img.shields.io/sourceforge/dm/yumi-project.svg)](https://sourceforge.net/projects/yumi-project/files/latest/download)
