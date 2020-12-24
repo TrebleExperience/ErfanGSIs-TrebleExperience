@@ -414,7 +414,18 @@ if [ "$ODM" == true ]; then
         cp -v -r -p $ODM_DIR/* odm/ > /dev/null 2>&1
         cd ../
         echo " - Fix symlink in odm"
-        ln -s /system/odm/ odm
+        mkdir odm
+        cd odm
+        ln -s /vendor/odm/app app
+        ln -s /vendor/odm/bin bin
+        ln -s /vendor/odm/app etc
+        ln -s /vendor/odm/firmware firmware
+        ln -s /vendor/odm/framework framework
+        ln -s /vendor/odm/lib lib
+        ln -s /vendor/odm/lib64 lib64
+        ln -s /vendor/odm/overlay overlay
+        ln -s /vendor/odm/priv-app priv-app
+        ln -s /vendor/odm/usr usr
         sync
         echo " - Fixed"
    else
