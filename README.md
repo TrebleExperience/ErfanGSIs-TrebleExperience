@@ -20,13 +20,13 @@ Telegram channel: https://t.me/ErfanGSI
 ## Note
 * If you are going to edit the fork, please respect the License and NOTICE!
 
-## YuMi GSIs Info
-[![Download YuMi GSIs - The return](https://img.shields.io/sourceforge/dm/yumi-project.svg)](https://sourceforge.net/projects/yumi-project/files/latest/download)
-[![Download YuMi GSIs - The return](https://img.shields.io/sourceforge/dw/yumi-project.svg)](https://sourceforge.net/projects/yumi-project/files/latest/download)
-[![Download YuMi GSIs - The return](https://img.shields.io/sourceforge/dt/yumi-project.svg)](https://sourceforge.net/projects/yumi-project/files/latest/download)  
-Download link: https://sourceforge.net/projects/yumi-project/files/  
-Telegram group: https://t.me/yumigsis_group  
-Telegram channel: https://t.me/yumigsis_channel  
+## Velosh GSIs Info
+[![Download Velosh GSIs](https://img.shields.io/sourceforge/dm/velosh-gsis.svg)](https://sourceforge.net/projects/velosh-gsis/files/latest/download)
+[![Download Velosh GSIs](https://img.shields.io/sourceforge/dw/velosh-gsis.svg)](https://sourceforge.net/projects/velosh-gsis/files/latest/download)
+[![Download Velosh GSIs](https://img.shields.io/sourceforge/dt/velosh-gsis.svg)](https://sourceforge.net/projects/velosh-gsis/files/latest/download)  
+Download link: https://sourceforge.net/projects/velosh-gsis/files/  
+Telegram group: https://t.me/veloshgsis  
+Telegram channel: https://t.me/veloshgsi  
 
 ### Download tools
 ```
