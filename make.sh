@@ -196,8 +196,8 @@ if [ "$outputtype" == "Aonly" ]; then
 fi
 
 date=`date +%Y%m%d`
-outputname="$romtypename-$outputtype-$sourcever-$date-ErfanGSI-YuMiGSIs"
-outputoverlaysname="$romtypename-$date-ErfanGSI-YuMiGSIs-Overlays.zip"
+outputname="$romtypename-$outputtype-$sourcever-$date-ErfanGSI-VeloshGSIs"
+outputoverlaysname="$romtypename-$date-ErfanGSI-VeloshGSIs-Overlays.zip"
 # ^ Dynamic feature
 outputimagename="$outputname".img
 outputtextname="$outputname".txt
