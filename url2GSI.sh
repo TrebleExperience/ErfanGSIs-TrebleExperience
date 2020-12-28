@@ -9,7 +9,6 @@ AONLY=true
 MOUNTED=false
 CLEAN=false
 DYNAMIC=false
-ZUI_DYNAMIC=false
 LOCK="$PROJECT_DIR/cache/.lock"
 
 echo "-> Warning: That Fork is VelanGSIs (a.k.a: YuMiGSIs), originally from ErfanGSIs"
@@ -19,7 +18,7 @@ if [ -f "$LOCK" ]; then
     echo "-> Stop, wait for the other job to finish before you can start another one."
     exit 1
 else
-    mkdir "$PROJECT_DIR/cache/"
+    mkdir -p "$PROJECT_DIR/cache/"
     touch "$LOCK"
     echo "-> Making patch: Cleaning and removing folders that are used to make GSI to avoid problems"
     if [ -d "$PROJECT_DIR/working/system/" ]; then
