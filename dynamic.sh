@@ -409,6 +409,7 @@ if [ "$ODM" == true ]; then
      if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
         echo " - Using SAR method"
         cd $WORKING/system_new/
+        rm -rf odm system/odm/
         mkdir -p system/odm; mkdir odm
         sudo cp -v -r -p $ODM_DIR/* system/odm/ > /dev/null 2>&1
         sudo cp -v -r -p $ODM_DIR/* odm/ > /dev/null 2>&1 && sync
