@@ -409,24 +409,8 @@ if [ "$ODM" == true ]; then
      if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
         echo " - Using SAR method"
         cd $WORKING/system_new/
-        rm -rf odm; cd system; rm -rf odm
-        mkdir -p odm/
-        cp -v -r -p $ODM_DIR/* odm/ > /dev/null 2>&1
-        cd ../
-        echo " - Fix symlink in odm"
-        mkdir odm
-        cd odm
-        ln -s /vendor/odm/app app
-        ln -s /vendor/odm/bin bin
-        ln -s /vendor/odm/app etc
-        ln -s /vendor/odm/firmware firmware
-        ln -s /vendor/odm/framework framework
-        ln -s /vendor/odm/lib lib
-        ln -s /vendor/odm/lib64 lib64
-        ln -s /vendor/odm/overlay overlay
-        ln -s /vendor/odm/priv-app priv-app
-        ln -s /vendor/odm/usr usr
-        sync
+        mkdir system/odm 
+        sudo cp -v -r -p $ODM_DIR/* system/odm/
         echo " - Fixed"
    else
      if [ ! -f "$SYSTEM_NEW_DIR/build.prop" ]; then
