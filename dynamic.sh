@@ -411,8 +411,8 @@ if [ "$ODM" == true ]; then
         cd $WORKING/system_new/
         rm -rf odm system/odm/
         mkdir -p system/odm; mkdir odm
-        sudo cp -v -r -p $ODM_DIR/* system/odm/ > /dev/null 2>&1
-        sudo cp -v -r -p $ODM_DIR/* odm/ > /dev/null 2>&1 && sync
+        cp -v -r -p $ODM_DIR/* system/odm/ > /dev/null 2>&1
+        cp -v -r -p $ODM_DIR/* odm/ > /dev/null 2>&1 && sync
         echo " - Fixed"
    else
      if [ ! -f "$SYSTEM_NEW_DIR/build.prop" ]; then
