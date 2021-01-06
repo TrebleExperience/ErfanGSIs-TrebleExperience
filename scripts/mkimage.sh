@@ -47,6 +47,7 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     echo "/firmware(/.*)?         u:object_r:firmware_file:s0" >> "$tempdir/file_contexts"
     echo "/bt_firmware(/.*)?      u:object_r:bt_firmware_file:s0" >> "$tempdir/file_contexts"
     echo "/persist(/.*)?          u:object_r:mnt_vendor_file:s0" >> "$tempdir/file_contexts"
+    echo "/cache_wt               u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/sec_storage            u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/dsp                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/oem                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
@@ -79,7 +80,6 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     echo "/factory                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/addon.d                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/oneplus                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
-    echo "/logcat                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/prism                  u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/optics                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/spu                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
@@ -91,6 +91,7 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     echo "/vgc                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/logcat                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/preload                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/preload                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     fcontexts="$tempdir/file_contexts"
 fi
 sudo rm -rf "$systemdir/persist"
@@ -99,19 +100,19 @@ sudo rm -rf "$systemdir/firmware"
 sudo rm -rf "$systemdir/dsp"
 sudo rm -rf "$systemdir/cache"
 if [ ! -d "$systemdir/dpolicy" ]; then
-   sudo mkdir -p "$systemdir/dpolicy"
+   sudo mkdir -p "$systemdir/dpolicy" > /dev/null 2>&1
 fi
 if [ ! -d "$systemdir/prism" ]; then
-   sudo mkdir -p "$systemdir/prism"
+   sudo mkdir -p "$systemdir/prism" > /dev/null 2>&1
 fi
 if [ ! -d "$systemdir/optics" ]; then
-   sudo mkdir -p "$systemdir/optics"
+   sudo mkdir -p "$systemdir/optics" > /dev/null 2>&1
 fi
 if [ ! -d "$systemdir/spu" ]; then
-   sudo mkdir -p "$systemdir/spu"
+   sudo mkdir -p "$systemdir/spu" > /dev/null 2>&1
 fi
 if [ ! -d "$systemdir/vgc" ]; then
-   sudo mkdir -p "$systemdir/vgc"
+   sudo mkdir -p "$systemdir/vgc" > /dev/null 2>&1
 fi
 sudo mkdir -p "$systemdir/sec_storage"
 sudo mkdir -p "$systemdir/bt_firmware"
