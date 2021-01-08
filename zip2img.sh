@@ -332,13 +332,11 @@ elif [[ $(7z l -ba "$romzip" | grep tar.md5 | gawk '{ print $NF }' | grep AP_) ]
     echo "-> Extracting images..."
     for i in $(ls *.tar.md5); do
         tar -xf $i || exit 1
-        rm -fv $i || exit 1
-        echo "-> Extracted $i"
+        rm -rf $i || exit 1
     done
     for f in $(ls *.lz4); do
         lz4 -dc $f > ${f/.lz4/} || exit 1
-        rm -fv $f || exit 1
-        echo "-> Extracted $f"
+        rm -rf $f || exit 1
     done
     if [[ -f super.img ]]; then
         superimage
