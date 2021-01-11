@@ -16,7 +16,6 @@ rm -rf $1/product/app/PrebuiltBugle
 rm -rf $1/product/app/PrebuiltDeskClockGoogle
 rm -rf $1/product/app/PrebuiltGmail
 rm -rf $1/product/app/talkback
-rm -rf $1/product/app/WebViewGoogle*
 rm -rf $1/product/priv-app/AndroidAutoStubPrebuilt
 rm -rf $1/product/priv-app/GoogleDialer
 rm -rf $1/product/priv-app/RecorderPrebuilt
