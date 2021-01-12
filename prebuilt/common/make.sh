@@ -121,7 +121,7 @@ $thispath/../../scripts/propcleanner.sh $1/build.prop > $1/../../build.prop
 cp -fpr $1/../../build.prop $1/
 
 # Fix FP touch issues for some meme devices
-if [ -f $romdir/DONTPATCHWIFI ]; then
+if [ -f $romdir/DONTPATCHFP ]; then
       echo "-> Patching Fingerprint touch is not supported in this ROM. Skipping..."
 else
       rm -rf $1/usr/keylayout/uinput-fpc.kl
