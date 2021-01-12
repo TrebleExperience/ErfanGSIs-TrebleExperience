@@ -120,6 +120,15 @@ sed -i "s/ro.adb.secure=1/ro.adb.secure=0/" $1/etc/prop.default
 $thispath/../../scripts/propcleanner.sh $1/build.prop > $1/../../build.prop
 cp -fpr $1/../../build.prop $1/
 
+# Fix FP touch issues for some meme devices
+if [ -f $romdir/DONTPATCHFP ]; then
+      echo "-> Patching Fingerprint touch is not supported in this ROM. Skipping..."
+else
+      rm -rf $1/usr/keylayout/uinput-fpc.kl
+      rm -rf $1/usr/keylayout/uinput-goodix.kl
+      touch $1/usr/keylayout/uinput-fpc.kl
+      touch $1/usr/keylayout/uinput-goodix.kl
+fi 
 
 ## Append to phh script
 cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
