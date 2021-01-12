@@ -6,3 +6,4 @@
 /system/bin/wificonf u:object_r:wificond_exec:s0
 /system/bin/permissiver.sh			u:object_r:update_engine_exec:s0
 /system/bin/hdrfix_post-data.sh			u:object_r:update_engine_exec:s0
+/dev/dsm                u:object_r:dmd_device:s0
