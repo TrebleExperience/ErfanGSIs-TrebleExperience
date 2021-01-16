@@ -32,7 +32,7 @@ fi
 
 usage()
 {
-    echo "Usage: [--help|-h|-?] [--dynamic|-d] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] [--verbose|-vb] $0 <Firmware link> <Firmware type> [Other args]"
+    echo "Usage: [--help|-h|-?] [--dynamic|-d] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] $0 <Firmware link> <Firmware type> [Other args]"
     echo -e "\tFirmware link: Firmware download link or local path"
     echo -e "\tFirmware type: Firmware mode"
     echo -e "\t--dynamic: Use this option only if the firmware contains dynamic partitions"
@@ -40,7 +40,6 @@ usage()
     echo -e "\t--aonly: Build only A-Only"
     echo -e "\t--cleanup: Cleanup downloaded firmware"
     echo -e "\t--help: To show this info"
-    echo -e "\t--verbose: To show much more logs & status"
 }
 
 POSITIONAL=()
@@ -65,10 +64,6 @@ case $key in
     ;;
     --cleanup|-c)
     CLEAN=true
-    shift
-    ;;
-    --verbose|-vb)
-    VERBOSE=true
     shift
     ;;
     --help|-h|-?)
@@ -114,53 +109,28 @@ DOWNLOAD()
 
 MOUNT()
 {
-    if [ $VERBOSE == true ]; then
-         mkdir -pv "$PROJECT_DIR/working/system"
-    else
-         mkdir -p "$PROJECT_DIR/working/system"
-    fi
+    mkdir -p "$PROJECT_DIR/working/system"
     if [ $(uname) == Linux ]; then
-         if [ $VERBOSE == true ]; then
-                 echo "- Linux Machine Detected"
-                 echo "- Using mount command..."
-         fi
         sudo mount -o ro "$1" "$PROJECT_DIR/working/system"
     elif [ $(uname) == Darwin ]; then
-         if [ $VERBOSE == true ]; then
-                 echo "- Darwin Machine Detected"
-                 echo "- Using fuse-ext2 command..."
-         fi
         fuse-ext2 "$1" "$PROJECT_DIR/working/system"
     fi
 }
 
 UMOUNT()
 {
-    if [ $VERBOSE == true ]; then
-        echo "- Unmounting $1"
-        sudo umount "$1"
-    else
-        sudo umount "$1"
-    fi
+    sudo umount "$1"
 }
 
 LEAVE()
 {
     UMOUNT "$PROJECT_DIR/working/system"
-    if [ $VERBOSE == true ]; then
-        rm -rfv "$PROJECT_DIR/working"
-    else
-        rm -rf "$PROJECT_DIR/working"
-    fi
+    rm -rf "$PROJECT_DIR/working"
     exit 1
 }
 
 # Create input & working directory if it does not exist
-if [ $VERBOSE == true ]; then
-    mkdir -pv "$PROJECT_DIR/input" "$PROJECT_DIR/working" "$PROJECT_DIR/output"
-else
-    mkdir -p "$PROJECT_DIR/input" "$PROJECT_DIR/working" "$PROJECT_DIR/output"
-fi
+mkdir -p "$PROJECT_DIR/input" "$PROJECT_DIR/working" "$PROJECT_DIR/output"
 
 if [[ -d "$URL" ]]; then
     MOUNTED=true
@@ -177,22 +147,12 @@ if [ $MOUNTED == false ]; then
         URL="$ZIP_NAME"
     fi
     if [ "$DYNAMIC" == true ]; then
-       if [ $VERBOSE == true ]; then
-                echo "- Extracting some dynamic partitions please wait..."
-       fi
        "$PROJECT_DIR"/dynamic.sh "$URL" --odm --product --ext --opproduct --overlays
-    elif [ $DYNAMIC == false ]; then
-       if [ $VERBOSE == true ]; then
-                echo "- Skipping dynamic partitions extraction"
-       fi
+    elif [ $DYNAMIC == false ] ; then
        "$PROJECT_DIR"/zip2img.sh "$URL" "$PROJECT_DIR/working" || exit 1
     fi
     if [ $CLEAN == true ]; then
-        if [ $VERBOSE == true ]; then
-                rm -rfv "$ZIP_NAME"
-        else
-                rm -rf "$ZIP_NAME"
-        fi
+        rm -rf "$ZIP_NAME"
     fi
     MOUNT "$PROJECT_DIR/working/system.img"
     URL="$PROJECT_DIR/working/system"
@@ -203,11 +163,7 @@ if [ $AB == true ]; then
 fi
 
 if [ -d "$PROJECT_DIR/tools/ROM_resigner/tmp/" ]; then
-   if [ $VERBOSE == true ]; then
-      sudo rm -rfv "$PROJECT_DIR/tools/ROM_resigner/tmp/"
-   else
-      sudo rm -rf "$PROJECT_DIR/tools/ROM_resigner/tmp/"
-   fi
+   sudo rm -rf "$PROJECT_DIR/tools/ROM_resigner/tmp/"
 fi
 
 if [ $AONLY == true ]; then
@@ -215,11 +171,7 @@ if [ $AONLY == true ]; then
 fi
 
 UMOUNT "$PROJECT_DIR/working/system"
-if [ $VERBOSE == true ]; then
-    rm -rfv "$PROJECT_DIR/working"
-else
-    rm -rf "$PROJECT_DIR/working"
-fi
+rm -rf "$PROJECT_DIR/working"
 
 echo "-> Porting ${SRCTYPENAME} GSI done on: $PROJECT_DIR/output"
 
