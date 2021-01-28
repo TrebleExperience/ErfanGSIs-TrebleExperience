@@ -29,10 +29,14 @@ ODM_DIR="$WORKING/odm"
 ODM_IMAGE="$WORKING/odm.img"
 ODM=false
 
-## Mount Point vars for opproduct
+## Mount Point vars for oneplus partitions
+ONEPLUS=false
+RESERVE_DIR="$WORKING/reserve"
+RESERVE_IMAGE="$WORKING/reserve.img"
+INDIA_DIR="$WORKING/india"
+INDIA_IMAGE="$WORKING/india.img"
 OPPRODUCT_DIR="$WORKING/opproduct"
 OPPRODUCT_IMAGE="$WORKING/opproduct.img"
-OPPRODUCT=false
 
 ## Mount Point vars for system_ext
 SYSTEM_EXT_DIR="$WORKING/system_ext"
@@ -61,7 +65,7 @@ usage() {
     echo -e "\t--odm: Merge /vendor/odm partition in the system (Recommended on Android 11)"
     echo -e "\t--product: Merge /product partition in the system"
     echo -e "\t--overlays: Take the overlays from /vendor and put them in a temporary folder and compress at the end of the process"
-    echo -e "\t--opproduct: Merge /oneplus partition in the system (OxygenOS only)"
+    echo -e "\t--oneplus: Merge oneplus partitions in the system (OxygenOS/HydrogenOS only)"
 }
 
 POSITIONAL=()
@@ -85,8 +89,8 @@ case $key in
     SYSTEM_NEW=true
     shift
     ;;
-    --opproduct)
-    OPPRODUCT=true
+    --oneplus)
+    ONEPLUS=true
     SYSTEM_NEW=true
     shift
     ;;
@@ -240,11 +244,11 @@ else
    echo "-> Warning: ODM option was not selected"
 fi
 
-# opproduct.img
-if [ "$OPPRODUCT" == true ]; then
+# OnePlus partitions
+if [ "$ONEPLUS" == true ]; then
    echo "-> Check mount/etc for opproduct"
    if [ -f "$OPPRODUCT_IMAGE" ]; then
-      # Check if product is mounted
+      # Check if opproduct is mounted
       if [ -d "$OPPRODUCT_DIR" ]; then
          if [ -d "$OPPRODUCT_DIR/etc/" ]; then
             echo " - Mount detected in opproduct, force umount!"
@@ -255,8 +259,32 @@ if [ "$OPPRODUCT" == true ]; then
    else
       echo " - opproduct don't exists, be careful!"
    fi
+   if [ -f "$RESERVE_IMAGE" ]; then
+      # Check if reserve is mounted
+      if [ -d "$RESERVE_DIR" ]; then
+         if [ -d "$RESERVE_DIR/*" ]; then
+            echo " - Mount detected in reserve, force umount!"
+            sudo umount "$RESERVE_DIR/"
+         fi
+      fi
+      echo " - Done: reserve"
+   else
+      echo " - reserve don't exists, be careful!"
+   fi
+   if [ -f "$INDIA_IMAGE" ]; then
+      # Check if india is mounted
+      if [ -d "$INDIA_DIR" ]; then
+         if [ -d "$INDIA_DIR/*app*/" ]; then
+            echo " - Mount detected in india, force umount!"
+            sudo umount "$INDIA_DIR/"
+         fi
+      fi
+      echo " - Done: india"
+   else
+      echo " - india don't exists, be careful!"
+   fi
 else
-   echo "-> Warning: OP option was not selected"
+   echo "-> Warning: OnePlus option was not selected"
 fi
 
 # system_ext.img
@@ -318,13 +346,27 @@ if [ "$ODM" == true ]; then
    fi
 fi
 
-if [ "$OPPRODUCT" == true ]; then
+if [ "$ONEPLUS" == true ]; then
    if [ -f "$OPPRODUCT_IMAGE" ]; then
       echo " - Mount opproduct"
       if [ ! -d "$OPPRODUCT_DIR/" ]; then
          mkdir $OPPRODUCT_DIR
       fi
       sudo mount -o ro $OPPRODUCT_IMAGE $OPPRODUCT_DIR/
+   fi
+   if [ -f "$RESERVE_IMAGE" ]; then
+      echo " - Mount reserve"
+      if [ ! -d "$RESERVE_DIR/" ]; then
+         mkdir $RESERVE_DIR
+      fi
+      sudo mount -o ro $RESERVE_IMAGE $RESERVE_DIR/
+   fi
+   if [ -f "$INDIA_IMAGE" ]; then
+      echo " - Mount india"
+      if [ ! -d "$INDIA_DIR/" ]; then
+         mkdir $INDIA_DIR
+      fi
+      sudo mount -o ro $INDIA_IMAGE $INDIA_DIR/
    fi
 fi
 
@@ -436,7 +478,7 @@ if [ "$ODM" == true ]; then
    fi
 fi
 
-if [ "$OPPRODUCT" == true ]; then
+if [ "$ONEPLUS" == true ]; then
    if [ -f "$OPPRODUCT_IMAGE" ]; then
    echo "-> Copy opproduct files to system_new"
       if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
@@ -460,15 +502,46 @@ if [ "$OPPRODUCT" == true ]; then
       mkdir oneplus && cd ../
       cp -v -r -p $OPPRODUCT_DIR/* $SYSTEM_NEW_DIR/oneplus/ > /dev/null 2>&1 && sync
       cd $WORKING
+      fi
+   fi
+   if [ -f "$RESERVE_IMAGE" ]; then
+      echo "-> Copy reserve files to system_new"
+      if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
+         echo " - Using SAR method"
+         cd $WORKING/system_new/system; rm -rf reserve
+         mkdir -p reserve/
+         cp -v -r -p $RESERVE_DIR/* reserve/ > /dev/null 2>&1
+         cd ../
+         sync
+      fi
+   fi
+   if [ -f "$INDIA_IMAGE" ]; then
+      echo "-> Copy india files to system_new"
+      if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
+         echo " - Using SAR method"
+         cd $WORKING/system_new/system; rm -rf india
+         mkdir -p india/
+         cp -v -r -p $INDIA_DIR/* india/ > /dev/null 2>&1
+         cd ../
+         sync
+      fi
    fi
 fi
 cd $WORKING
 fi
 
-if [ "$OPPRODUCT" == true ]; then
+if [ "$ONEPLUS" == true ]; then
    if [ -f "$OPPRODUCT_IMAGE" ]; then
       echo "-> Umount opproduct"
       sudo umount $OPPRODUCT_DIR/
+   fi
+   if [ -f "$RESERVE_IMAGE" ]; then
+      echo "-> Umount reserve"
+      sudo umount $RESERVE_DIR/
+   fi
+   if [ -f "$INDIA_IMAGE" ]; then
+      echo "-> Umount india"
+      sudo umount $INDIA_DIR/
    fi
 fi
 
