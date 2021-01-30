@@ -502,7 +502,6 @@ if [ "$ONEPLUS" == true ]; then
       mkdir oneplus && cd ../
       cp -v -r -p $OPPRODUCT_DIR/* $SYSTEM_NEW_DIR/oneplus/ > /dev/null 2>&1 && sync
       cd $WORKING
-      fi
    fi
    if [ -f "$RESERVE_IMAGE" ]; then
       echo "-> Copy reserve files to system_new"
