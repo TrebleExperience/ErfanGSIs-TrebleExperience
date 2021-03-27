@@ -20,17 +20,9 @@ Telegram channel: https://t.me/ErfanGSI
 ## Note
 * If you are going to edit the fork, please respect the License and NOTICE!
 
-## Velosh GSIs Info
-[![Download Velosh GSIs](https://img.shields.io/sourceforge/dm/velosh-gsis.svg)](https://sourceforge.net/projects/velosh-gsis/files/latest/download)
-[![Download Velosh GSIs](https://img.shields.io/sourceforge/dw/velosh-gsis.svg)](https://sourceforge.net/projects/velosh-gsis/files/latest/download)
-[![Download Velosh GSIs](https://img.shields.io/sourceforge/dt/velosh-gsis.svg)](https://sourceforge.net/projects/velosh-gsis/files/latest/download)  
-Download link: https://sourceforge.net/projects/velosh-gsis/files/  
-Telegram group: https://t.me/veloshgsis  
-Telegram channel: https://t.me/veloshgsi  
-
 ### Download tools
 ```
-git clone --recurse-submodules https://github.com/Treble-Experience/ErfanGSIs-VelanGSIs.git ErfanGSIs
+git clone --recurse-submodules https://github.com/Velosh/ErfanGSIs-VelanGSIs.git ErfanGSIs
 ```
 
 ### For setting up requirements
