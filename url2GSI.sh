@@ -11,7 +11,7 @@ CLEAN=false
 DYNAMIC=false
 LOCK="$PROJECT_DIR/cache/.lock"
 
-echo "-> Warning: That Fork is VelanGSIs (a.k.a: YuMiGSIs), originally from ErfanGSIs"
+echo "-> Warning: That Fork is TrebleExp (a.k.a: VeloshGSIs), originally from ErfanGSIs"
 echo " - You can edit the tool but read the NOTICE!"
 
 if [ -f "$LOCK" ]; then
