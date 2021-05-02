@@ -7,7 +7,7 @@ echo "-> S(EXT) Merger, by YukoSky (v1.5)"
 echo " - VelanGSIs Edition"
 
 ### Initial vars
-LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
+LOCALDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 WORKING="$LOCALDIR/working"
 
 ## Mount Point vars for system_new
@@ -18,6 +18,11 @@ SYSTEM_NEW=false
 ## Mount Point vars for system
 SYSTEM_DIR="$WORKING/system"
 SYSTEM_IMAGE="$WORKING/system.img"
+
+## Mount Point vars for system_other
+SYSTEM_OTHER_DIR="$WORKING/system_other"
+SYSTEM_OTHER_IMAGE="$WORKING/system_other.img"
+SYSTEM_OTHER=false
 
 ## Mount Point vars for product
 PRODUCT_DIR="$WORKING/product"
@@ -59,54 +64,58 @@ CREDITS() {
 }
 
 usage() {
-    echo "Usage: $0 <Path to firmware>"
-    echo -e "\tPath to firmware: the zip!"
-    echo -e "\t--ext: Merge /system_ext partition in the system"
-    echo -e "\t--odm: Merge /vendor/odm partition in the system (Recommended on Android 11)"
-    echo -e "\t--product: Merge /product partition in the system"
-    echo -e "\t--overlays: Take the overlays from /vendor and put them in a temporary folder and compress at the end of the process"
-    echo -e "\t--oneplus: Merge oneplus partitions in the system (OxygenOS/HydrogenOS only)"
+   echo "Usage: $0 <Path to firmware>"
+   echo -e "\tPath to firmware: the zip!"
+   echo -e "\t--ext: Merge /system_ext partition in the system"
+   echo -e "\t--odm: Merge /vendor/odm partition in the system (Recommended on Android 11)"
+   echo -e "\t--product: Merge /product partition in the system"
+   echo -e "\t--overlays: Take the overlays from /vendor and put them in a temporary folder and compress at the end of the process"
+   echo -e "\t--oneplus: Merge oneplus partitions in the system (OxygenOS/HydrogenOS only)"
+   echo -e "\t--pixel: Merge Pixel partitions in the system (Pixel/Generic from Google only)"
 }
 
 POSITIONAL=()
-while [[ $# -gt 0 ]]
-do
-key="$1"
+while [[ $# -gt 0 ]]; do
+   key="$1"
 
-case $key in
-    --product)
-    PRODUCT=true
-    SYSTEM_NEW=true
-    shift
-    ;;
-    --odm)
-    ODM=true
-    SYSTEM_NEW=true
-    shift
-    ;;
-    --ext)
-    SYSTEM_EXT=true
-    SYSTEM_NEW=true
-    shift
-    ;;
-    --oneplus)
-    ONEPLUS=true
-    SYSTEM_NEW=true
-    shift
-    ;;
-    --overlays)
-    OVERLAYS_VENDOR=true
-    shift
-    ;;
-    --help|-h|-?)
-    usage
-    exit
-    ;;
-    *)
-    POSITIONAL+=("$1")
-    shift
-    ;;
-esac
+   case $key in
+   --product)
+      PRODUCT=true
+      SYSTEM_NEW=true
+      shift
+      ;;
+   --odm)
+      ODM=true
+      SYSTEM_NEW=true
+      shift
+      ;;
+   --ext)
+      SYSTEM_EXT=true
+      SYSTEM_NEW=true
+      shift
+      ;;
+   --oneplus)
+      ONEPLUS=true
+      SYSTEM_NEW=true
+      shift
+      ;;
+   --pixel)
+      SYSTEM_OTHER=true
+      shift
+      ;;
+   --overlays)
+      OVERLAYS_VENDOR=true
+      shift
+      ;;
+   --help | -h | -?)
+      usage
+      exit
+      ;;
+   *)
+      POSITIONAL+=("$1")
+      shift
+      ;;
+   esac
 done
 set -- "${POSITIONAL[@]}" # restore positional
 
@@ -115,11 +124,11 @@ if [ ! -d "$WORKING/" ]; then
 fi
 
 if [[ ! -n $1 ]]; then
-    echo "-> ERROR!"
-    echo " - Enter all needed parameters"
-    rm -rf "$WORKING"
-    usage
-    exit
+   echo "-> ERROR!"
+   echo " - Enter all needed parameters"
+   rm -rf "$WORKING"
+   usage
+   exit
 fi
 
 echo "-> Starting the process..."
@@ -133,7 +142,7 @@ if [ "$SYSTEM_NEW" == true ]; then
       if [ -d "$SYSTEM_DIR" ]; then
          if [ -d "$SYSTEM_DIR/dev/" ]; then
             echo " - SAR Mount detected in system, force umount!"
-             sudo umount "$SYSTEM_DIR/"
+            sudo umount "$SYSTEM_DIR/"
          else
             if [ -d "$SYSTEM_DIR/etc/" ]; then
                echo " - Aonly Mount detected in system, force umount!"
@@ -166,9 +175,9 @@ if [ "$SYSTEM_NEW" == true ]; then
       fi
       echo " - Delete: system_new and mount point"
       sudo rm -rf $SYSTEM_NEW_IMAGE $SYSTEM_NEW_DIR/
-      sudo dd if=/dev/zero of=$SYSTEM_NEW_IMAGE bs=4k count=2048576 > /dev/null 2>&1
-      sudo tune2fs -c0 -i0 $SYSTEM_NEW_IMAGE > /dev/null 2>&1
-      sudo mkfs.ext4 $SYSTEM_NEW_IMAGE > /dev/null 2>&1
+      sudo dd if=/dev/zero of=$SYSTEM_NEW_IMAGE bs=4k count=2048576 >/dev/null 2>&1
+      sudo tune2fs -c0 -i0 $SYSTEM_NEW_IMAGE >/dev/null 2>&1
+      sudo mkfs.ext4 $SYSTEM_NEW_IMAGE >/dev/null 2>&1
       if [ ! -f "$SYSTEM_NEW_IMAGE" ]; then
          echo " - system_new don't exists, exit 1."
          exit 1
@@ -176,9 +185,9 @@ if [ "$SYSTEM_NEW" == true ]; then
    else
       echo " - system_new.img don't exists, create one..."
       sudo rm -rf $SYSTEM_NEW_IMAGE $SYSTEM_NEW_DIR/
-      sudo dd if=/dev/zero of=$SYSTEM_NEW_IMAGE bs=4k count=2048576 > /dev/null 2>&1
-      sudo tune2fs -c0 -i0 $SYSTEM_NEW_IMAGE > /dev/null 2>&1
-      sudo mkfs.ext4 $SYSTEM_NEW_IMAGE > /dev/null 2>&1
+      sudo dd if=/dev/zero of=$SYSTEM_NEW_IMAGE bs=4k count=2048576 >/dev/null 2>&1
+      sudo tune2fs -c0 -i0 $SYSTEM_NEW_IMAGE >/dev/null 2>&1
+      sudo mkfs.ext4 $SYSTEM_NEW_IMAGE >/dev/null 2>&1
       if [ ! -f "$SYSTEM_NEW_IMAGE" ]; then
          echo " - system_new don't exists, exit 1."
          exit 1
@@ -191,16 +200,16 @@ fi
 if [ "$PRODUCT" == true ]; then
    echo "-> Check mount/etc for product"
    if [ -f "$PRODUCT_IMAGE" ]; then
-     # Check if product is mounted
-     if [ -d "$PRODUCT_DIR" ]; then
-        if [ -d "$PRODUCT_DIR/etc/" ]; then
-           echo " - Mount detected in product, force umount!"
-           sudo umount "$PRODUCT_DIR/"
-        fi
-     fi
-     echo " - Done: product"
+      # Check if product is mounted
+      if [ -d "$PRODUCT_DIR" ]; then
+         if [ -d "$PRODUCT_DIR/etc/" ]; then
+            echo " - Mount detected in product, force umount!"
+            sudo umount "$PRODUCT_DIR/"
+         fi
+      fi
+      echo " - Done: product"
    else
-     echo " - Product image don't exists!"
+      echo " - Product image don't exists!"
    fi
 else
    echo "-> Warning: Product option was not selected"
@@ -210,16 +219,16 @@ fi
 if [ $OVERLAYS_VENDOR == true ]; then
    echo "-> Check mount/etc for vendor"
    if [ -f "$VENDOR_IMAGE" ]; then
-     # Check if product is mounted
-     if [ -d "$VENDOR_DIR" ]; then
-        if [ -d "$VENDOR_DIR/etc/" ]; then
-           echo " - Mount detected in vendor, force umount!"
-           sudo umount "$VENDOR_DIR/"
-        fi
-     fi
-     echo " - Done: vendor"
+      # Check if product is mounted
+      if [ -d "$VENDOR_DIR" ]; then
+         if [ -d "$VENDOR_DIR/etc/" ]; then
+            echo " - Mount detected in vendor, force umount!"
+            sudo umount "$VENDOR_DIR/"
+         fi
+      fi
+      echo " - Done: vendor"
    else
-     echo " - Vendor image don't exists!"
+      echo " - Vendor image don't exists!"
    fi
 else
    echo "-> Warning: Extract overlays from vendor option was not selected"
@@ -232,8 +241,8 @@ if [ "$ODM" == true ]; then
       # Check if odm is mounted
       if [ -d "$ODM_DIR" ]; then
          if [ -d "$ODM_DIR/etc/" ]; then
-           echo " - Mount detected in odm, force umount!"
-           sudo umount "$ODM_DIR/"
+            echo " - Mount detected in odm, force umount!"
+            sudo umount "$ODM_DIR/"
          fi
       fi
       echo " - Done: odm"
@@ -285,6 +294,25 @@ if [ "$ONEPLUS" == true ]; then
    fi
 else
    echo "-> Warning: OnePlus option was not selected"
+fi
+
+# system_other.img
+if [ "$SYSTEM_OTHER" == true ]; then
+   echo "-> Check mount/etc for system_other"
+   if [ -f "$SYSTEM_OTHER_IMAGE" ]; then
+      # Check if system_other is mounted
+      if [ -d "$SYSTEM_OTHER_DIR" ]; then
+         if [ -d "$SYSTEM_OTHER_DIR/etc/" ]; then
+            echo " - Mount detected in system_other, force umount!"
+            sudo umount "$SYSTEM_OTHER_DIR/"
+         fi
+      fi
+      echo " - Done: system_other"
+   else
+      echo " - system_other don't exists, be careful!"
+   fi
+else
+   echo "-> Warning: ODM option was not selected"
 fi
 
 # system_ext.img
@@ -370,6 +398,16 @@ if [ "$ONEPLUS" == true ]; then
    fi
 fi
 
+if [ "$SYSTEM_OTHER" == true ]; then
+   if [ -f "$SYSTEM_OTHER_IMAGE" ]; then
+      echo " - Mount system_other"
+      if [ ! -d "$SYSTEM_OTHER_DIR/" ]; then
+         mkdir $SYSTEM_OTHER_DIR
+      fi
+      sudo mount -o ro $SYSTEM_OTHER_IMAGE $SYSTEM_OTHER_DIR/
+   fi
+fi
+
 if [ "$SYSTEM_EXT" == true ]; then
    if [ -f "$SYSTEM_EXT_IMAGE" ]; then
       echo " - Mount system_ext"
@@ -392,7 +430,7 @@ fi
 
 if [ "$SYSTEM_NEW" == true ]; then
    echo "-> Copy system files to system_new"
-   cp -v -r -p $SYSTEM_DIR/* $SYSTEM_NEW_DIR/ > /dev/null 2>&1 && sync
+   cp -v -r -p $SYSTEM_DIR/* $SYSTEM_NEW_DIR/ >/dev/null 2>&1 && sync
    if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
       cd $WORKING/system_new/system/
       CREDITS
@@ -415,9 +453,11 @@ if [ "$PRODUCT" == true ]; then
       if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
          echo " - Using SAR method"
          cd $WORKING/system_new/
-         rm -rf product; cd system; rm -rf product
+         rm -rf product
+         cd system
+         rm -rf product
          mkdir -p product/
-         cp -v -r -p $PRODUCT_DIR/* product/ > /dev/null 2>&1
+         cp -v -r -p $PRODUCT_DIR/* product/ >/dev/null 2>&1
          cd ../
          echo " - Fix symlink in product"
          ln -s /system/product/ product
@@ -431,7 +471,7 @@ if [ "$PRODUCT" == true ]; then
          cd $SYSTEM_NEW_DIR
          rm -rf product
          mkdir product && cd ../
-         cp -v -r -p $PRODUCT/* $SYSTEM_NEW/product/ > /dev/null 2>&1 && sync
+         cp -v -r -p $PRODUCT/* $SYSTEM_NEW/product/ >/dev/null 2>&1 && sync
          cd $WORKING
       fi
    fi
@@ -442,91 +482,116 @@ if [ "$PRODUCT" == true ]; then
    if [ -f "$PRODUCT_IMAGE" ]; then
       echo "-> Umount product"
       sudo umount $PRODUCT_DIR/
-  fi
-fi
-
-if [ "$ODM" == true ]; then
-   if [ -f "$ODM_IMAGE" ]; then
-     echo "-> Copy odm files to system_new"
-     if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
-        echo " - Using SAR method"
-        cd $WORKING/system_new/
-        rm -rf odm system/odm/
-        mkdir -p system/odm; mkdir odm
-        cp -v -r -p $ODM_DIR/* system/odm/ > /dev/null 2>&1
-        cp -v -r -p $ODM_DIR/* odm/ > /dev/null 2>&1 && sync
-        echo " - Fixed"
-   else
-     if [ ! -f "$SYSTEM_NEW_DIR/build.prop" ]; then
-        echo "-> Are you sure this is a Android image? Exit"
-        exit 1
-     fi
-     cd $SYSTEM_NEW_DIR
-     rm -rf odm
-     mkdir odm && cd ../
-     cp -v -r -p $ODM/* $SYSTEM_NEW_DIR/odm/ > /dev/null 2>&1 && sync
-     cd $WORKING
    fi
 fi
-cd $WORKING
+
+if [ "$ODM" == true ]; then
+   if [ -f "$ODM_IMAGE" ]; then
+      echo "-> Copy odm files to system_new"
+      if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
+         echo " - Using SAR method"
+         cd $WORKING/system_new/
+         rm -rf odm system/odm/
+         mkdir -p system/odm
+         mkdir odm
+         cp -v -r -p $ODM_DIR/* system/odm/ >/dev/null 2>&1
+         cp -v -r -p $ODM_DIR/* odm/ >/dev/null 2>&1 && sync
+         echo " - Fixed"
+      else
+         if [ ! -f "$SYSTEM_NEW_DIR/build.prop" ]; then
+            echo "-> Are you sure this is a Android image? Exit"
+            exit 1
+         fi
+         cd $SYSTEM_NEW_DIR
+         rm -rf odm
+         mkdir odm && cd ../
+         cp -v -r -p $ODM/* $SYSTEM_NEW_DIR/odm/ >/dev/null 2>&1 && sync
+         cd $WORKING
+      fi
+   fi
+   cd $WORKING
 fi
 
 if [ "$ODM" == true ]; then
    if [ -f "$ODM_IMAGE" ]; then
-     echo "-> Umount odm"
-     sudo umount $ODM_DIR/
+      echo "-> Umount odm"
+      sudo umount $ODM_DIR/
+   fi
+fi
+
+if [ "$SYSTEM_OTHER" == true ]; then
+   if [ -f "$SYSTEM_OTHER_IMAGE" ]; then
+      echo "-> Copy system_other files to system_new"
+      if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
+         echo " - Using SAR method"
+         cd $WORKING/system_new/
+         cp -v -r -p $SYSTEM_OTHER_DIR/* system/ >/dev/null 2>&1 && sync
+         echo " - Fixed"
+      fi
+   fi
+   cd $WORKING
+fi
+
+if [ "$SYSTEM_OTHER" == true ]; then
+   if [ -f "$SYSTEM_OTHER_IMAGE" ]; then
+      echo "-> Umount system_other"
+      sudo umount $SYSTEM_OTHER_DIR/
    fi
 fi
 
 if [ "$ONEPLUS" == true ]; then
    if [ -f "$OPPRODUCT_IMAGE" ]; then
-   echo "-> Copy opproduct files to system_new"
+      echo "-> Copy opproduct files to system_new"
       if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
          echo " - Using SAR method"
          cd $WORKING/system_new/
-         rm -rf oneplus; cd system; rm -rf oneplus
+         rm -rf oneplus
+         cd system
+         rm -rf oneplus
          mkdir -p oneplus/
-         cp -v -r -p $OPPRODUCT_DIR/* oneplus/ > /dev/null 2>&1
+         cp -v -r -p $OPPRODUCT_DIR/* oneplus/ >/dev/null 2>&1
          cd ../
          echo " - Fix symlink in opproduct"
          ln -s /system/oneplus/ oneplus
          sync
          echo " - Fixed"
-   else
-      if [ ! -f "$SYSTEM_NEW_DIR/build.prop" ]; then
-         echo "-> Are you sure this is a Android image? Exit"
-         exit 1
+      else
+         if [ ! -f "$SYSTEM_NEW_DIR/build.prop" ]; then
+            echo "-> Are you sure this is a Android image? Exit"
+            exit 1
+         fi
+         cd $SYSTEM_NEW_DIR
+         rm -rf oneplus
+         mkdir oneplus && cd ../
+         cp -v -r -p $OPPRODUCT_DIR/* $SYSTEM_NEW_DIR/oneplus/ >/dev/null 2>&1 && sync
+         cd $WORKING
       fi
-      cd $SYSTEM_NEW_DIR
-      rm -rf oneplus
-      mkdir oneplus && cd ../
-      cp -v -r -p $OPPRODUCT_DIR/* $SYSTEM_NEW_DIR/oneplus/ > /dev/null 2>&1 && sync
-      cd $WORKING
-   fi
-   if [ -f "$RESERVE_IMAGE" ]; then
-      echo "-> Copy reserve files to system_new"
-      if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
-         echo " - Using SAR method"
-         cd $WORKING/system_new/system; rm -rf reserve
-         mkdir -p reserve/
-         cp -v -r -p $RESERVE_DIR/* reserve/ > /dev/null 2>&1
-         cd ../
-         sync
+      if [ -f "$RESERVE_IMAGE" ]; then
+         echo "-> Copy reserve files to system_new"
+         if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
+            echo " - Using SAR method"
+            cd $WORKING/system_new/system
+            rm -rf reserve
+            mkdir -p reserve/
+            cp -v -r -p $RESERVE_DIR/* reserve/ >/dev/null 2>&1
+            cd ../
+            sync
+         fi
+      fi
+      if [ -f "$INDIA_IMAGE" ]; then
+         echo "-> Copy india files to system_new"
+         if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
+            echo " - Using SAR method"
+            cd $WORKING/system_new/system
+            rm -rf india
+            mkdir -p india/
+            cp -v -r -p $INDIA_DIR/* india/ >/dev/null 2>&1
+            cd ../
+            sync
+         fi
       fi
    fi
-   if [ -f "$INDIA_IMAGE" ]; then
-      echo "-> Copy india files to system_new"
-      if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
-         echo " - Using SAR method"
-         cd $WORKING/system_new/system; rm -rf india
-         mkdir -p india/
-         cp -v -r -p $INDIA_DIR/* india/ > /dev/null 2>&1
-         cd ../
-         sync
-      fi
-   fi
-fi
-cd $WORKING
+   cd $WORKING
 fi
 
 if [ "$ONEPLUS" == true ]; then
@@ -546,13 +611,15 @@ fi
 
 if [ "$SYSTEM_EXT" == true ]; then
    if [ -f "$SYSTEM_EXT_IMAGE" ]; then
-   echo "-> Copy system_ext files to system_new"
+      echo "-> Copy system_ext files to system_new"
       if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
          echo " - Using SAR method"
          cd $WORKING/system_new/
-         rm -rf system_ext; cd system; rm -rf system_ext
+         rm -rf system_ext
+         cd system
+         rm -rf system_ext
          mkdir -p system_ext/
-         cp -v -r -p $SYSTEM_EXT_DIR/* system_ext/ > /dev/null 2>&1
+         cp -v -r -p $SYSTEM_EXT_DIR/* system_ext/ >/dev/null 2>&1
          cd ../
          echo " - Fix symlink in system_ext"
          ln -s /system/system_ext/ system_ext
@@ -560,17 +627,17 @@ if [ "$SYSTEM_EXT" == true ]; then
          echo " - Fixed"
       else
          if [ ! -f "$SYSTEM_NEW_DIR/build.prop" ]; then
-         echo "-> Are you sure this is a Android image? Exit"
-         exit 1
+            echo "-> Are you sure this is a Android image? Exit"
+            exit 1
+         fi
+         cd $SYSTEM_NEW_DIR
+         rm -rf system_ext
+         mkdir system_ext && cd ../
+         cp -v -r -p $SYSTEM_EXT/* $SYSTEM_NEW_DIR/system_ext/ >/dev/null 2>&1 && sync
+         cd $WORKING
       fi
-      cd $SYSTEM_NEW_DIR
-      rm -rf system_ext
-      mkdir system_ext && cd ../
-      cp -v -r -p $SYSTEM_EXT/* $SYSTEM_NEW_DIR/system_ext/ > /dev/null 2>&1 && sync
-      cd $WORKING
    fi
-fi
-cd $WORKING
+   cd $WORKING
 fi
 
 if [ "$SYSTEM_EXT" == true ]; then
@@ -592,10 +659,10 @@ if [ "$OVERLAYS_VENDOR" == true ]; then
          # If yes we'll copy overlays
          echo " - Copying overlays from vendor..."
          mkdir -p "$WORKING/vendorOverlays"
-         cp -v -r -p $VENDOR_DIR/overlay/* vendorOverlays/ > /dev/null 2>&1
+         cp -v -r -p $VENDOR_DIR/overlay/* vendorOverlays/ >/dev/null 2>&1
          cd "$WORKING/vendorOverlays/"
          rm -rf home && cd ../
-         tar -zcvf vendorOverlays.gz vendorOverlays/ > /dev/null 2>&1
+         tar -zcvf vendorOverlays.gz vendorOverlays/ >/dev/null 2>&1
          echo " - Process of copying vendor overlays is done"
          rm -rf $WORKING/vendorOverlays/
          if [ ! -d "$LOCALDIR/output/" ]; then
@@ -615,7 +682,7 @@ fi
 
 mv $WORKING/system_new.img $WORKING/system.tmp
 echo "-> Remove tmp folders and files"
-sudo rm -rf $SYSTEM_DIR $SYSTEM_NEW_DIR $PRODUCT_DIR $SYSTEM_IMAGE $PRODUCT_IMAGE $SYSTEM_EXT_DIR $SYSTEM_EXT_IMAGE $OPPRODUCT_DIR $OPPRODUCT_IMAGE $ODM_DIR $ODM_IMAGE $VENDOR_DIR $VENDOR_IMAGE $WORKING/*.img
+sudo rm -rf $SYSTEM_DIR $SYSTEM_NEW_DIR $PRODUCT_DIR $SYSTEM_IMAGE $SYSTEM_OTHER_DIR $SYSTEM_OTHER_IMAGE $PRODUCT_IMAGE $SYSTEM_EXT_DIR $SYSTEM_EXT_IMAGE $OPPRODUCT_DIR $OPPRODUCT_IMAGE $ODM_DIR $ODM_IMAGE $VENDOR_DIR $VENDOR_IMAGE $WORKING/*.img
 
 if [ "$SYSTEM_NEW" == true ]; then
    echo " - Making final change..."
