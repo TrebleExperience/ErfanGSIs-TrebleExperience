@@ -147,7 +147,7 @@ if [ $MOUNTED == false ]; then
         URL="$ZIP_NAME"
     fi
     if [ "$DYNAMIC" == true ]; then
-       "$PROJECT_DIR"/dynamic.sh "$URL" --odm --product --ext --oneplus --overlays
+       "$PROJECT_DIR"/dynamic.sh "$URL" --odm --product --ext --oneplus --overlays --pixel
     elif [ $DYNAMIC == false ] ; then
        "$PROJECT_DIR"/zip2img.sh "$URL" "$PROJECT_DIR/working" || exit 1
     fi
