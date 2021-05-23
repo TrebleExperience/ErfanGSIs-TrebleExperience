@@ -1,5 +1,5 @@
 on fs
-   start  mqsasd
+   start mqsasd
 
 on post-fs-data
     mkdir /data/system 0775 system system
