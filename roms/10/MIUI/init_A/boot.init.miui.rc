@@ -24,10 +24,6 @@ service mdbd /sbin/mdbd
 service shelld /system/xbin/shelld
     class main
 
-#service for su
-service su_daemon /system/xbin/su --daemon
-    class main
-
 # service for mcd init
 service mcd_init /system/bin/mcd init
     user root
