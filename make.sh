@@ -197,7 +197,7 @@ fi
 
 date=`date +%Y%m%d`
 outputname="$romtypename-$outputtype-$sourcever-$date-ErfanGSI-TrebleExp"
-outputoverlaysname="$outputname-Overlays.zip"
+outputoverlaysname="$romtypename-$sourcever-$date-Overlays.zip"
 # ^ Dynamic feature
 outputimagename="$outputname".img
 outputtextname="$outputname".txt
