@@ -123,6 +123,7 @@ case "$sourcever" in
     *"9"*) flag=true ;;
     *"10"*) flag=true ;;
     *"11"*) flag=true ;;
+    *"12"*) flag=true ;;
     *"S"*) flag=true ;;
 esac
 if [ "$flag" == "false" ]; then
