@@ -154,8 +154,13 @@ if [ $MOUNTED == false ]; then
     if [ $CLEAN == true ]; then
         rm -rf "$ZIP_NAME"
     fi
-    MOUNT "$PROJECT_DIR/working/system.img"
-    URL="$PROJECT_DIR/working/system"
+    if [ -f "$PROJECT_DIR/working/system.img" ]; then
+        MOUNT "$PROJECT_DIR/working/system.img"
+        URL="$PROJECT_DIR/working/system"
+    else
+        echo "-> Error, system image doesn't exist!"
+        exit 1
+    fi
 fi
 
 if [ $AB == true ]; then
