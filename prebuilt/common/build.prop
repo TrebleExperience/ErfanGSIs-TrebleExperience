@@ -3,5 +3,5 @@ ro.adb.secure=0
 # Disable for everyone for the moment
 ro.sys.sdcardfs=0
 persist.sys.overlay.nightmode=true
-# Force triple frame buffers
-ro.surface_flinger.max_frame_buffer_acquired_buffers=3
+# Force triple frame buffers (Disabled because it give lags on Android S)
+# ro.surface_flinger.max_frame_buffer_acquired_buffers=3
