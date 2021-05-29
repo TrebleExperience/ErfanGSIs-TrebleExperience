@@ -201,7 +201,6 @@ outputoverlaysname="$romtypename-$sourcever-$date-Overlays.zip"
 # ^ Dynamic feature
 outputimagename="$outputname".img
 outputtextname="$outputname".txt
-cat ErfanGSIs/output/*txt
 if [ "$4" == "" ]; then
     echo "-> Create out dir"
     outdirname="out"
@@ -215,7 +214,7 @@ outputoverlays="$outdir/$outputoverlaysname"
 outputinfo="$outdir/$outputtextname"
 
 $scriptsdir/getinfo.sh "$systemdir/system" > "$outputinfo"
-
+cat output/*txt
 if [[ $(grep "ro.build.display.id" $systemdir/system/build.prop) ]]; then
     displayid="ro.build.display.id"
 elif [[ $(grep "ro.system.build.id" $systemdir/system/build.prop) ]]; then
