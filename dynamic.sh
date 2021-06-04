@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Merge S-P by YukoSky @ Treble-Experience
+# Merge S-P by Velosh @ Treble-Experience
 # License: GPL3
 
-echo "-> S(EXT) Merger, by YukoSky (v1.5)"
+echo "-> S(EXT) Merger, by Velosh (2.0)"
 echo " - VelanGSIs Edition"
 
 ### Initial vars
@@ -53,12 +53,30 @@ VENDOR_DIR="$WORKING/vendor"
 VENDOR_IMAGE="$WORKING/vendor.img"
 OVERLAYS_VENDOR=false
 
+if [ "${EUID}" -ne 0 ]; then
+   echo "-> Run as root!"
+fi
+
+MOUNT() {
+   if `sudo mount -o loop "$1" "$2" > /dev/null 2>&1`; then
+      echo "-> $3 image successfully mounted"
+   else
+      if `sudo mount -o ro "$1" "$2" > /dev/null 2>&1`; then
+         echo "-> $3 image successfully mounted"
+      else
+         # If it fails again, abort
+         echo "-> Failed to mount $3 image, try to check this manually"
+         exit 1
+      fi
+   fi
+}
+
 CREDITS() {
    # Just a comment in build.prop
    echo "" >> build.prop
    echo "#############################" >> build.prop
    echo "# Merged by S(EXT)-P Merger #" >> build.prop
-   echo "#        By YukoSky         #" >> build.prop
+   echo "#         By Velosh         #" >> build.prop
    echo "#############################" >> build.prop
    echo "" >> build.prop
 }
@@ -342,7 +360,7 @@ if [ "$SYSTEM_NEW" == true ]; then
       if [ ! -d "$SYSTEM_DIR/" ]; then
          mkdir $SYSTEM_DIR
       fi
-      sudo mount -o ro $SYSTEM_IMAGE $SYSTEM_DIR/
+      MOUNT $SYSTEM_IMAGE $SYSTEM_DIR/ "System"
    fi
 fi
 
@@ -351,7 +369,7 @@ if [ "$SYSTEM_NEW" == true ]; then
    if [ ! -d "$SYSTEM_NEW_DIR/" ]; then
       mkdir $SYSTEM_NEW_DIR
    fi
-   sudo mount -o loop $SYSTEM_NEW_IMAGE $SYSTEM_NEW_DIR/
+   MOUNT $SYSTEM_NEW_IMAGE $SYSTEM_NEW_DIR/ "System New"
 fi
 
 if [ "$PRODUCT" == true ]; then
@@ -360,7 +378,7 @@ if [ "$PRODUCT" == true ]; then
       if [ ! -d "$PRODUCT_DIR/" ]; then
          mkdir $PRODUCT_DIR
       fi
-      sudo mount -o ro $PRODUCT_IMAGE $PRODUCT_DIR/
+      MOUNT $PRODUCT_IMAGE $PRODUCT_DIR/ "Product"
    fi
 fi
 
@@ -370,7 +388,7 @@ if [ "$ODM" == true ]; then
       if [ ! -d "$ODM_DIR/" ]; then
          mkdir $ODM_DIR
       fi
-      sudo mount -o ro $ODM_IMAGE $ODM_DIR/
+      MOUNT $ODM_IMAGE $ODM_DIR/ "ODM"
    fi
 fi
 
@@ -380,21 +398,21 @@ if [ "$ONEPLUS" == true ]; then
       if [ ! -d "$OPPRODUCT_DIR/" ]; then
          mkdir $OPPRODUCT_DIR
       fi
-      sudo mount -o ro $OPPRODUCT_IMAGE $OPPRODUCT_DIR/
+      MOUNT $OPPRODUCT_IMAGE $OPPRODUCT_DIR/ "Opproduct"
    fi
    if [ -f "$RESERVE_IMAGE" ]; then
       echo " - Mount reserve"
       if [ ! -d "$RESERVE_DIR/" ]; then
          mkdir $RESERVE_DIR
       fi
-      sudo mount -o ro $RESERVE_IMAGE $RESERVE_DIR/
+      MOUNT $RESERVE_IMAGE $RESERVE_DIR/ "Reserve"
    fi
    if [ -f "$INDIA_IMAGE" ]; then
       echo " - Mount india"
       if [ ! -d "$INDIA_DIR/" ]; then
          mkdir $INDIA_DIR
       fi
-      sudo mount -o ro $INDIA_IMAGE $INDIA_DIR/
+      MOUNT $INDIA_IMAGE $INDIA_DIR/ "India"
    fi
 fi
 
@@ -404,7 +422,7 @@ if [ "$SYSTEM_OTHER" == true ]; then
       if [ ! -d "$SYSTEM_OTHER_DIR/" ]; then
          mkdir $SYSTEM_OTHER_DIR
       fi
-      sudo mount -o ro $SYSTEM_OTHER_IMAGE $SYSTEM_OTHER_DIR/
+      MOUNT $SYSTEM_OTHER_IMAGE $SYSTEM_OTHER_DIR/ "System Other"
    fi
 fi
 
@@ -414,7 +432,7 @@ if [ "$SYSTEM_EXT" == true ]; then
       if [ ! -d "$SYSTEM_EXT_DIR/" ]; then
          mkdir $SYSTEM_EXT_DIR
       fi
-      sudo mount -o ro $SYSTEM_EXT_IMAGE $SYSTEM_EXT_DIR/
+      MOUNT $SYSTEM_EXT_IMAGE $SYSTEM_EXT_DIR/ "System Ext"
    fi
 fi
 
@@ -424,7 +442,7 @@ if [ "$OVERLAYS_VENDOR" == true ]; then
       if [ ! -d "$VENDOR_DIR/" ]; then
          mkdir $VENDOR_DIR
       fi
-      sudo mount -o ro $VENDOR_IMAGE $VENDOR_DIR
+      MOUNT $VENDOR_IMAGE $VENDOR_DIR "Vendor"
    fi
 fi
 
@@ -686,7 +704,7 @@ fi
 
 mv $WORKING/system_new.img $WORKING/system.tmp
 echo "-> Remove tmp folders and files"
-sudo rm -rf $SYSTEM_DIR $SYSTEM_NEW_DIR $PRODUCT_DIR $SYSTEM_IMAGE $SYSTEM_OTHER_DIR $SYSTEM_OTHER_IMAGE $PRODUCT_IMAGE $SYSTEM_EXT_DIR $SYSTEM_EXT_IMAGE $OPPRODUCT_DIR $OPPRODUCT_IMAGE $ODM_DIR $ODM_IMAGE $VENDOR_DIR $WORKING/*.img
+sudo rm -rf $SYSTEM_DIR $SYSTEM_NEW_DIR $PRODUCT_DIR $SYSTEM_IMAGE $SYSTEM_OTHER_DIR $SYSTEM_OTHER_IMAGE $PRODUCT_IMAGE $SYSTEM_EXT_DIR $SYSTEM_EXT_IMAGE $OPPRODUCT_DIR $OPPRODUCT_IMAGE $ODM_DIR $ODM_IMAGE $VENDOR_DIR
 
 if [ "$SYSTEM_NEW" == true ]; then
    echo " - Making final change..."
