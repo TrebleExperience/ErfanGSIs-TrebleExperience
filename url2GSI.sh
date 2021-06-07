@@ -10,6 +10,7 @@ MOUNTED=false
 CLEAN=false
 DYNAMIC=false
 LOCK="$PROJECT_DIR/cache/.lock"
+MEDIADRIVE_DL="${PROJECT_DIR}/scripts/downloaders/media-drive_dl.sh"
 
 echo "-> Warning: That Fork is TrebleExp (a.k.a: VeloshGSIs), originally from ErfanGSIs"
 echo " - You can edit the tool but read the NOTICE!"
@@ -104,7 +105,16 @@ DOWNLOAD()
     URL="$1"
     ZIP_NAME="$2"
     echo "-> Downloading firmware to: $ZIP_NAME"
-    aria2c -x16 -j$(nproc) -U "Mozilla/5.0" -d "$PROJECT_DIR/input" -o "$ACTUAL_ZIP_NAME" ${URL} > /dev/null 2>&1 || wget -U "Mozilla/5.0" ${URL} -O "$ZIP_NAME" > /dev/null 2>&1
+    if echo "${URL}" | grep -q "mega.nz\|mediafire.com\|drive.google.com"; then
+        ("${MEDIADRIVE_DL}" "${URL}" "$PROJECT_DIR/input" "$ACTUAL_ZIP_NAME") || exit 1
+    else
+        if echo "${URL}" | grep -q "1drv.ms"; then URL=${URL/ms/ws}; fi
+        { type -p aria2c > /dev/null 2>&1 && aria2c -x16 -j$(nproc) -U "Mozilla/5.0" -d "$PROJECT_DIR/input" -o "$ACTUAL_ZIP_NAME" ${URL} > /dev/null 2>&1; } || { wget -U "Mozilla/5.0" ${URL} -O "$ZIP_NAME" > /dev/null 2>&1 || exit 1; }
+        aria2c -x16 -j$(nproc) -U "Mozilla/5.0" -d "$PROJECT_DIR/input" -o "$ACTUAL_ZIP_NAME" ${URL} > /dev/null 2>&1 || {
+            wget -U "Mozilla/5.0" ${URL} -O "$ZIP_NAME" > /dev/null 2>&1 || exit 1
+        }
+        detox "${URL##*/}"
+    fi
 }
 
 MOUNT()
