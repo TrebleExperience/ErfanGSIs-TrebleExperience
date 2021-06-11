@@ -24,9 +24,6 @@ sed -i "s|/sys/bootprof/bootprof|/system/erfan/bootprof|g" $1/lib64/libsurfacefl
 # cpufreq is running at a high freq
 rm -rf $1/app/com.wolfsonmicro.ez2control
 
-# remove rounded corners
-zip -d $1/framework/flyme-res.apk 'res/*/angular*' 2>/dev/null
-
 # Append file_context
 cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts
 
