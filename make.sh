@@ -202,10 +202,13 @@ fi
 
 date=`date +%Y%m%d`
 outputname="$romtypename-$outputtype-$sourcever-$date-ErfanGSI-TrebleExp"
-outputoverlaysname="$romtypename-$sourcever-$date-Overlays.zip"
-# ^ Dynamic feature
 outputimagename="$outputname".img
 outputtextname="$outputname".txt
+
+# Dynamic feature
+outputvendoroverlaysname="$romtypename-$sourcever-$date-VendorOverlays.tar.gz"
+outputodmoverlaysname="$romtypename-$sourcever-$date-ODMOverlays.tar.gz"
+
 if [ "$4" == "" ]; then
     echo "-> Create out dir"
     outdirname="out"
@@ -270,9 +273,13 @@ fi
 
 # Overlays
 if [ ! -d "$PROJECT_DIR/cache" ]; then
-   if [ -f "$PROJECT_DIR/output/.tmpzip" ]; then
-      mv "$PROJECT_DIR/output/.tmpzip" "$PROJECT_DIR/output/$outputoverlaysname"
-   fi
+    if [ -f "$PROJECT_DIR/output/.tmp" ]; then
+        mv "$PROJECT_DIR/output/.tmp" "$PROJECT_DIR/output/$outputvendoroverlaysname"
+    fi
+
+    if [ -f "$PROJECT_DIR/output/.otmp" ]; then
+        mv "$PROJECT_DIR/output/.otmp" "$PROJECT_DIR/output/$outputodmoverlaysname"
+    fi
 fi
 
 echo "-> Removing Tmp/Cache dir"

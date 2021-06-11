@@ -518,6 +518,30 @@ if [ "$ODM" == true ]; then
             echo " - Detected odm_feature_list file! Copying to /system/etc/odm_feature_list"
             cp -r "$ODM_DIR/etc/odm_feature_list" "$SYSTEM_NEW_DIR/system/etc/odm_feature_list"
          fi
+
+         # Patch: Copy ODM overlays to temp folder (Recommended)
+         if [ -d "$ODM_DIR/overlay" ]; then
+            # If yes we'll copy overlays
+            echo " - Copying overlays from odm..."
+
+            mkdir -p "$WORKING/odmOverlays"
+            cp -v -r -p $ODM_DIR/overlay/* "$WORKING/odmOverlays" >/dev/null 2>&1
+
+            cd "$WORKING/odmOverlays/"
+            rm -rf home && cd ../
+            tar -zcvf odmOverlays.tar.gz "$WORKING/odmOverlays" >/dev/null 2>&1
+
+            echo " - Process of copying odm overlays is done"
+            rm -rf $WORKING/odmOverlays/
+
+            if [ ! -d "$LOCALDIR/output/" ]; then
+               mkdir "$LOCALDIR/output/"
+            fi
+
+            # Move to temp path, Erfan will recognize and rename
+            mv "$WORKING/odmOverlays.tar.gz" "$LOCALDIR/output/.otmp"
+         fi
+
          cp -v -r -p $ODM_DIR/* odm/ >/dev/null 2>&1 && sync
          echo " - Fixed"
       else
@@ -691,7 +715,7 @@ if [ "$OVERLAYS_VENDOR" == true ]; then
          if [ ! -d "$LOCALDIR/output/" ]; then
             mkdir "$LOCALDIR/output/"
          fi
-         mv "$WORKING/vendorOverlays.gz" "$LOCALDIR/output/.tmpzip"
+         mv "$WORKING/vendorOverlays.gz" "$LOCALDIR/output/.tmp"
       fi
    fi
 fi
