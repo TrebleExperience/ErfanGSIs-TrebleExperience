@@ -86,6 +86,12 @@ else
     echo "ro.vndk.lite=false" >> $1/etc/prop.default
     echo "ro.vndk.lite=false" >> $1/product/build.prop
 fi
+
+# Fix app missing
+sed -i '/ro.opengles.version/d' -i $1/build.prop
+echo "# You can nuke this if necessary" >> $1/build.prop
+echo "ro.opengles.version=196610" >> $1/build.prop
+
 # disable RescureParty
 if [[ -f $1/product/etc/build.prop ]]; then
     echo "persist.sys.disable_rescue=true" >> $1/product/etc/build.prop
