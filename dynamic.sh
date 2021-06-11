@@ -515,6 +515,7 @@ if [ "$ODM" == true ]; then
          cp -v -r -p $ODM_DIR/* system/odm/ >/dev/null 2>&1
          # Patch: Copy ODM Feature List of OnePlus
          if [ -f "$ODM_DIR/etc/odm_feature_list" ]; then
+            echo " - Detected odm_feature_list file! Copying to /system/etc/odm_feature_list"
             cp -r "$ODM_DIR/etc/odm_feature_list" "$SYSTEM_NEW_DIR/system/etc/odm_feature_list"
          fi
          cp -v -r -p $ODM_DIR/* odm/ >/dev/null 2>&1 && sync
