@@ -209,6 +209,9 @@ outputtextname="$outputname".txt
 outputvendoroverlaysname="$romtypename-$sourcever-$date-VendorOverlays.tar.gz"
 outputodmoverlaysname="$romtypename-$sourcever-$date-ODMOverlays.tar.gz"
 
+# Debloat thing
+outputtreename="$romtypename-$sourcever-$date-System-Tree.txt"
+
 if [ "$4" == "" ]; then
     echo "-> Create out dir"
     outdirname="out"
@@ -218,6 +221,7 @@ else
     outdir="$4"
 fi
 output="$outdir/$outputimagename"
+outputtree="$outdir/$outputtreename"
 outputoverlays="$outdir/$outputoverlaysname"
 outputinfo="$outdir/$outputtextname"
 
@@ -246,6 +250,12 @@ bytesToHuman() {
     echo "$b$d ${S[$s]}"
 }
 echo "Raw Image Size: $(bytesToHuman $systemsize)" >> "$outputinfo"
+
+if [ ! -f "$outputtree" ]; then
+    echo "-> Creating system tree..."
+    tree $systemdir >> "$outputtree" 2> "$outputtree"
+    echo " - Done!"
+fi
 
 echo "-> Creating Image (This may take a while to finish): $outputimagename"
 # Use ext4fs to make image in P or older!
