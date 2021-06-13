@@ -105,7 +105,7 @@ DOWNLOAD()
     URL="$1"
     ZIP_NAME="$2"
     echo "-> Downloading firmware to: $ZIP_NAME"
-    if echo "${URL}" | grep -q "drive.google.com"; then
+    if echo "${URL}" | grep -q "mediafire.com\|drive.google.com"; then
         ("${DL}" "${URL}" "$PROJECT_DIR/input" "$ACTUAL_ZIP_NAME") || exit 1
     else
         if echo "${URL}" | grep -q "1drv.ms"; then URL=${URL/ms/ws}; fi
