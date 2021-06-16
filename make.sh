@@ -228,7 +228,8 @@ else
     outdir="$4"
 fi
 output="$outdir/$outputimagename"
-outputoverlays="$outdir/$outputoverlaysname"
+outputvendoroverlays="$outdir/$outputvendoroverlaysname"
+outputodmoverlays="$outdir/$outputodmoverlaysname"
 outputinfo="$outdir/$outputtextname"
 
 $scriptsdir/getinfo.sh "$systemdir/system" > "$outputinfo"
@@ -284,11 +285,11 @@ fi
 # Overlays
 if [ ! -d "$PROJECT_DIR/cache" ]; then
     if [ -f "$PROJECT_DIR/output/.tmp" ]; then
-        mv "$PROJECT_DIR/output/.tmp" "$PROJECT_DIR/output/$outputvendoroverlaysname"
+        mv "$PROJECT_DIR/output/.tmp" "$outputvendoroverlays"
     fi
 
     if [ -f "$PROJECT_DIR/output/.otmp" ]; then
-        mv "$PROJECT_DIR/output/.otmp" "$PROJECT_DIR/output/$outputodmoverlaysname"
+        mv "$PROJECT_DIR/output/.otmp" "$outputodmoverlays"
     fi
 fi
 
