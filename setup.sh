@@ -4,10 +4,10 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     distro=$(awk -F= '$1 == "ID" {print $2}' /etc/os-release)
     if [[ "$distro" == "arch" ]]; then
        echo "-> Arch Linux Detected"
-       sudo pacman -S --needed unace unrar zip unzip p7zip sharutils uudeview arj cabextract dtc xz python-pip brotli lz4 gawk libmpack aria2
+       sudo pacman -S --needed unace unrar zip unzip p7zip sharutils uudeview arj cabextract dtc xz python-pip brotli lz4 gawk libmpack aria2 expect
     else
        echo " - Starting the installation of packages"
-       sudo apt install unace unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract build-essential device-tree-compiler liblzma-dev python-pip brotli liblz4-tool gawk aria2 rename python3-setuptools -y
+       sudo apt install unace unrar zip unzip p7zip-full p7zip-rar sharutils rar uudeview mpack arj cabextract build-essential device-tree-compiler liblzma-dev python-pip brotli liblz4-tool gawk aria2 rename python3-setuptools expect -y
     fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     echo "-> Darwin Detected". 
