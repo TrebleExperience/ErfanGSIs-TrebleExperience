@@ -31,13 +31,13 @@ UPLOAD()
     DATE=`date +%Y%m%d`
     TIME=`date +%H%M`
 
-    IMAGEABNAME="${SRCTYPENAME}-AB-*-${DATE}-*-VelanGSI.img"
-    INFOABNAME="${SRCTYPENAME}-AB-*-${DATE}-*-VelanGSI.txt"
+    IMAGEABNAME="${SRCTYPENAME}-AB-*-${DATE}-*-TrebleExp.img"
+    INFOABNAME="${SRCTYPENAME}-AB-*-${DATE}-*-TrebleExp.txt"
     IMAGEABPATH="${OUTPUTDIR}/${IMAGEABNAME}"
     INFOABPATH="${OUTPUTDIR}/${INFOABNAME}"
 
-    IMAGEAONAME="${SRCTYPENAME}-Aonly-*-${DATE}-*-VelanGSI.img"
-    INFOAONAME="${SRCTYPENAME}-Aonly-*-${DATE}-*-VelanGSI.txt"
+    IMAGEAONAME="${SRCTYPENAME}-Aonly-*-${DATE}-*-TrebleExp.img"
+    INFOAONAME="${SRCTYPENAME}-Aonly-*-${DATE}-*-TrebleExp.txt"
     IMAGEAOPATH="${OUTPUTDIR}/${IMAGEAONAME}"
     INFOAOPATH="${OUTPUTDIR}/${INFOAONAME}"
 
