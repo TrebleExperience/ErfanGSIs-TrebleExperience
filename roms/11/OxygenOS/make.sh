@@ -12,9 +12,6 @@ cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts
 # fix bt audio for op gsi
 sed -i "/\/vendor\/etc\/audio /d" $1/bin/rw-system.sh
 
-# Drop samsung lines
-sed -i '91,94d' $1/bin/rw-system.sh
-
 # Copy our rw-system.sh content
 cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
 
