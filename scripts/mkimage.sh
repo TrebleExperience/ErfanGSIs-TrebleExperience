@@ -48,7 +48,7 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     echo "/bt_firmware(/.*)?      u:object_r:bt_firmware_file:s0" >> "$tempdir/file_contexts"
     echo "/persist(/.*)?          u:object_r:mnt_vendor_file:s0" >> "$tempdir/file_contexts"
     echo "/cache_wt               u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
-    echo "/sec_storage            u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/sec_storage(/.*)?      u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/dsp                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/oem                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/op1                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
