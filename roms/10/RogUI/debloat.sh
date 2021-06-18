@@ -57,3 +57,11 @@ rm -rf $1/app/talkback
 rm -rf $1/app/mangaDeals
 rm -rf $1/priv-app/LogUploader
 rm -rf $1/priv-app/ZenUIHelp
+
+# Preloaded bloat shit
+rm -rf $1/etc/preload/*
+
+# Small usesless shit
+rm -rf $1/priv-app/FileManager
+rm -rf $1/priv-app/CNSmartCalendar
+rm -rf $1/../res/*
