@@ -7,6 +7,7 @@ PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 AB=true
 AONLY=true
 MOUNTED=false
+NOVNDK=false
 CLEAN=false
 DYNAMIC=false
 LOCK="$PROJECT_DIR/cache/.lock"
@@ -33,7 +34,7 @@ fi
 
 usage()
 {
-    echo "Usage: [--help|-h|-?] [--dynamic|-d] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] $0 <Firmware link> <Firmware type> [Other args]"
+    echo "Usage: [--help|-h|-?] [--dynamic|-d] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] [--no-vndks|-nv] $0 <Firmware link> <Firmware type> [Other args]"
     echo -e "\tFirmware link: Firmware download link or local path"
     echo -e "\tFirmware type: Firmware mode"
     echo -e "\t--dynamic: Use this option only if the firmware contains dynamic partitions"
@@ -49,6 +50,10 @@ do
 key="$1"
 
 case $key in
+    --no-vndks|-nv)
+    NOVNDK=true
+    shift
+    ;;
     --dynamic|-d)
     DYNAMIC=true
     shift
@@ -184,7 +189,7 @@ if [ $MOUNTED == false ]; then
 fi
 
 if [ $AB == true ]; then
-   "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" AB "$PROJECT_DIR/output" ${@} || LEAVE
+   "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" AB ${NOVNDK} "$PROJECT_DIR/output" ${@} || LEAVE
 fi
 
 if [ -d "$PROJECT_DIR/tools/ROM_resigner/tmp/" ]; then
@@ -192,7 +197,7 @@ if [ -d "$PROJECT_DIR/tools/ROM_resigner/tmp/" ]; then
 fi
 
 if [ $AONLY == true ]; then
-    "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" Aonly "$PROJECT_DIR/output" ${@} || LEAVE
+    "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" Aonly ${NOVNDK} "$PROJECT_DIR/output" ${@} || LEAVE
 fi
 
 UMOUNT "$PROJECT_DIR/working/system"
