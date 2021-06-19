@@ -5,14 +5,15 @@
 
 usage()
 {
-echo "Usage: $0 <Path to GSI system> <Firmware type> <Output type> [Output Dir]"
+echo "Usage: $0 <Path to GSI system> <Firmware type> <Output type> <Extra VNDK> [Output Dir]"
     echo -e "\tPath to GSI system: Mount GSI and set mount point"
     echo -e "\tFirmware type: Firmware mode"
     echo -e "\tOutput type: AB or Aonly"
+    echo -e "\tExtra VNDK: Use it to not include extra VNDK, with false & true args"
     echo -e "\tOutput Dir: set output dir"
 }
 
-if [ "$3" == "" ]; then
+if [ "$4" == "" ]; then
     echo "-> ERROR!"
     echo " - Enter all needed parameters"
     usage
@@ -23,6 +24,7 @@ LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 sourcepath=$1
 romtype=$2
 outputtype=$3
+novndk=$4
 
 if [[ $romtype == *":"* ]]; then
     romtypename=`echo "$romtype" | cut -d ":" -f 2`
@@ -181,7 +183,14 @@ fi
 echo "-> Patching started..."
 $scriptsdir/fixsymlinks.sh "$systemdir/system" 2>/dev/null
 $scriptsdir/nukeABstuffs.sh "$systemdir/system" 2>/dev/null
-$prebuiltdir/vendor_vndk/make$sourcever.sh "$systemdir/system" 2>/dev/null
+
+if [[ $novndk == "false" ]]; then
+    echo "-> Extra VNDK requested, copying VNDK from Android $sourcever into GSI"
+    $prebuiltdir/vendor_vndk/make$sourcever.sh "$systemdir/system" 2>/dev/null
+else
+    echo "-> No extra VNDK requested, skipping the VNDK process..."
+fi
+
 $prebuiltdir/$sourcever/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
 $prebuiltdir/$sourcever/makeroot.sh "$systemdir" "$romsdir/$sourcever/$romtype" 2>/dev/null
 $prebuiltdir/common/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
@@ -219,13 +228,13 @@ outputtextname="$outputname".txt
 outputvendoroverlaysname="$romtypename-$sourcever-$date-VendorOverlays.tar.gz"
 outputodmoverlaysname="$romtypename-$sourcever-$date-ODMOverlays.tar.gz"
 
-if [ "$4" == "" ]; then
+if [ "$5" == "" ]; then
     echo "-> Create out dir"
     outdirname="out"
     outdir="$LOCALDIR/$outdirname"
     mkdir -p "$outdir"
 else
-    outdir="$4"
+    outdir="$5"
 fi
 output="$outdir/$outputimagename"
 outputvendoroverlays="$outdir/$outputvendoroverlaysname"
