@@ -9,7 +9,6 @@ echo "ro.bootprof.disable=1" >> $1/build.prop
 # Custom files
 cp -fpr $thispath/erfan $1/
 cp -fpr $thispath/init/* $1/etc/init/
-cp -fpr $thispath/bin/* $1/bin/
 cp -fpr $thispath/overlay/* $1/product/overlay/
 
 # hack bootprof
