@@ -16,6 +16,11 @@ DL="${PROJECT_DIR}/scripts/downloaders/dl.sh"
 echo "-> Warning: That Fork is TrebleExp (a.k.a: VeloshGSIs), originally from ErfanGSIs"
 echo " - You can edit the tool but read the NOTICE!"
 
+if [ $(uname) == Darwin ]; then
+    echo "-> Darwin is no longer supported."
+    exit 1
+fi
+
 if [ -f "$LOCK" ]; then
     echo "-> Stop, wait for the other job to finish before you can start another one."
     exit 1
