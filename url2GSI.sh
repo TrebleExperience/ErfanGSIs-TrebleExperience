@@ -21,6 +21,10 @@ if [ $(uname) == Darwin ]; then
     exit 1
 fi
 
+if [ "${EUID}" -ne 0 ]; then
+    echo "-> Run as root!"
+fi
+
 if [ -f "$LOCK" ]; then
     echo "-> Stop, wait for the other job to finish before you can start another one."
     exit 1
