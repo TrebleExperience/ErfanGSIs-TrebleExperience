@@ -61,12 +61,11 @@ MOUNT() {
    if `sudo mount -o loop "$1" "$2" > /dev/null 2>&1`; then
       echo "-> $3 image successfully mounted"
    elif `sudo mount -o ro "$1" "$2" > /dev/null 2>&1`; then
-         echo "-> $3 image successfully mounted"
-      else
-         # If it fails again, abort
-         echo "-> Failed to mount $3 image, try to check this manually"
-         exit 1
-      fi
+      echo "-> $3 image successfully mounted"
+   else
+      # If it fails again, abort
+      echo "-> Failed to mount $3 image, try to check this manually"
+      exit 1
    fi
 }
 
