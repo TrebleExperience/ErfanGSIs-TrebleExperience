@@ -12,7 +12,6 @@ rm -rf $1/priv-app/Backup
 rm -rf $1/priv-app/Browser
 rm -rf $1/priv-app/Calendar
 rm -rf $1/priv-app/MiuiScanner
-rm -rf $1/priv-app/Updater
 rm -rf $1/priv-app/Velvet
 rm -rf $1/priv-app/Weather
 rm -rf $1/priv-app/WeatherProvider
@@ -73,7 +72,6 @@ rm -rf $1/app/MiuiAudioMonitor
 rm -rf $1/app/MiuiVideoPlayer
 rm -rf $1/app/Music2
 rm -rf $1/app/Photos
-rm -rf $1/app/SystemAppUpdater
 rm -rf $1/app/TranslationService
 rm -rf $1/app/Videos
 rm -rf $1/app/YouDaoEngine

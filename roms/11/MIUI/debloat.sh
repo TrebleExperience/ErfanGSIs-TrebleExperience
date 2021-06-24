@@ -85,7 +85,6 @@ rm -rf $1/app/MSA
 rm -rf $1/app/Qmmi
 rm -rf $1/app/cit
 rm -rf $1/app/MiuiSuperMarket
-rm -rf $1/app/Updater
 rm -rf $1/app/VoiceTrigger
 rm -rf $1/app/GFTest
 rm -rf $1/app/ModemLog
@@ -95,7 +94,6 @@ rm -rf $1/priv-app/Backup
 rm -rf $1/priv-app/Browser
 rm -rf $1/priv-app/Calendar
 rm -rf $1/priv-app/MiuiScanner
-rm -rf $1/priv-app/Updater
 rm -rf $1/priv-app/Velvet
 rm -rf $1/priv-app/Weather
 rm -rf $1/priv-app/WeatherProvider
