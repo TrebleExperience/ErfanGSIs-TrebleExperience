@@ -295,6 +295,20 @@ fi
 if [ ! -d "$PROJECT_DIR/cache" ]; then
     if [ -f "$PROJECT_DIR/output/.tmp" ]; then
         mv "$PROJECT_DIR/output/.tmp" "$outputvendoroverlays"
+    else
+        # If doesn't exists, we'll make a workaround about it (if vendor image exists btw)
+        if [[ -d "$PROJECT_DIR/working/vendor/overlay" && ! -f "$outputvendoroverlays" ]]; then
+            # If yes we'll copy overlays, but: silent!
+            mkdir -p "$PROJECT_DIR/output/vendorOverlays"
+            cp -v -r -p $PROJECT_DIR/working/vendor/overlay/* "$PROJECT_DIR/output/vendorOverlays" >/dev/null 2>&1
+
+            # Not needed but recommended
+            rm -rf "$PROJECT_DIR/output/vendorOverlays/home"
+
+            # Final
+            tar -zcvf "$outputvendoroverlays" "$PROJECT_DIR/output/vendorOverlays" >/dev/null 2>&1
+            rm -rf "$PROJECT_DIR/output/vendorOverlays"
+         fi
     fi
 
     if [ -f "$PROJECT_DIR/output/.otmp" ]; then
