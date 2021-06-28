@@ -208,6 +208,9 @@ if [ $AONLY == true ]; then
 fi
 
 UMOUNT "$PROJECT_DIR/working/system"
+if [ -f "$PROJECT_DIR/working/vendor.img" ]; then
+    UMOUNT "$PROJECT_DIR/working/vendor" > /dev/null 2>&1
+fi
 rm -rf "$PROJECT_DIR/working"
 
 echo "-> Porting ${SRCTYPENAME} GSI done on: $PROJECT_DIR/output"
