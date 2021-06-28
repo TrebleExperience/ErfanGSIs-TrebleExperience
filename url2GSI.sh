@@ -136,12 +136,12 @@ MOUNT()
 {
     mkdir -p "$PROJECT_DIR/working/system"
     if `sudo mount -o ro "$1" "$PROJECT_DIR/working/system" > /dev/null 2>&1`; then
-        echo '-> System image successfully mounted'
+        echo "-> $2 image successfully mounted"
     elif `sudo mount -o loop "$1" "$PROJECT_DIR/working/system" > /dev/null 2>&1`; then
-        echo '-> System image successfully mounted'
+        echo "-> $2 image successfully mounted"
     else
         # If it fails again, abort
-        echo "-> Failed to mount image, try to check this manually"
+        echo "-> Failed to mount $2 image, try to check this manually"
         exit 1
     fi
 }
@@ -184,7 +184,7 @@ if [ $MOUNTED == false ]; then
         rm -rf "$ZIP_NAME"
     fi
     if [ -f "$PROJECT_DIR/working/system.img" ]; then
-        MOUNT "$PROJECT_DIR/working/system.img"
+        MOUNT "$PROJECT_DIR/working/system.img" "System"
         URL="$PROJECT_DIR/working/system"
     else
         echo "-> Error, system image doesn't exist!"
