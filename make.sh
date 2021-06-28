@@ -299,6 +299,7 @@ if [ ! -d "$PROJECT_DIR/cache" ]; then
     else
         # If doesn't exists, we'll make a workaround about it (if vendor image exists btw)
         if [[ -d "$PROJECT_DIR/working/vendor/overlay" && ! -f "$outputvendoroverlays" ]]; then
+            echo " - Trying to copy overlays from vendor..."
             # If yes we'll copy overlays, but: silent!
             mkdir -p "$PROJECT_DIR/output/vendorOverlays"
             cp -v -r -p $PROJECT_DIR/working/vendor/overlay/* "$PROJECT_DIR/output/vendorOverlays" >/dev/null 2>&1
@@ -309,6 +310,7 @@ if [ ! -d "$PROJECT_DIR/cache" ]; then
             # Final
             tar -zcvf "$outputvendoroverlays" "$PROJECT_DIR/output/vendorOverlays" >/dev/null 2>&1
             rm -rf "$PROJECT_DIR/output/vendorOverlays"
+            echo "-> Done"
          fi
     fi
 
