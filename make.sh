@@ -26,6 +26,15 @@ romtype=$2
 outputtype=$3
 novndk=$4
 
+if [ "$5" == "" ]; then
+    echo "-> Create out dir"
+    outdirname="out"
+    outdir="$LOCALDIR/$outdirname"
+    mkdir -p "$outdir"
+else
+    outdir="$5"
+fi
+
 if [[ $romtype == *":"* ]]; then
     romtypename=`echo "$romtype" | cut -d ":" -f 2`
     romtype=`echo "$romtype" | cut -d ":" -f 1`
@@ -228,14 +237,6 @@ outputtextname="$outputname".txt
 outputvendoroverlaysname="$romtypename-$sourcever-$date-VendorOverlays.tar.gz"
 outputodmoverlaysname="$romtypename-$sourcever-$date-ODMOverlays.tar.gz"
 
-if [ "$5" == "" ]; then
-    echo "-> Create out dir"
-    outdirname="out"
-    outdir="$LOCALDIR/$outdirname"
-    mkdir -p "$outdir"
-else
-    outdir="$5"
-fi
 output="$outdir/$outputimagename"
 outputvendoroverlays="$outdir/$outputvendoroverlaysname"
 outputodmoverlays="$outdir/$outputodmoverlaysname"
