@@ -134,14 +134,14 @@ DOWNLOAD()
 
 MOUNT()
 {
-    mkdir -p "$PROJECT_DIR/working/system"
-    if `sudo mount -o ro "$1" "$PROJECT_DIR/working/system" > /dev/null 2>&1`; then
-        echo "-> $2 image successfully mounted"
-    elif `sudo mount -o loop "$1" "$PROJECT_DIR/working/system" > /dev/null 2>&1`; then
-        echo "-> $2 image successfully mounted"
+    mkdir -p "$PROJECT_DIR/working/$2"
+    if `sudo mount -o ro "$PROJECT_DIR/working/$1" "$PROJECT_DIR/working/$2" > /dev/null 2>&1`; then
+        echo "-> $3 image successfully mounted"
+    elif `sudo mount -o loop "$PROJECT_DIR/working/$1" "$PROJECT_DIR/working/$2" > /dev/null 2>&1`; then
+        echo "-> $3 image successfully mounted"
     else
         # If it fails again, abort
-        echo "-> Failed to mount $2 image, try to check this manually"
+        echo "-> Failed to mount $3 image, try to check this manually"
         exit 1
     fi
 }
@@ -184,8 +184,11 @@ if [ $MOUNTED == false ]; then
         rm -rf "$ZIP_NAME"
     fi
     if [ -f "$PROJECT_DIR/working/system.img" ]; then
-        MOUNT "$PROJECT_DIR/working/system.img" "System"
+        MOUNT "system.img" "system" "System"
         URL="$PROJECT_DIR/working/system"
+        if [ -f "$PROJECT_DIR/working/vendor.img" ]; then
+            MOUNT "vendor.img" "vendor" "Vendor"
+        fi
     else
         echo "-> Error, system image doesn't exist!"
         exit 1
