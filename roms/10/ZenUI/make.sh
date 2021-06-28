@@ -25,10 +25,3 @@ sed -i "s/audio_policy_configuration_$model.xml/audio_policy_configuration.xml\x
 cp -fpr $thispath/bin/* $1/bin/
 cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
 
-# get vendor overlay (fix call old devices)
-"$thispath/../../../zip2img.sh" "$FIRMWARE_PATH" "$thispath/../../../working/" "-v"
-vendorpath="$thispath/../../../working/vendor"
-mkdir $vendorpath
-sudo mount $thispath/../../../working/vendor.img $vendorpath
-cp -frp $vendorpath/overlay/TelephonyResCommon.apk $1/product/overlay/VendorTelephonyResCommon.apk
-sudo umount $vendorpath
