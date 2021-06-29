@@ -34,7 +34,10 @@ else
     touch "$LOCK"
     echo "-> Making patch: Cleaning and removing folders that are used to make GSI to avoid problems"
     if [ -d "$PROJECT_DIR/working/system/" ]; then
-        sudo umount "$PROJECT_DIR/working/system/"
+        sudo umount "$PROJECT_DIR/working/system/" > /dev/null 2>&1
+    fi
+    if [ -d "$PROJECT_DIR/working/vendor/" ]; then
+        sudo umount "$PROJECT_DIR/working/vendor/" > /dev/null 2>&1
     fi
     if [ -d "$PROJECT_DIR/tools/ROM_resigner/tmp/" ]; then
         sudo rm -rf "$PROJECT_DIR/tools/ROM_resigner/tmp/"
