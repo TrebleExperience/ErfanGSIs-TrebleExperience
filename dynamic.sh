@@ -503,55 +503,34 @@ fi
 
 if [ "$ODM" == true ]; then
    if [ -f "$ODM_IMAGE" ]; then
-      echo "-> Copy odm files to system_new"
-      if [ -d "$SYSTEM_NEW_DIR/dev/" ]; then
-         echo " - Using SAR method"
-         cd $WORKING/system_new/
-         rm -rf odm system/odm/
-         mkdir -p system/odm
-         mkdir odm
-         cp -v -r -p $ODM_DIR/* system/odm/ >/dev/null 2>&1
-         # Patch: Copy ODM Feature List of OnePlus
-         if [ -f "$ODM_DIR/etc/odm_feature_list" ]; then
-            echo " - Detected odm_feature_list file! Copying to /system/etc/odm_feature_list"
-            cp -r "$ODM_DIR/etc/odm_feature_list" "$SYSTEM_NEW_DIR/system/etc/odm_feature_list"
+
+      # Patch: Copy ODM Feature List of OnePlus
+      if [ -f "$ODM_DIR/etc/odm_feature_list" ]; then
+         echo " - Detected odm_feature_list file! Copying to /system/etc/odm_feature_list"
+         cp -r "$ODM_DIR/etc/odm_feature_list" "$SYSTEM_NEW_DIR/system/etc/odm_feature_list"
+      fi
+
+      # Patch: Copy ODM overlays to temp folder (Recommended)
+      if [ -d "$ODM_DIR/overlay" ]; then
+         # If yes we'll copy overlays
+         echo " - Copying overlays from odm..."
+
+         mkdir -p "$WORKING/odmOverlays"
+         cp -v -r -p $ODM_DIR/overlay/* "$WORKING/odmOverlays" >/dev/null 2>&1
+
+         cd "$WORKING/odmOverlays/"
+         rm -rf home && cd ../
+         tar -zcvf odmOverlays.tar.gz "$WORKING/odmOverlays" >/dev/null 2>&1
+
+         echo " - Process of copying odm overlays is done"
+         rm -rf $WORKING/odmOverlays/
+
+         if [ ! -d "$LOCALDIR/output/" ]; then
+            mkdir "$LOCALDIR/output/"
          fi
 
-         # Patch: Copy ODM overlays to temp folder (Recommended)
-         if [ -d "$ODM_DIR/overlay" ]; then
-            # If yes we'll copy overlays
-            echo " - Copying overlays from odm..."
-
-            mkdir -p "$WORKING/odmOverlays"
-            cp -v -r -p $ODM_DIR/overlay/* "$WORKING/odmOverlays" >/dev/null 2>&1
-
-            cd "$WORKING/odmOverlays/"
-            rm -rf home && cd ../
-            tar -zcvf odmOverlays.tar.gz "$WORKING/odmOverlays" >/dev/null 2>&1
-
-            echo " - Process of copying odm overlays is done"
-            rm -rf $WORKING/odmOverlays/
-
-            if [ ! -d "$LOCALDIR/output/" ]; then
-               mkdir "$LOCALDIR/output/"
-            fi
-
-            # Move to temp path, Erfan will recognize and rename
-            mv "$WORKING/odmOverlays.tar.gz" "$LOCALDIR/output/.otmp"
-         fi
-
-         cp -v -r -p $ODM_DIR/* odm/ >/dev/null 2>&1 && sync
-         echo " - Fixed"
-      else
-         if [ ! -f "$SYSTEM_NEW_DIR/build.prop" ]; then
-            echo "-> Are you sure this is a Android image? Exit"
-            exit 1
-         fi
-         cd $SYSTEM_NEW_DIR
-         rm -rf odm
-         mkdir odm && cd ../
-         cp -v -r -p $ODM/* $SYSTEM_NEW_DIR/odm/ >/dev/null 2>&1 && sync
-         cd $WORKING
+         # Move to temp path, Erfan will recognize and rename
+         mv "$WORKING/odmOverlays.tar.gz" "$LOCALDIR/output/.otmp"
       fi
    fi
    cd $WORKING
