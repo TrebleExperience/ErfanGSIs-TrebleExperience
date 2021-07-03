@@ -28,8 +28,3 @@ sed -i "/dataservice_app/d" $1/system_ext/etc/selinux/system_ext_seapp_contexts
 rm -rf $1/system_ext/priv-app/HbmSVManager
 rm -rf $1/../init.environ.rc
 cp -rp $thispath/init/init.environ.rc $1/../init.environ.rc
-
-# Fix MediaProvider
-if [ -d $1/apex/com.google.android.mediaprovider ]; then
-    cp -frp $thispath/system/apex/com.google.android.mediaprovider/* $systempath/apex/com.google.android.mediaprovider/
-fi
