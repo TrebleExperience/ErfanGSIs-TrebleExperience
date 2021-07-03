@@ -28,3 +28,6 @@ sed -i "/dataservice_app/d" $1/system_ext/etc/selinux/system_ext_seapp_contexts
 rm -rf $1/system_ext/priv-app/HbmSVManager
 rm -rf $1/../init.environ.rc
 cp -rp $thispath/init/init.environ.rc $1/../init.environ.rc
+
+# Enable MonetCompat & etc
+echo "ro.boot.vendor.overlay.theme=com.android.internal.systemui.navbar.gestural;com.google.android.systemui.gxoverlay" >> $1/product/etc/build.prop
