@@ -7,7 +7,7 @@ thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 cp -fpr $thispath/overlay/* $1/product/overlay/
 
 # Append file_context
-echo "ro.boot.vendor.overlay.theme=com.google.android.theme.pixel" >> $1/product/etc/build.prop
+echo "ro.boot.vendor.overlay.theme=com.android.internal.systemui.navbar.gestural;com.google.android.systemui.gxoverlay" >> $1/product/etc/build.prop
 echo "ro.config.ringtone=The_big_adventure.ogg" >> $1/product/etc/build.prop
 echo "ro.config.notification_sound=Popcorn.ogg" >> $1/product/etc/build.prop
 echo "ro.config.alarm_alert=Bright_morning.ogg" >> $1/product/etc/build.prop
@@ -29,5 +29,3 @@ rm -rf $1/system_ext/priv-app/HbmSVManager
 rm -rf $1/../init.environ.rc
 cp -rp $thispath/init/init.environ.rc $1/../init.environ.rc
 
-# Enable MonetCompat & etc
-echo "ro.boot.vendor.overlay.theme=com.android.internal.systemui.navbar.gestural;com.google.android.systemui.gxoverlay" >> $1/product/etc/build.prop
