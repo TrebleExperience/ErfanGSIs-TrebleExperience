@@ -163,7 +163,7 @@ if [ "$SYSTEM_NEW" == true ]; then
          fi
       fi
    else
-      echo " -> System Image doesn't exists, abort!"
+      echo "-> System Image doesn't exists, abort!"
       exit 1
    fi
 fi
