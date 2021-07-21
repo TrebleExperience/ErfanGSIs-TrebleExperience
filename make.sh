@@ -158,6 +158,9 @@ if [[ ! -f "$systemdir/system/lib64/libandroid.so" ]]; then
     exit 1
 fi
 
+# Init date var first
+date=`date +%Y%m%d`
+
 # Debloat thing
 outputtreename="$romtypename-$sourcever-$date-System-Tree.txt"
 outputtree="$outdir/$outputtreename"
@@ -228,15 +231,12 @@ if [ "$outputtype" == "Aonly" ]; then
     fi
 fi
 
-date=`date +%Y%m%d`
+# Init out overlay
 outputname="$romtypename-$outputtype-$sourcever-$date-ErfanGSI-TrebleExp"
 outputimagename="$outputname".img
 outputtextname="$outputname".txt
-
-# Dynamic feature
 outputvendoroverlaysname="$romtypename-$sourcever-$date-VendorOverlays.tar.gz"
 outputodmoverlaysname="$romtypename-$sourcever-$date-ODMOverlays.tar.gz"
-
 output="$outdir/$outputimagename"
 outputvendoroverlays="$outdir/$outputvendoroverlaysname"
 outputodmoverlays="$outdir/$outputodmoverlaysname"
@@ -297,20 +297,12 @@ if [ ! -d "$PROJECT_DIR/cache" ]; then
     if [ -f "$PROJECT_DIR/output/.tmp" ]; then
         mv "$PROJECT_DIR/output/.tmp" "$outputvendoroverlays"
     else
-        # If doesn't exists, we'll make a workaround about it (if vendor image exists btw)
         if [[ -d "$PROJECT_DIR/working/vendor/overlay" && ! -f "$outputvendoroverlays" ]]; then
-            echo " - Trying to copy overlays from vendor..."
-            # If yes we'll copy overlays, but: silent!
             mkdir -p "$PROJECT_DIR/output/vendorOverlays"
-            cp -v -r -p $PROJECT_DIR/working/vendor/overlay/* "$PROJECT_DIR/output/vendorOverlays" >/dev/null 2>&1
-
-            # Not needed but recommended
+            cp -vrp $PROJECT_DIR/working/vendor/overlay/* "$PROJECT_DIR/output/vendorOverlays" >/dev/null 2>&1
             rm -rf "$PROJECT_DIR/output/vendorOverlays/home"
-
-            # Final
             tar -zcvf "$outputvendoroverlays" "$PROJECT_DIR/output/vendorOverlays" >/dev/null 2>&1
             rm -rf "$PROJECT_DIR/output/vendorOverlays"
-            echo "-> Done"
          fi
     fi
 
