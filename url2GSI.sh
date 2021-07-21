@@ -47,13 +47,14 @@ fi
 
 usage()
 {
-    echo "Usage: [--help|-h|-?] [--dynamic|-d] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] [--no-vndks|-nv] $0 <Firmware link> <Firmware type> [Other args]"
+    echo "Usage: [--help|-h|-?] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] [--dynamic|-d] [--no-vndks|-nv] $0 <Firmware link> <Firmware type> [Other args]"
     echo -e "\tFirmware link: Firmware download link or local path"
     echo -e "\tFirmware type: Firmware mode"
-    echo -e "\t--dynamic: Use this option only if the firmware contains dynamic partitions"
     echo -e "\t--ab: Build only AB"
     echo -e "\t--aonly: Build only A-Only"
     echo -e "\t--cleanup: Cleanup downloaded firmware"
+    echo -e "\t--dynamic: Use this option only if the firmware contains dynamic partitions"
+    echo -e "\t--novndk: Do not include extra VNDK"
     echo -e "\t--help: To show this info"
 }
 
@@ -63,14 +64,6 @@ do
 key="$1"
 
 case $key in
-    --no-vndks|-nv)
-    NOVNDK=true
-    shift
-    ;;
-    --dynamic|-d)
-    DYNAMIC=true
-    shift
-    ;;
     --ab|-b)
     AONLY=false
     AB=true
@@ -83,6 +76,14 @@ case $key in
     ;;
     --cleanup|-c)
     CLEAN=true
+    shift
+    ;;
+    --no-vndks|-nv)
+    NOVNDK=true
+    shift
+    ;;
+    --dynamic|-d)
+    DYNAMIC=true
     shift
     ;;
     --help|-h|-?)
