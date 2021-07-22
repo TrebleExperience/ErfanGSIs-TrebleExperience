@@ -13,8 +13,8 @@ DYNAMIC=false
 LOCK="$PROJECT_DIR/cache/.lock"
 DL="${PROJECT_DIR}/scripts/downloaders/dl.sh"
 
-echo "-> Warning: That Fork is TrebleExp (a.k.a: VeloshGSIs), originally from ErfanGSIs"
-echo " - You can edit the tool but read the NOTICE!"
+echo "-> Warning: This fork came through VeloshGSIs, originally ErfanGSIs."
+echo " - You can edit the tool but read the NOTICE/LICENSE!"
 
 if [ $(uname) == Darwin ]; then
     echo "-> Darwin is no longer supported."
