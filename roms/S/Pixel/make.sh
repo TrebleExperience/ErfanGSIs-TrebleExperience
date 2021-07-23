@@ -24,6 +24,10 @@ echo "ro.com.google.ime.system_lm_dir=/product/usr/share/ime/google/d3_lms" >> $
 sed -i "/dataservice_app/d" $1/product/etc/selinux/product_seapp_contexts
 sed -i "/dataservice_app/d" $1/system_ext/etc/selinux/system_ext_seapp_contexts
 
+# Try to fix lag
+sed -i "/sys.use_fifo_ui/d" $1/build.prop
+sed -i "/debug.sf.latch_unsignaled/d" $1/build.prop
+
 # Drop HbmSVManager which is crashing light hal
 rm -rf $1/system_ext/priv-app/HbmSVManager
 rm -rf $1/../init.environ.rc
