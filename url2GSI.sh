@@ -217,21 +217,3 @@ UMOUNT "$PROJECT_DIR/working/vendor" > /dev/null 2>&1
 rm -rf "$PROJECT_DIR/working"
 
 echo "-> Porting ${SRCTYPENAME} GSI done on: $PROJECT_DIR/output"
-
-if [[ -f "$PROJECT_DIR/private_utils.sh" ]]; then
-    . "$PROJECT_DIR/private_utils.sh"
-    UPLOAD "$PROJECT_DIR/output" ${SRCTYPENAME} ${AB} ${AONLY} "${ORIGINAL_URL}"
-fi
-
-DEBUG=false
-if [ $DEBUG == true ]; then
-echo "AONLY = ${AONLY}"
-echo "AB = ${AB}"
-echo "MOUNTED = ${MOUNTED}"
-echo "URL = ${URL}"
-echo "SRCTYPE = ${SRCTYPE}"
-echo "EXTRAVNDK = ${NOVNDK}"
-echo "SRCTYPENAME = ${SRCTYPENAME}"
-echo "OTHER = ${@}"
-echo "ZIP_NAME = ${ZIP_NAME}"
-fi
