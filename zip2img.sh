@@ -72,7 +72,6 @@ else
 fi
 
 simg2img="$toolsdir/$HOST/bin/simg2img"
-packsparseimg="$toolsdir/$HOST/bin/packsparseimg"
 unsin="$toolsdir/$HOST/bin/unsin"
 payload_extractor="$toolsdir/update_payload_extractor/extract.py"
 sdat2img="$toolsdir/sdat2img.py"
