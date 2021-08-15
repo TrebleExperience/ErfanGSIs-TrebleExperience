@@ -24,6 +24,7 @@ systemdir=$1
 outputtype=$2
 syssize=$3
 output=$4
+build=$5
 
 LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 tempdir="$LOCALDIR/../tmp"
@@ -92,9 +93,24 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     echo "/logcat                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/preload                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/elabel                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
-    echo "/junk                   u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    if [ ! "$build" == false ]; then
+        if [ -f "$build/file_contexts" ]; then
+            cat "$build/file_contexts" >> "$tempdir/file_contexts"
+        elif [ -f "$build/../../build/file_contexts" ]; then
+            cat "$build/../../build/file_contexts" >> "$tempdir/file_contexts"
+        fi
+    fi
     fcontexts="$tempdir/file_contexts"
 fi
+
+if [ ! "$build" == false ]; then
+    if [ -f "$build/mkdir.sh" ]; then
+        $build/mkdir.sh $systemdir
+    elif [ -f "$build/../../build/mkdir.sh" ]; then
+        $build/../../build/mkdir.sh $systemdir
+    fi
+fi
+
 sudo rm -rf "$systemdir/persist"
 sudo rm -rf "$systemdir/bt_firmware"
 sudo rm -rf "$systemdir/firmware"
@@ -121,19 +137,13 @@ if [ -d "$systemdir/sec_storage" ]; then
 else
    sudo mkdir -p "$systemdir/sec_storage" > /dev/null 2>&1
 fi
-if [ -d "$systemdir/junk" ]; then
-   sudo rm -rf "$systemdir/junk" > /dev/null 2>&1
-   sudo mkdir -p "$systemdir/junk" > /dev/null 2>&1
-else
-   sudo mkdir -p "$systemdir/junk" > /dev/null 2>&1
-fi
 sudo mkdir -p "$systemdir/bt_firmware"
 sudo mkdir -p "$systemdir/persist"
 sudo mkdir -p "$systemdir/firmware"
 sudo mkdir -p "$systemdir/dsp"
 sudo mkdir -p "$systemdir/cache"
 
-if [ "$5" == "--old" ]; then
+if [ "$6" == "--old" ]; then
     if [ "$outputtype" == "Aonly" ]; then
         sudo $make_ext4fs -T 0 -S $fcontexts -l $syssize -L system -a system -s "$output" "$systemdir/system"
     else
