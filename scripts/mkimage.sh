@@ -91,8 +91,6 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     if [ ! "$build" == false ]; then
         if [ -f "$build/file_contexts" ]; then
             cat "$build/file_contexts" >> "$tempdir/file_contexts"
-        elif [ -f "$build/../../build/file_contexts" ]; then
-            cat "$build/../../build/file_contexts" >> "$tempdir/file_contexts"
         fi
     fi
     fcontexts="$tempdir/file_contexts"
@@ -101,8 +99,6 @@ fi
 if [ ! "$build" == false ]; then
     if [ -f "$build/mkdir.sh" ]; then
         $build/mkdir.sh $systemdir
-    elif [ -f "$build/../../build/mkdir.sh" ]; then
-        $build/../../build/mkdir.sh $systemdir
     fi
 fi
 
