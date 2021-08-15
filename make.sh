@@ -274,20 +274,11 @@ if [ "$sourcever" == "9" ]; then
     useold="--old"
 fi
 
-if [ ! "$romtype" == "$romtypename" ]; then
-    if [ ! -f "$romsdir/$sourcever/$romtype/build/file_contexts" ]; then
-        echo "-> Note: The $romtype doesn't seem to have its own security contexts file"
-        $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output false $useold > $tempdir/mkimage.log
-    else
-        $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/$romtypename/build $useold > $tempdir/mkimage.log
-    fi
+if [ ! -f "$romsdir/$sourcever/$romtype/build/file_contexts" ]; then
+    echo "-> Note: The $romtype doesn't seem to have its own security contexts file"
+    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output false $useold > $tempdir/mkimage.log
 else
-    if [ ! -f "$romsdir/$sourcever/$romtype/build/file_contexts" ]; then
-        echo "-> Note: The $romtypename doesn't seem to have its own security contexts file"
-        $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output false $useold > $tempdir/mkimage.log
-    else
-        $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/build $useold > $tempdir/mkimage.log
-    fi
+    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/build $useold > $tempdir/mkimage.log
 fi
 
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
