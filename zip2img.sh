@@ -56,7 +56,7 @@ HOST="$(uname)"
 toolsdir="$LOCALDIR/tools"
 
 if [[ ! -d "$toolsdir/extract_android_ota_payload" ]]; then
-    git clone -q https://github.com/cyxx/extract_android_ota_payload.git "$toolsdir/extract_android_ota_payload" > /dev/null 2>&1
+    git clone -q https://github.com/TrebleExperience/update_payload_extractor.git "$toolsdir/extract_android_ota_payload" > /dev/null 2>&1
 else
     git -C "$toolsdir/extract_android_ota_payload" pull > /dev/null 2>&1
 fi
