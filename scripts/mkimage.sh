@@ -81,15 +81,10 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     echo "/factory                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/addon.d                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/oneplus                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
-    echo "/prism                  u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
-    echo "/optics                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
-    echo "/spu                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/oneplus(/.*)?          u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/op_odm                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/avb                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/fsg                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
-    echo "/dpolicy                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
-    echo "/vgc                    u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/logcat                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/preload                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/elabel                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
@@ -116,21 +111,6 @@ sudo rm -rf "$systemdir/bt_firmware"
 sudo rm -rf "$systemdir/firmware"
 sudo rm -rf "$systemdir/dsp"
 sudo rm -rf "$systemdir/cache"
-if [ ! -d "$systemdir/dpolicy" ]; then
-   sudo mkdir -p "$systemdir/dpolicy" > /dev/null 2>&1
-fi
-if [ ! -d "$systemdir/prism" ]; then
-   sudo mkdir -p "$systemdir/prism" > /dev/null 2>&1
-fi
-if [ ! -d "$systemdir/optics" ]; then
-   sudo mkdir -p "$systemdir/optics" > /dev/null 2>&1
-fi
-if [ ! -d "$systemdir/spu" ]; then
-   sudo mkdir -p "$systemdir/spu" > /dev/null 2>&1
-fi
-if [ ! -d "$systemdir/vgc" ]; then
-   sudo mkdir -p "$systemdir/vgc" > /dev/null 2>&1
-fi
 if [ -d "$systemdir/sec_storage" ]; then
    sudo rm -rf "$systemdir/sec_storage" > /dev/null 2>&1
    sudo mkdir -p "$systemdir/sec_storage" > /dev/null 2>&1
