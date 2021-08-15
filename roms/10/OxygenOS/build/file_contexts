@@ -1,0 +1,3 @@
+/oneplus                u:object_r:rootfs:s0
+/oneplus(/.*)?          u:object_r:rootfs:s0
+/op_odm                 u:object_r:rootfs:s0
