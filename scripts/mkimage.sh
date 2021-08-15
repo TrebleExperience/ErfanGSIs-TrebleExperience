@@ -92,6 +92,7 @@ if [[ -f "$tempdir/file_contexts" ]]; then
     echo "/logcat                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/preload                u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     echo "/elabel                 u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
+    echo "/junk                   u:object_r:rootfs:s0" >> "$tempdir/file_contexts"
     fcontexts="$tempdir/file_contexts"
 fi
 sudo rm -rf "$systemdir/persist"
@@ -114,11 +115,17 @@ fi
 if [ ! -d "$systemdir/vgc" ]; then
    sudo mkdir -p "$systemdir/vgc" > /dev/null 2>&1
 fi
-if [ ! -d "$systemdir/sec_storage" ]; then
+if [ -d "$systemdir/sec_storage" ]; then
    sudo rm -rf "$systemdir/sec_storage" > /dev/null 2>&1
    sudo mkdir -p "$systemdir/sec_storage" > /dev/null 2>&1
 else
    sudo mkdir -p "$systemdir/sec_storage" > /dev/null 2>&1
+fi
+if [ -d "$systemdir/junk" ]; then
+   sudo rm -rf "$systemdir/junk" > /dev/null 2>&1
+   sudo mkdir -p "$systemdir/junk" > /dev/null 2>&1
+else
+   sudo mkdir -p "$systemdir/junk" > /dev/null 2>&1
 fi
 sudo mkdir -p "$systemdir/bt_firmware"
 sudo mkdir -p "$systemdir/persist"
