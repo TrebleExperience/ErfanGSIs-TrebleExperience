@@ -157,6 +157,7 @@ UMOUNT()
 LEAVE()
 {
     UMOUNT "$PROJECT_DIR/working/system"
+    UMOUNT "$PROJECT_DIR/working/vendor" > /dev/null 2>&1
     rm -rf "$PROJECT_DIR/working"
     exit 1
 }
