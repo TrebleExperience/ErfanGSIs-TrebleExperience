@@ -186,7 +186,7 @@ if [[ ! -e $romsdir/$sourcever/$romtype/$romtypename/DONTRESIGN ]]; then
         else
             python2=python
         fi
-        $python2 $toolsdir/ROM_resigner/resign.py "$systemdir/system" $toolsdir/ROM_resigner/AOSP_security > $tempdir/resign.log
+        $python2 $toolsdir/ROM_resigner/resign.py "$systemdir/system" $toolsdir/ROM_resigner/AOSP_security > $tempdir/resign.log 2>&1
         $prebuiltdir/resigned/make.sh "$systemdir/system" 2>/dev/null
     fi
 fi
