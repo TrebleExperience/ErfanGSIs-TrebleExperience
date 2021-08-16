@@ -275,7 +275,7 @@ if [ "$sourcever" == "9" ]; then
 fi
 
 if [ ! -f "$romsdir/$sourcever/$romtype/build/file_contexts" ]; then
-    echo "-> Note: The $romtype doesn't seem to have its own security contexts file"
+    echo "-> Note: Custom security contexts not found for this ROM, errors or SELinux problem may appear"
     $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output false $useold > $tempdir/mkimage.log
 else
     $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/build $useold > $tempdir/mkimage.log
@@ -289,7 +289,7 @@ if [ -f "$OUTPUT_IMAGE" ]; then
    echo "-> Created image ($outputtype): $outputimagename | Size: $(bytesToHuman $systemsize)"
 else
    # Oops... Error found
-   echo "-> Error: Output image for $outputtype: $outputimagename don't exists!"
+   echo "-> Error: Output image for $outputimagename ($outputtype) doesn't exists!"
    exit 1
 fi
 
