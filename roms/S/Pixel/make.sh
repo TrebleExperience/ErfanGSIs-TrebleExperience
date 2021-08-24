@@ -21,6 +21,7 @@ echo "ro.error.receiver.system.apps=com.google.android.gms" >> $1/product/etc/bu
 echo "ro.com.google.ime.theme_id=5" >> $1/product/etc/build.prop
 echo "ro.com.google.ime.system_lm_dir=/product/usr/share/ime/google/d3_lms" >> $1/product/etc/build.prop
 
+# Drop dataservice contexts
 sed -i "/dataservice_app/d" $1/product/etc/selinux/product_seapp_contexts
 sed -i "/dataservice_app/d" $1/system_ext/etc/selinux/system_ext_seapp_contexts
 
@@ -35,5 +36,8 @@ rm -rf $1/../init.environ.rc
 # Copy own environ init
 cp -rp $thispath/init/init.environ.rc $1/../init.environ.rc
 
+# More fixes (@nippon/829b244dcea3b36eecabc6053fc6fc02ebc3e099)
+echo "ro.com.google.ime.height_ratio=1.0" >> $1/product/etc/build.prop
+
 # Enable GXO Overlay
-echo "ro.boot.vendor.overlay.theme=com.google.android.systemui.gxoverlay" >> $1/build.prop
+echo "ro.boot.vendor.overlay.theme=com.google.android.systemui.gxoverlay" >> $1/product/etc/build.prop
