@@ -47,6 +47,7 @@ rm -rf $1/priv-app/facebook-services
 rm -rf $1/app/GoogleLens
 rm -rf $1/app/GoogleLensTier
 rm -rf $1/product/app/CalendarGoogle
+rm -rf $1/product/app/GoogleContacts
 rm -rf $1/product/app/Chrome
 rm -rf $1/product/app/Duo
 rm -rf $1/product/app/Gmail2
