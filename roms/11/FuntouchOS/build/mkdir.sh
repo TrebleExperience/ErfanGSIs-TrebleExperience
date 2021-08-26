@@ -5,7 +5,5 @@
 systemDir="$1"
 if [ ! -d "$systemdir/vgc" ]; then
    sudo mkdir -p "$systemdir/vgc" > /dev/null 2>&1
-else
-   rm -rf "$systemdir/vgc" > /dev/null 2>&1
-   sudo mkdir -p "$systemdir/vgc" > /dev/null 2>&1
+   chmod 0755 "$systemdir/vgc"
 fi
