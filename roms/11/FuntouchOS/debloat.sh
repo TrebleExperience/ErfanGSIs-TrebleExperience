@@ -61,6 +61,7 @@ rm -rf $1/product/app/YTMusic
 rm -rf $1/product/app/YouTube
 rm -rf $1/product/app/talkback
 rm -rf $1/product/priv-app/AndroidAutoStub
+rm -rf $1/product/priv-app/GoogleDialer
 rm -rf $1/product/priv-app/Velvet
 rm -rf $1/product/priv-app/Wellbeing
 
