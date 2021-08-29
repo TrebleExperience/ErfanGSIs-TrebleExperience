@@ -1,0 +1,2 @@
+/logdump             u:object_r:rootfs:s0
+/ztecharger          u:object_r:rootfs:s0
