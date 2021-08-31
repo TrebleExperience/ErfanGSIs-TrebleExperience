@@ -1,0 +1,5 @@
+/omr                u:object_r:rootfs:s0
+/dpolicy            u:object_r:rootfs:s0
+/prism              u:object_r:rootfs:s0
+/optics             u:object_r:rootfs:s0
+/spu                u:object_r:rootfs:s0
