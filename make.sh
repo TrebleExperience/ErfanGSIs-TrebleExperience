@@ -172,9 +172,11 @@ if [ ! -f "$outputtree" ]; then
 fi
 
 # Debloat
-echo "-> De-bloating"
-$romsdir/$sourcever/$romtype/debloat.sh "$systemdir/system" 2>/dev/null
-$romsdir/$sourcever/$romtype/$romtypename/debloat.sh "$systemdir/system" 2>/dev/null
+if [[ -f $romsdir/$sourcever/$romtype/$romtypename/debloat.sh || -f $romsdir/$sourcever/$romtype/debloat.sh ]]; then
+    echo "-> De-bloating"
+    $romsdir/$sourcever/$romtype/debloat.sh "$systemdir/system" 2>/dev/null
+    $romsdir/$sourcever/$romtype/$romtypename/debloat.sh "$systemdir/system" 2>/dev/null
+fi
 
 # Resign to AOSP keys
 if [[ ! -e $romsdir/$sourcever/$romtype/$romtypename/DONTRESIGN ]]; then
@@ -231,7 +233,7 @@ if [ "$outputtype" == "Aonly" ]; then
     fi
 fi
 
-# Init out overlay
+# Out info
 outputname="$romtypename-$outputtype-$sourcever-$date-ErfanGSI-TrebleExp"
 outputimagename="$outputname".img
 outputtextname="$outputname".txt
@@ -241,7 +243,6 @@ output="$outdir/$outputimagename"
 outputvendoroverlays="$outdir/$outputvendoroverlaysname"
 outputodmoverlays="$outdir/$outputodmoverlaysname"
 outputinfo="$outdir/$outputtextname"
-
 $scriptsdir/getinfo.sh "$systemdir/system" > "$outputinfo"
 
 # Getting system size and add approximately 5% on it just for free space
@@ -263,10 +264,12 @@ if [ "$sourcever" == "9" ]; then
     useold="--old"
 fi
 
+# Build the GSI image
 if [ ! -f "$romsdir/$sourcever/$romtype/build/file_contexts" ]; then
     echo "-> Note: Custom security contexts not found for this ROM, errors or SELinux problem may appear"
     $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output false $useold > $tempdir/mkimage.log
 else
+    echo "-> Note: Custom security contexts found!"
     $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/build $useold > $tempdir/mkimage.log
 fi
 
@@ -281,18 +284,18 @@ fi
 
 # Overlays
 if [ -f "$LOCALDIR/output/.tmp" ]; then
-        mv "$LOCALDIR/output/.tmp" "$outputvendoroverlays"
-    else
-        if [[ -d "$LOCALDIR/working/vendor/overlay" && ! -f "$outputvendoroverlays" ]]; then
-            mkdir -p "$LOCALDIR/output/vendorOverlays"
-            cp -vrp $LOCALDIR/working/vendor/overlay/* "$LOCALDIR/output/vendorOverlays" >/dev/null 2>&1
-            rm -rf "$LOCALDIR/output/vendorOverlays/home"
-            tar -zcvf "$outputvendoroverlays" "$LOCALDIR/output/vendorOverlays" >/dev/null 2>&1
-            rm -rf "$LOCALDIR/output/vendorOverlays"
-        fi
+    mv "$LOCALDIR/output/.tmp" "$outputvendoroverlays"
+else
+    if [[ -d "$LOCALDIR/working/vendor/overlay" && ! -f "$outputvendoroverlays" ]]; then
+        mkdir -p "$LOCALDIR/output/vendorOverlays"
+        cp -vrp $LOCALDIR/working/vendor/overlay/* "$LOCALDIR/output/vendorOverlays" >> /dev/null 2>&1
+        rm -rf "$LOCALDIR/output/vendorOverlays/home"
+        tar -zcvf "$outputvendoroverlays" "$LOCALDIR/output/vendorOverlays" >> /dev/null 2>&1
+        rm -rf "$LOCALDIR/output/vendorOverlays"
+    fi
 fi
 if [ -f "$LOCALDIR/output/.otmp" ]; then
-        mv "$LOCALDIR/output/.otmp" "$outputodmoverlays"
+    mv "$LOCALDIR/output/.otmp" "$outputodmoverlays"
 fi
 
 echo "-> Removing Tmp/Cache dir"
