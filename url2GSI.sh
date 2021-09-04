@@ -12,6 +12,7 @@ CLEAN=false
 DYNAMIC=false
 LOCK="$PROJECT_DIR/cache/.lock"
 DL="${PROJECT_DIR}/scripts/downloaders/dl.sh"
+USERNAME=`who | awk '{print $1}'`
 
 echo "-> Warning: This fork came through VeloshGSIs, originally ErfanGSIs."
 echo " - You can edit the tool but read the NOTICE/LICENSE!"
@@ -211,6 +212,10 @@ fi
 
 if [ $AONLY == true ]; then
     "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" Aonly ${NOVNDK} "$PROJECT_DIR/output" ${@} || LEAVE
+fi
+
+if [ ! $USERNAME == "root" ]; then
+    chown -R ${USERNAME}:${USERNAME} $PROJECT_DIR/working
 fi
 
 UMOUNT "$PROJECT_DIR/working/system"
