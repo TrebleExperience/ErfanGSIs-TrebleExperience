@@ -37,12 +37,6 @@ cat $thispath/build.prop >> $1/build.prop
 # Disable Actionable props
 sed -i "/ro.actionable_compatible_property.enabled/d" $1/etc/prop.default
 sed -i "/ro.actionable_compatible_property.enabled/d" $1/build.prop
-# disable any setupwizard mode
-sed -i "/ro.setupwizard.mode/d" $1/etc/prop.default
-sed -i "/ro.setupwizard.mode/d" $1/build.prop
-sed -i "/ro.setupwizard.mode/d" $1/product/build.prop
-echo "ro.setupwizard.mode=DISABLED" >> $1/etc/prop.default
-echo "ro.setupwizard.mode=DISABLED" >> $1/product/build.prop
 # Some adding in build.prop
 sed -i "/sys.use_fifo_ui/d" $1/build.prop
 sed -i "/debug.sf.latch_unsignaled/d" $1/build.prop
@@ -72,13 +66,6 @@ echo "dalvik.vm.heapsize=512m" >> $1/build.prop
 echo "dalvik.vm.heaptargetutilization=0.75" >> $1/build.prop
 echo "dalvik.vm.heapminfree=512k" >> $1/build.prop
 echo "dalvik.vm.heapmaxfree=8m" >> $1/build.prop
-sed -i "/ro.setupwizard.mode/d" $1/product/etc/build.prop
-if [[ -f $1/product/etc/build.prop ]]; then
-    echo "ro.setupwizard.mode=DISABLED" >> $1/product/etc/build.prop
-else
-    echo "ro.setupwizard.mode=DISABLED" >> $1/etc/prop.default
-    echo "ro.setupwizard.mode=DISABLED" >> $1/product/build.prop
-fi
 # Disable vndk lite
 if [[ -f $1/product/etc/build.prop ]]; then
     echo "ro.vndk.lite=false" >> $1/product/etc/build.prop
