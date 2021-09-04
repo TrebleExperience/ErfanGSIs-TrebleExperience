@@ -293,11 +293,6 @@ else
    exit 1
 fi
 
-# Remove lock
-if [ "$outputtype" == "Aonly" ]; then
-     sudo rm -rf "$PROJECT_DIR/cache"
-fi
-
 # Overlays
 if [ ! -d "$PROJECT_DIR/cache" ]; then
     if [ -f "$PROJECT_DIR/output/.tmp" ]; then
