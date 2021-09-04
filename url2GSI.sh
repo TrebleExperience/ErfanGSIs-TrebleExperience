@@ -214,12 +214,12 @@ if [ $AONLY == true ]; then
     "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" Aonly ${NOVNDK} "$PROJECT_DIR/output" ${@} || LEAVE
 fi
 
-if [ ! $USERNAME == "root" ]; then
-    chown -R ${USERNAME}:${USERNAME} $PROJECT_DIR/working
-fi
-
 UMOUNT "$PROJECT_DIR/working/system"
 UMOUNT "$PROJECT_DIR/working/vendor" > /dev/null 2>&1
 rm -rf "$PROJECT_DIR/working"
+
+if [ ! $USERNAME == "root" ]; then
+    chown -R ${USERNAME}:${USERNAME} $PROJECT_DIR/output
+fi
 
 echo "-> Porting ${SRCTYPENAME} GSI done on: $PROJECT_DIR/output"
