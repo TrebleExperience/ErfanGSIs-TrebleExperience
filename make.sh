@@ -154,7 +154,7 @@ fi
 
 # Detect arch
 if [[ ! -f "$systemdir/system/lib64/libandroid.so" ]]; then
-    echo "-> 32bit Source Detected! Cannot build due missing armeabi-v7a libs."
+    echo "-> A64/ARM32 ROM detected! Can't build due missing A64/ARM32 VNDK/Libraries for it."
     exit 1
 fi
 
