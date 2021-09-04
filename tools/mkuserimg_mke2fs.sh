@@ -8,8 +8,9 @@ Usage:
 mkuserimg.sh [-s] SRC_DIR OUTPUT_FILE EXT_VARIANT MOUNT_POINT SIZE [-j <journal_size>]
              [-T TIMESTAMP] [-C FS_CONFIG] [-D PRODUCT_OUT] [-B BLOCK_LIST_FILE]
              [-d BASE_ALLOC_FILE_IN ] [-A BASE_ALLOC_FILE_OUT ] [-L LABEL]
-             [-i INODES ] [-M RSV_PCT] [-e ERASE_BLOCK_SIZE] [-o FLASH_BLOCK_SIZE]
-             [-U MKE2FS_UUID] [-S MKE2FS_HASH_SEED] [-c] [FILE_CONTEXTS]
+             [-I INODE_SIZE] [-M LAST_MOUNTED_DRIECTORY] [-m RESERVED_BLOCKS_PERCENTERGE]
+             [-i INODES ] [-e ERASE_BLOCK_SIZE] [-o FLASH_BLOCK_SIZE]
+             [-U MKE2FS_UUID] [-S MKE2FS_HASH_SEED] [FILE_CONTEXTS]
 EOT
 }
 
@@ -20,7 +21,7 @@ MKE2FS_EXTENDED_OPTS=""
 E2FSDROID_OPTS=""
 E2FSPROGS_FAKE_TIME=""
 
-LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
+LOCALDIR=`cd "$( dirname ${BASH_SOURCE[0]} )" && pwd`
 
 if [ "$1" = "-s" ]; then
   MKE2FS_EXTENDED_OPTS+="android_sparse"
@@ -91,13 +92,23 @@ if [[ "$1" == "-L" ]]; then
   shift; shift
 fi
 
-if [[ "$1" == "-i" ]]; then
-  MKE2FS_OPTS+=" -N $2"
+if [[ "$1" == "-I" ]]; then
+  MKE2FS_OPTS+=" -I $2"
   shift; shift
 fi
 
 if [[ "$1" == "-M" ]]; then
+  MKE2FS_OPTS+=" -M $2"
+  shift; shift
+fi
+
+if [[ "$1" == "-m" ]]; then
   MKE2FS_OPTS+=" -m $2"
+  shift; shift
+fi
+
+if [[ "$1" == "-i" ]]; then
+  MKE2FS_OPTS+=" -N $2"
   shift; shift
 fi
 
@@ -125,15 +136,9 @@ fi
 
 if [[ "$1" == "-S" ]]; then
   if [[ $MKE2FS_EXTENDED_OPTS ]]; then
-    MKE2FS_EXTENDED_OPTS+=","
+    MKE2FS_EXTENDED_OPTS+=",hash_seed=$2"
   fi
-  MKE2FS_EXTENDED_OPTS+="hash_seed=$2"
   shift; shift
-fi
-
-if [[ "$1" == "-c" ]]; then
-  E2FSDROID_OPTS+=" -s"
-  shift;
 fi
 
 if [[ $MKE2FS_EXTENDED_OPTS ]]; then
@@ -145,18 +150,13 @@ if [[ $1 ]]; then
 fi
 
 case $EXT_VARIANT in
-  ext2) ;;
   ext4) ;;
-  *) echo "Only ext2/4 are supported!"; exit 3 ;;
+  *) echo "Only ext4 is supported!"; exit 3 ;;
 esac
 
 if [ -z $MOUNT_POINT ]; then
   echo "Mount point is required"
   exit 2
-fi
-
-if [[ ${MOUNT_POINT:0:1} != "/" ]]; then
-  MOUNT_POINT="/"$MOUNT_POINT
 fi
 
 if [ -z $SIZE ]; then
@@ -181,6 +181,7 @@ e2fsdroid="$LOCALDIR/$HOST/bin/e2fsdroid"
 MAKE_EXT4FS_CMD="$mke2fs $MKE2FS_OPTS -t $EXT_VARIANT -b $BLOCKSIZE $OUTPUT_FILE $SIZE"
 echo $MAKE_EXT4FS_ENV $MAKE_EXT4FS_CMD
 env $MAKE_EXT4FS_ENV $MAKE_EXT4FS_CMD
+
 if [ $? -ne 0 ]; then
   exit 4
 fi
