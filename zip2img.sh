@@ -22,7 +22,7 @@
 superimage() {
     if [ -f super.img ]; then
         echo "-> Creating super.img.raw ..."
-        $simg2img super.img super.img.raw 2>/dev/null
+        $simg2img super.img super.img.raw >> /dev/null 2>&1
     fi
     if [[ ! -s super.img.raw ]] && [ -f super.img ]; then
         mv super.img super.img.raw
@@ -161,7 +161,7 @@ for otherpartition in $OTHERPARTITIONS; do
         outputs=$(ls *"$filename"*)
         for output in $outputs; do
             [[ ! -e "$outname".img ]] && mv $output "$outname".img
-            $simg2img "$outname".img "$outdir/$outname".img 2>/dev/null
+            $simg2img "$outname".img "$outdir/$outname".img >> /dev/null 2>&1
             if [[ ! -s "$outdir/$outname".img ]] && [ -f "$outname".img ]; then
                 mv "$outname".img "$outdir/$outname".img
             fi
@@ -216,7 +216,7 @@ elif [[ $(7z l -ba "$romzip" | grep system | grep chunk | grep -v ".*\.so$") ]];
         rm -f *"$partition"_other*
         romchunk=$(ls | grep chunk | grep $partition | sort)
         if [[ $(echo "$romchunk" | grep "sparsechunk") ]]; then
-            $simg2img $(echo "$romchunk" | tr '\n' ' ') $partition.img.raw 2>/dev/null
+            $simg2img $(echo "$romchunk" | tr '\n' ' ') $partition.img.raw >> /dev/null 2>&1
             rm -rf *$partition*chunk*
             if [[ -f $partition.img ]]; then
                 rm -rf $partition.img.raw
@@ -309,7 +309,7 @@ elif [[ $(7z l -ba "$romzip" | grep "system-sign.img") ]]; then
         fi
         MAGIC=$(od -A n -X -j 0 -N 4 "$tmpdir/x.img" | sed 's/ //g')
         if [[ $MAGIC == "ed26ff3a" ]]; then
-            $simg2img "$tmpdir/x.img" "$tmpdir/$file" > /dev/null 2>&1
+            $simg2img "$tmpdir/x.img" "$tmpdir/$file" >> /dev/null 2>&1
         else
             mv "$tmpdir/x.img" "$tmpdir/$file"
         fi
@@ -321,7 +321,7 @@ elif [[ $(7z l -ba "$romzip" | grep "super.img") ]]; then
     7z e -y "$romzip" $foundsupers dummypartition 2>/dev/null >> $tmpdir/zip.log
     superchunk=$(ls | grep chunk | grep super | sort)
     if [[ $(echo "$superchunk" | grep "sparsechunk") ]]; then
-        $simg2img $(echo "$superchunk" | tr '\n' ' ') super.img.raw 2>/dev/null
+        $simg2img $(echo "$superchunk" | tr '\n' ' ') super.img.raw >> /dev/null 2>&1
         rm -rf *super*chunk*
     fi
     superimage
@@ -401,7 +401,7 @@ fi
 
 for partition in $PARTITIONS; do
     if [ -f $partition.img ]; then
-        $simg2img $partition.img "$outdir"/$partition.img 2>/dev/null
+        $simg2img $partition.img "$outdir"/$partition.img >> /dev/null 2>&1
     fi
     if [[ ! -s "$outdir"/$partition.img ]] && [ -f $partition.img ]; then
         mv $partition.img "$outdir"/$partition.img
