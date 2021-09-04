@@ -1,2 +1,0 @@
-on post-fs-data
-    exec - root -- /system/bin/packages.sh
