@@ -281,10 +281,7 @@ else
     $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/build $useold > $tempdir/mkimage.log
 fi
 
-PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-OUTPUT_IMAGE="$PROJECT_DIR/output/$outputimagename"
-
-if [ -f "$OUTPUT_IMAGE" ]; then
+if [ -f "$output" ]; then
    # Builded
    echo "-> Created image ($outputtype): $outputimagename | Size: $(bytesToHuman $systemsize)"
 else
@@ -294,22 +291,19 @@ else
 fi
 
 # Overlays
-if [ ! -d "$PROJECT_DIR/cache" ]; then
-    if [ -f "$PROJECT_DIR/output/.tmp" ]; then
-        mv "$PROJECT_DIR/output/.tmp" "$outputvendoroverlays"
+if [ -f "$LOCALDIR/output/.tmp" ]; then
+        mv "$LOCALDIR/output/.tmp" "$outputvendoroverlays"
     else
-        if [[ -d "$PROJECT_DIR/working/vendor/overlay" && ! -f "$outputvendoroverlays" ]]; then
-            mkdir -p "$PROJECT_DIR/output/vendorOverlays"
-            cp -vrp $PROJECT_DIR/working/vendor/overlay/* "$PROJECT_DIR/output/vendorOverlays" >/dev/null 2>&1
-            rm -rf "$PROJECT_DIR/output/vendorOverlays/home"
-            tar -zcvf "$outputvendoroverlays" "$PROJECT_DIR/output/vendorOverlays" >/dev/null 2>&1
-            rm -rf "$PROJECT_DIR/output/vendorOverlays"
-         fi
-    fi
-
-    if [ -f "$PROJECT_DIR/output/.otmp" ]; then
-        mv "$PROJECT_DIR/output/.otmp" "$outputodmoverlays"
-    fi
+        if [[ -d "$LOCALDIR/working/vendor/overlay" && ! -f "$outputvendoroverlays" ]]; then
+            mkdir -p "$LOCALDIR/output/vendorOverlays"
+            cp -vrp $LOCALDIR/working/vendor/overlay/* "$LOCALDIR/output/vendorOverlays" >/dev/null 2>&1
+            rm -rf "$LOCALDIR/output/vendorOverlays/home"
+            tar -zcvf "$outputvendoroverlays" "$LOCALDIR/output/vendorOverlays" >/dev/null 2>&1
+            rm -rf "$LOCALDIR/output/vendorOverlays"
+        fi
+fi
+if [ -f "$LOCALDIR/output/.otmp" ]; then
+        mv "$LOCALDIR/output/.otmp" "$outputodmoverlays"
 fi
 
 echo "-> Removing Tmp/Cache dir"
