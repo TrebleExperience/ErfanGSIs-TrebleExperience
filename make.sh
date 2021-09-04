@@ -244,17 +244,6 @@ outputinfo="$outdir/$outputtextname"
 
 $scriptsdir/getinfo.sh "$systemdir/system" > "$outputinfo"
 
-if [[ $(grep "ro.build.display.id" $systemdir/system/build.prop) ]]; then
-    displayid="ro.build.display.id"
-elif [[ $(grep "ro.system.build.id" $systemdir/system/build.prop) ]]; then
-    displayid="ro.system.build.id"
-elif [[ $(grep "ro.build.id" $systemdir/system/build.prop) ]]; then
-    displayid="ro.build.id"
-fi
-displayid2=$(echo "$displayid" | sed 's/\./\\./g')
-bdisplay=$(grep "$displayid" $systemdir/system/build.prop | sed 's/\./\\./g; s:/:\\/:g; s/\,/\\,/g; s/\ /\\ /g')
-sed -i "s/$bdisplay/$displayid2=Built\.with\.ErfanGSI\.Tools/" $systemdir/system/build.prop
-
 # Getting system size and add approximately 5% on it just for free space
 systemsize=`du -sk $systemdir | awk '{$1*=1024;$1=int($1*1.05);printf $1}'`
 bytesToHuman() {
