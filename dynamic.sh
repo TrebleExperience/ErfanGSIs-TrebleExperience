@@ -473,7 +473,9 @@ if [[ "$OVERLAYS_VENDOR" == true || "$MIUI" == true ]]; then
          mv "$WORKING/vendorOverlays.gz" "$PROJECT_DIR/output/.tmp"
       fi
       if [[ -d "$VENDOR_DIR/etc/device_features" && "$MIUI" == true ]]; then
-         cp -frp "$VENDOR_DIR/etc/device_features" "$SYSTEM_NEW_DIR/system/etc" && sync
+         if [ ! -d "$SYSTEM_NEW_DIR/system/etc/device_features" ]; then
+            cp -frp "$VENDOR_DIR/etc/device_features" "$SYSTEM_NEW_DIR/system/etc" && sync
+         fi
       fi
    fi
 fi
