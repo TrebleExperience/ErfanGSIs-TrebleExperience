@@ -4,6 +4,9 @@ systempath=$1
 romdir=$2
 thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 
+# Drop prebuilt fstab.postinstall
+rm -rf $systempath/etc/fstab.postinstall
+
 ## System edits
 # Copy system files
 rsync -ra $thispath/system/ $systempath
