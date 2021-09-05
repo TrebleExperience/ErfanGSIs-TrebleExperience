@@ -14,8 +14,8 @@ LOCK="$PROJECT_DIR/cache/.lock"
 DL="${PROJECT_DIR}/scripts/downloaders/dl.sh"
 USERNAME=`who | awk '{print $1}'`
 
-echo "-> Warning: This fork came through VeloshGSIs, originally ErfanGSIs."
-echo " - You can edit the tool but read the NOTICE/LICENSE!"
+echo "-> Note: This fork is derived from VeloshGSIs, the predecessor of the old TrebleExperience foundation (2019-2020, VegaGSIs)."
+echo " - This branch is private, the public repository is available on TrebleExperience's GitHub."
 
 if [ $(uname) == Darwin ]; then
     echo "-> Darwin is no longer supported."
