@@ -98,7 +98,8 @@ UMOUNT() {
 }
 
 LEAVE() {
-    umount -l "$PROJECT_DIR/working/*" > /dev/null 2>&1
+    UMOUNT "$PROJECT_DIR/working/system"
+    UMOUNT "$PROJECT_DIR/working/vendor" > /dev/null 2>&1
     rm -rf "$PROJECT_DIR/working"
     exit 1
 }
@@ -226,7 +227,8 @@ if [ $AONLY == true ]; then
 fi
 
 # Umount all inside working folder and delete it
-umount -l "$PROJECT_DIR/working/*" > /dev/null 2>&1
+UMOUNT "$PROJECT_DIR/working/system"
+UMOUNT "$PROJECT_DIR/working/vendor" > /dev/null 2>&1
 rm -rf "$PROJECT_DIR/working"
 
 # Minor thing
