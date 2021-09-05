@@ -45,6 +45,8 @@ VENDOR_DIR="$WORKING/vendor"
 VENDOR_IMAGE="$WORKING/vendor.img"
 OVERLAYS_VENDOR=false
 
+MIUI=false
+
 if [ "${EUID}" -ne 0 ]; then
    echo "-> Run as root!"
 fi
@@ -103,6 +105,11 @@ while [[ $# -gt 0 ]]; do
       OVERLAYS_VENDOR=true
       shift
       ;;
+   --miui)
+      MIUI=true
+      SYSTEM_NEW=true
+      shift
+      ;;
    --help | -h | -?)
       usage
       exit
@@ -157,7 +164,7 @@ if [ "$PRODUCT" == true ]; then
    fi
 fi
 
-if [ $OVERLAYS_VENDOR == true ]; then
+if [[ $OVERLAYS_VENDOR == true || $MIUI == true ]]; then
    if [ -f "$VENDOR_IMAGE" ]; then
       if [ -d "$VENDOR_DIR" ]; then
          if [ -d "$VENDOR_DIR/etc/" ]; then
@@ -227,7 +234,7 @@ if [ "$SYSTEM_EXT" == true ]; then
    fi
 fi
 
-if [ "$DYNAMIC" == false ]; then
+if [[ "$DYNAMIC" == false && "$MIUI" == false ]]; then
    echo "-> Abort due non-dynamic firmware or the options were not selected correctly."
    exit 1
 else
@@ -335,7 +342,7 @@ if [ "$SYSTEM_EXT" == true ]; then
    fi
 fi
 
-if [ "$OVERLAYS_VENDOR" == true ]; then
+if [[ "$OVERLAYS_VENDOR" == true || "$MIUI" == true ]]; then
    if [ -f "$VENDOR_IMAGE" ]; then
       if [ ! -d "$VENDOR_DIR/" ]; then
          mkdir $VENDOR_DIR
@@ -452,13 +459,9 @@ if [ "$SYSTEM_EXT" == true ]; then
    fi
 fi
 
-if [ "$SYSTEM_NEW" == true ]; then
-   sudo umount $SYSTEM_NEW_DIR/
-fi
-
-if [ "$OVERLAYS_VENDOR" == true ]; then
+if [[ "$OVERLAYS_VENDOR" == true || "$MIUI" == true ]]; then
    if [ -f "$VENDOR_IMAGE" ]; then
-      if [ -d "$VENDOR_DIR/overlay" ]; then
+      if [[ -d "$VENDOR_DIR/overlay" && "$OVERLAYS_VENDOR" == true ]]; then
          mkdir -p "$WORKING/vendorOverlays"
          cp -vrp $VENDOR_DIR/overlay/* "$WORKING/vendorOverlays" >/dev/null 2>&1
          rm -rf "$WORKING/vendorOverlays/home"
@@ -469,13 +472,20 @@ if [ "$OVERLAYS_VENDOR" == true ]; then
          fi
          mv "$WORKING/vendorOverlays.gz" "$PROJECT_DIR/output/.tmp"
       fi
+      if [[ -d "$VENDOR_DIR/etc/device_features" && "$MIUI" == true ]]; then
+         cp -frp "$VENDOR_DIR/etc/device_features" "$SYSTEM_NEW_DIR/system/etc" && sync
+      fi
    fi
 fi
 
-if [ "$OVERLAYS_VENDOR" == true ]; then
+if [[ "$OVERLAYS_VENDOR" == true || "$MIUI" == true ]]; then
    if [ -f "$VENDOR_IMAGE" ]; then
       sudo umount $VENDOR_DIR/
    fi
+fi
+
+if [ "$SYSTEM_NEW" == true ]; then
+   sudo umount $SYSTEM_NEW_DIR/
 fi
 
 mv $WORKING/system_new.img $WORKING/system.tmp
