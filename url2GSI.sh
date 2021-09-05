@@ -1,32 +1,43 @@
 #!/bin/bash
 
 # Project OEM-GSI Porter by Erfan Abdi <erfangplus@gmail.com>
+# Project TrebleExperience by Hitalo <hitalo331@outlook.com> and Velosh <daffetyxd@gmail.com>
 
+# Core variables, do not edit.
 PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-
 AB=true
 AONLY=true
 MOUNTED=false
 NOVNDK=false
 CLEAN=false
 DYNAMIC=false
+
+# Lock for GSI process
 LOCK="$PROJECT_DIR/cache/.lock"
+
+# Downloader Util variable
 DL="${PROJECT_DIR}/scripts/downloaders/dl.sh"
+
+# Variable to chown the output folder
 USERNAME=`who | awk '{print $1}'`
 
-echo "-> Note: This fork is derived from VeloshGSIs, the predecessor of the old TrebleExperience foundation (2019-2020, VegaGSIs)."
-echo " - This branch is private, the public repository is available on TrebleExperience's GitHub."
-
+# Do an OS check, avoid Darwin as I cannot support it.
 if [ $(uname) == Darwin ]; then
     echo "-> Darwin is no longer supported."
     exit 1
 fi
 
+# Always run as root
 if [ "${EUID}" -ne 0 ]; then
     echo "-> Run as root!"
     exit 1
 fi
 
+# Welcome Message
+echo "-> Note: This fork is derived from VeloshGSIs, the predecessor of the old TrebleExperience foundation (2019-2020, VegaGSIs)."
+echo " - This branch is private, the public repository is available on TrebleExperience's GitHub."
+
+# GSI Process lock
 if [ -f "$LOCK" ]; then
     echo "-> Stop, wait for the other job to finish before you can start another one."
     exit 1
@@ -34,20 +45,15 @@ else
     mkdir -p "$PROJECT_DIR/cache/"
     touch "$LOCK"
     echo "-> Making patch: Cleaning and removing folders that are used to make GSI to avoid problems"
-    if [ -d "$PROJECT_DIR/working/system/" ]; then
-        sudo umount "$PROJECT_DIR/working/system/" > /dev/null 2>&1
-    fi
-    if [ -d "$PROJECT_DIR/working/vendor/" ]; then
-        sudo umount "$PROJECT_DIR/working/vendor/" > /dev/null 2>&1
-    fi
+    umount -l "$PROJECT_DIR/working/*" > /dev/null 2>&1
     if [ -d "$PROJECT_DIR/tools/ROM_resigner/tmp/" ]; then
         sudo rm -rf "$PROJECT_DIR/tools/ROM_resigner/tmp/"
     fi
     sudo rm -rf "$PROJECT_DIR/cache/" "$PROJECT_DIR/tmp/" "$PROJECT_DIR/working/"
 fi
 
-usage()
-{
+# Util functions
+usage() {
     echo "Usage: [--help|-h|-?] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] [--dynamic|-d] [--no-vndks|-nv] $0 <Firmware link> <Firmware type> [Other args]"
     echo -e "\tFirmware link: Firmware download link or local path"
     echo -e "\tFirmware type: Firmware mode"
@@ -59,69 +65,7 @@ usage()
     echo -e "\t--help: To show this info"
 }
 
-POSITIONAL=()
-while [[ $# -gt 0 ]]
-do
-key="$1"
-
-case $key in
-    --ab|-b)
-    AONLY=false
-    AB=true
-    shift
-    ;;
-    --aonly|-a)
-    AONLY=true
-    AB=false
-    shift
-    ;;
-    --cleanup|-c)
-    CLEAN=true
-    shift
-    ;;
-    --no-vndks|-nv)
-    NOVNDK=true
-    shift
-    ;;
-    --dynamic|-d)
-    DYNAMIC=true
-    shift
-    ;;
-    --help|-h|-?)
-    usage
-    exit
-    ;;
-    *)
-    POSITIONAL+=("$1")
-    shift
-    ;;
-esac
-done
-set -- "${POSITIONAL[@]}" # restore positional parameters
-
-if [[ ! -n $2 ]]; then
-    echo "-> ERROR!"
-    echo " - Enter all needed parameters"
-    sudo rm -rf "$PROJECT_DIR/cache/" "$LOCK"
-    usage
-    exit
-fi
-
-URL=$1
-shift
-SRCTYPE=$1
-shift
-
-ORIGINAL_URL=$URL
-
-if [[ $SRCTYPE == *":"* ]]; then
-    SRCTYPENAME=`echo "$SRCTYPE" | cut -d ":" -f 2`
-else
-    SRCTYPENAME=$SRCTYPE
-fi
-
-DOWNLOAD()
-{
+DOWNLOAD() {
     URL="$1"
     ZIP_NAME="$2"
     echo "-> Downloading firmware to: $ZIP_NAME"
@@ -136,8 +80,7 @@ DOWNLOAD()
     fi
 }
 
-MOUNT()
-{
+MOUNT() {
     mkdir -p "$PROJECT_DIR/working/$2"
     if `sudo mount -o ro "$PROJECT_DIR/working/$1" "$PROJECT_DIR/working/$2" > /dev/null 2>&1`; then
         echo "-> $3 image successfully mounted"
@@ -150,27 +93,92 @@ MOUNT()
     fi
 }
 
-UMOUNT()
-{
+UMOUNT() {
     sudo umount "$1"
 }
 
-LEAVE()
-{
-    UMOUNT "$PROJECT_DIR/working/system"
-    UMOUNT "$PROJECT_DIR/working/vendor" > /dev/null 2>&1
+LEAVE() {
+    umount -l "$PROJECT_DIR/working/*" > /dev/null 2>&1
     rm -rf "$PROJECT_DIR/working"
     exit 1
 }
 
+# Need at least 2 args
+if [[ ! -n $2 ]]; then
+    echo "-> ERROR!"
+    echo " - Enter all needed parameters"
+    sudo rm -rf "$PROJECT_DIR/cache/" "$LOCK"
+    usage
+    exit
+fi
+
+# Get the args
+POSITIONAL=()
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+    --ab | -b)
+        AONLY=false
+        AB=true
+        shift
+        ;;
+    --aonly | -a)
+        AONLY=true
+        AB=false
+        shift
+        ;;
+    --cleanup | -c)
+        CLEAN=true
+        shift
+        ;;
+    --no-vndks | -nv)
+        NOVNDK=true
+        shift
+        ;;
+    --dynamic | -d)
+        DYNAMIC=true
+        shift
+        ;;
+    --help | -h | -?)
+        usage
+        exit
+        ;;
+    *)
+        POSITIONAL+=("$1")
+        shift
+        ;;
+    esac
+done
+set -- "${POSITIONAL[@]}"
+
+# Get the URL and Firmware Type (Shift method)
+URL=$1
+shift
+SRCTYPE=$1
+shift
+
+# Make a copy of URL variable
+ORIGINAL_URL=$URL
+
+# Check if has special firmware (eg: OxygenOS:HydrogenOS)
+if [[ $SRCTYPE == *":"* ]]; then
+    SRCTYPENAME=`echo "$SRCTYPE" | cut -d ":" -f 2`
+else
+    SRCTYPENAME=$SRCTYPE
+fi
+
 # Create input & working directory if it does not exist
 mkdir -p "$PROJECT_DIR/input" "$PROJECT_DIR/working" "$PROJECT_DIR/output"
 
+# If the URL variable is a directory (we expect that dir is a system image), then we'll use that path as GSI system image
 if [[ -d "$URL" ]]; then
     MOUNTED=true
 fi
 
+# Create a dummy variable for ZIP_NAME
 ZIP_NAME="$PROJECT_DIR/input/dummy"
+
+# If the URL isn't a system image dir, make minor checks
 if [ $MOUNTED == false ]; then
     if [[ "$URL" == "http"* ]]; then
         # URL detected
@@ -202,24 +210,29 @@ if [ $MOUNTED == false ]; then
     fi
 fi
 
+# GSI process (AB)
 if [ $AB == true ]; then
    "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" AB ${NOVNDK} "$PROJECT_DIR/output" ${@} || LEAVE
 fi
 
+# Remove ROM_resigner tmp dir
 if [ -d "$PROJECT_DIR/tools/ROM_resigner/tmp/" ]; then
    sudo rm -rf "$PROJECT_DIR/tools/ROM_resigner/tmp/"
 fi
 
+# GSI process (AB)
 if [ $AONLY == true ]; then
     "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" Aonly ${NOVNDK} "$PROJECT_DIR/output" ${@} || LEAVE
 fi
 
-UMOUNT "$PROJECT_DIR/working/system"
-UMOUNT "$PROJECT_DIR/working/vendor" > /dev/null 2>&1
+# Umount all inside working folder and delete it
+umount -l "$PROJECT_DIR/working/*" > /dev/null 2>&1
 rm -rf "$PROJECT_DIR/working"
 
+# Minor thing
 if [ ! $USERNAME == "root" ]; then
     chown -R ${USERNAME}:${USERNAME} $PROJECT_DIR/output
 fi
 
-echo "-> Porting ${SRCTYPENAME} GSI done on: $PROJECT_DIR/output"
+# Done message
+echo "-> Done, ${SRCTYPENAME} ROM successfully ported, wait for Bo³+t to finish the process."
