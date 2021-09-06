@@ -1,0 +1,6 @@
+/xrom             u:object_r:rootfs:s0
+/asdf             u:object_r:rootfs:s0
+/APD              u:object_r:rootfs:s0
+/ADF              u:object_r:rootfs:s0
+/motor_fw1        u:object_r:rootfs:s0
+/motor_fw2        u:object_r:rootfs:s0
