@@ -1,3 +1,0 @@
-service oeminfod /system/bin/hw/com.blackshark.oeminfo@1.0-service
-    class main
-    user root
