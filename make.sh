@@ -1,10 +1,24 @@
 #!/bin/bash
 
 # Project OEM-GSI Porter by Erfan Abdi <erfangplus@gmail.com>
-# All credits to Erfan Abdi
+# Project TrebleExperience by Hitalo <hitalo331@outlook.com> and Velosh <daffetyxd@gmail.com>
 
-usage()
-{
+# Core variables, do not edit.
+LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
+tempdirname="tmp"
+tempdir="$LOCALDIR/$tempdirname"
+systemdir="$tempdir/system"
+toolsdir="$LOCALDIR/tools"
+romsdir="$LOCALDIR/roms"
+prebuiltdir="$LOCALDIR/prebuilt"
+scriptsdir="$LOCALDIR/scripts"
+sourcepath=$1
+romtype=$2
+outputtype=$3
+novndk=$4
+
+# Util functions
+usage() {
 echo "Usage: $0 <Path to GSI system> <Firmware type> <Output type> <Extra VNDK> [Output Dir]"
     echo -e "\tPath to GSI system: Mount GSI and set mount point"
     echo -e "\tFirmware type: Firmware mode"
@@ -13,6 +27,7 @@ echo "Usage: $0 <Path to GSI system> <Firmware type> <Output type> <Extra VNDK> 
     echo -e "\tOutput Dir: set output dir"
 }
 
+# Need at least 4 args
 if [ "$4" == "" ]; then
     echo "-> ERROR!"
     echo " - Enter all needed parameters"
@@ -20,12 +35,7 @@ if [ "$4" == "" ]; then
     exit 1
 fi
 
-LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
-sourcepath=$1
-romtype=$2
-outputtype=$3
-novndk=$4
-
+# Check output arg
 if [ "$5" == "" ]; then
     echo "-> Create out dir"
     outdirname="out"
@@ -35,6 +45,7 @@ else
     outdir="$5"
 fi
 
+# Check if have special name.
 if [[ $romtype == *":"* ]]; then
     romtypename=`echo "$romtype" | cut -d ":" -f 2`
     romtype=`echo "$romtype" | cut -d ":" -f 1`
@@ -42,8 +53,11 @@ else
     romtypename=$romtype
 fi
 
+# Init variables for ROM check
 flag=false
 roms=("$LOCALDIR"/roms/*/*)
+
+# Check ROM type
 for dir in "${roms[@]}"
 do
     rom=`echo "$dir" | rev | cut -d "/" -f 1 | rev`
@@ -51,6 +65,8 @@ do
         flag=true
     fi
 done
+
+# If flag variable is false, then the ROM isn't even supported.
 if [ "$flag" == "false" ]; then
     echo "-> Heyaa! This rom: $romtype is not supported rom, supported roms:"
     for dir in "${roms[@]}"
@@ -61,11 +77,17 @@ if [ "$flag" == "false" ]; then
     done
     exit 1
 fi
+
+# Re-init variable for layout check
 flag=false
+
+# Check layout type
 case "$outputtype" in
     *"AB"*) flag=true ;;
     *"Aonly"*) flag=true ;;
 esac
+
+# If flag variable is false, then the layout type isn't even supported.
 if [ "$flag" == "false" ]; then
     echo "-> Hey, $outputtype is not supported type, supported types:"
     echo " - AB"
@@ -79,18 +101,12 @@ if [[ -e "$sourcepath/system" ]]; then
     sourcetype="AB"
 fi
 
-tempdirname="tmp"
-tempdir="$LOCALDIR/$tempdirname"
-systemdir="$tempdir/system"
-toolsdir="$LOCALDIR/tools"
-romsdir="$LOCALDIR/roms"
-prebuiltdir="$LOCALDIR/prebuilt"
-scriptsdir="$LOCALDIR/scripts"
-
-echo "-> Creating Temp directory..."
+# GSI process message
+echo "-> Initializing process, creating temporary directory..."
 rm -rf $tempdir
 mkdir -p "$systemdir"
 
+# Check layout type (I guess I'll drop it soon.)
 if [ "$sourcetype" == "Aonly" ]; then
     echo "-> Warning: Aonly source detected, using P AOSP rootdir"
     cd "$systemdir"
@@ -133,12 +149,17 @@ if [ $(echo $sourcever | cut -d "." -f 2) == 0 ]; then
     sourcever=$(echo $sourcever | cut -d "." -f 1)
 fi
 
+# Re-init variable for Android version
 flag=false
+
+# Check Android version
 case "$sourcever" in
     *"10"*) flag=true ;;
     *"11"*) flag=true ;;
     *"12"*) flag=true ;;
 esac
+
+# I need to say something?
 if [ "$flag" == "false" ]; then
     echo "-> $sourcever is not supported."
     exit 1
@@ -196,6 +217,7 @@ echo "-> Patching started..."
 $scriptsdir/fixsymlinks.sh "$systemdir/system" 2>/dev/null
 $scriptsdir/nukeABstuffs.sh "$systemdir/system" 2>/dev/null
 
+# Check if extra VNDK has been requested
 if [[ $novndk == "false" ]]; then
     echo "-> Extra VNDK requested, copying VNDK from Android $sourcever into GSI"
     $prebuiltdir/vendor_vndk/make$sourcever.sh "$systemdir/system" 2>/dev/null
@@ -203,6 +225,7 @@ else
     echo "-> No extra VNDK requested, skipping the VNDK process..."
 fi
 
+# Patching moment
 $prebuiltdir/$sourcever/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
 $prebuiltdir/$sourcever/makeroot.sh "$systemdir" "$romsdir/$sourcever/$romtype" 2>/dev/null
 $prebuiltdir/common/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
@@ -257,20 +280,17 @@ bytesToHuman() {
 echo "Raw Image Size: $(bytesToHuman $systemsize)" >> "$outputinfo"
 
 echo "-> Creating Image (This may take a while to finish): $outputimagename"
-# Use ext4fs to make image in P or older!
-if [ "$sourcever" == "9" ]; then
-    useold="--old"
-fi
 
 # Build the GSI image
 if [ ! -f "$romsdir/$sourcever/$romtype/build/file_contexts" ]; then
     echo "-> Note: Custom security contexts not found for this ROM, errors or SELinux problem may appear"
-    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output false $useold > $tempdir/mkimage.log
+    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output false > $tempdir/mkimage.log
 else
     echo "-> Note: Custom security contexts found!"
-    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/build $useold > $tempdir/mkimage.log
+    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/build > $tempdir/mkimage.log
 fi
 
+# Check if the output image has been built
 if [ -f "$output" ]; then
    # Builded
    echo "-> Created image ($outputtype): $outputimagename | Size: $(bytesToHuman $systemsize)"
@@ -296,5 +316,5 @@ if [ -f "$LOCALDIR/output/.otmp" ]; then
     mv "$LOCALDIR/output/.otmp" "$outputodmoverlays"
 fi
 
-echo "-> Removing Tmp/Cache dir"
+echo "-> Done! Delete temporary folder."
 rm -rf "$tempdir"
