@@ -26,6 +26,19 @@ sed -i "/sys.usb.controller/d" $plat_property
 sed -i "/sys.usb.config/d" $plat_property
 sed -i "/ro.build.fingerprint/d" $plat_property
 
+# Drop prebuilt verity key (AVB)
+rm -rf $1/../verity_key
+
+# Drop some recovery stuff (useless)
+rm -rf $1/../init.recovery*
+
+# Drop recovery chunk (useless) (BSDIFF)
+rm -rf $1/recovery-from-boot.*
+
+# Drop reboot_on_failure
+sed -i "/reboot_on_failure/d" $1/etc/init/hw/init.rc
+sed -i "/reboot_on_failure/d" $1/etc/init/apexd.rc
+
 # Append props
 cat $thispath/build.prop >> $1/build.prop
 
