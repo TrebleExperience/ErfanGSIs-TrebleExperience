@@ -1,12 +1,15 @@
 on post-fs-data
-    mkdir /data/local/tmp/logs 0775 system system
-    rm /data/local/tmp/logs/log
-    start persistentLogging
+    mkdir /data/logs 0777 root root
+    rm /data/logs/log
 
-on property:sys.boot_completed=1
-    stop persistentLogging
-
-service persistentLogging /system/bin/logcat -f /data/local/tmp/logs/log
+service persistentLogging /system/bin/logcat -v time -f /data/logs/log
     user system
     group root system log
+    oneshot
     disabled
+
+on property:sys.boot_completed=0
+    start persistentLogging
+    
+on property:sys.boot_completed=1
+    stop persistentLogging
