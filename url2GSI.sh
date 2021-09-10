@@ -45,7 +45,7 @@ else
     mkdir -p "$PROJECT_DIR/cache/"
     touch "$LOCK"
     echo "-> Making patch: Cleaning and removing folders that are used to make GSI to avoid problems"
-    umount -l "$PROJECT_DIR/working/*" > /dev/null 2>&1
+    umount -l "$PROJECT_DIR/working/*" >> /dev/null 2>&1
     if [ -d "$PROJECT_DIR/tools/ROM_resigner/tmp/" ]; then
         sudo rm -rf "$PROJECT_DIR/tools/ROM_resigner/tmp/"
     fi
@@ -228,8 +228,8 @@ fi
 
 # Umount all inside working folder and delete it
 UMOUNT "$PROJECT_DIR/working/system"
-UMOUNT "$PROJECT_DIR/working/vendor" > /dev/null 2>&1
-rm -rf "$PROJECT_DIR/working"
+umount -l "$PROJECT_DIR/working/*" >> /dev/null 2>&1
+sudo rm -rf "$PROJECT_DIR/cache/" "$PROJECT_DIR/tmp/" "$PROJECT_DIR/working/" >> /dev/null 2>&1
 
 # Minor thing
 if [ ! $USERNAME == "root" ]; then
@@ -237,4 +237,4 @@ if [ ! $USERNAME == "root" ]; then
 fi
 
 # Done message
-echo "-> Done, ${SRCTYPENAME} ROM successfully ported, wait for Bo³+t to finish the process."
+echo " > Done, ${SRCTYPENAME} ROM successfully ported, wait for Bo³+t to finish the process." | sed "s/-/ /g"
