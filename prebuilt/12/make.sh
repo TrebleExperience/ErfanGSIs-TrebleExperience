@@ -61,10 +61,6 @@ $thispath/../../scripts/sepolicy_prop_remover.sh $1/etc/selinux/plat_property_co
 mv $1/../../plat_property_contexts $1/etc/selinux/plat_property_contexts
 sed -i "/typetransition location_app/d" $1/etc/selinux/plat_sepolicy.cil
 
-# Diable reboot_on_failure Check
-sed -i "/reboot_on_failure/d" $1/etc/init/hw/init.rc
-sed -i "/reboot_on_failure/d" $1/etc/init/apexd.rc
-
 # GSI always generate dex pre-opt in system image
 echo "ro.cp_system_other_odex=0" >> $1/product/etc/build.prop
 
