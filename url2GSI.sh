@@ -37,21 +37,6 @@ fi
 echo "-> Note: This fork is derived from VeloshGSIs, the predecessor of the old TrebleExperience foundation (2019-2020, VegaGSIs)."
 echo " - This branch is private, the public repository is available on TrebleExperience's GitHub."
 
-# GSI Process lock
-if [ -f "$LOCK" ]; then
-    echo "-> Stop, wait for the other job to finish before you can start another one."
-    exit 1
-else
-    mkdir -p "$PROJECT_DIR/cache/"
-    touch "$LOCK"
-    echo "-> Making patch: Cleaning and removing folders that are used to make GSI to avoid problems"
-    umount -l "$PROJECT_DIR/working/*" >> /dev/null 2>&1
-    if [ -d "$PROJECT_DIR/tools/ROM_resigner/tmp/" ]; then
-        sudo rm -rf "$PROJECT_DIR/tools/ROM_resigner/tmp/"
-    fi
-    sudo rm -rf "$PROJECT_DIR/cache/" "$PROJECT_DIR/tmp/" "$PROJECT_DIR/working/"
-fi
-
 # Util functions
 usage() {
     echo "Usage: [--help|-h|-?] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] [--dynamic|-d] [--no-vndks|-nv] $0 <Firmware link> <Firmware type> [Other args]"
@@ -97,6 +82,15 @@ UMOUNT() {
     sudo umount "$1"
 }
 
+UMOUNT_ALL() {
+    for partition in $(pwd)/working/*; do
+        if [ -d "$partition" ]; then
+            umount -f $partition >> /dev/null 2>&1 || true
+            umount -l $partition >> /dev/null 2>&1 || true
+        fi
+    done
+}
+
 LEAVE() {
     UMOUNT "$PROJECT_DIR/working/system"
     UMOUNT "$PROJECT_DIR/working/vendor" > /dev/null 2>&1
@@ -111,6 +105,18 @@ if [[ ! -n $2 ]]; then
     sudo rm -rf "$PROJECT_DIR/cache/" "$LOCK"
     usage
     exit
+fi
+
+# GSI Process lock
+if [ -f "$LOCK" ]; then
+    echo "-> Stop, wait for the other job to finish before you can start another one."
+    exit 1
+else
+    mkdir -p "$PROJECT_DIR/cache/"
+    touch "$LOCK"
+    echo "-> Warning: Unmounting all partitions inside working folder, remove all temporary folders which are used to do GSI process."
+    UMOUNT_ALL
+    sudo rm -rf "$PROJECT_DIR/cache/" "$PROJECT_DIR/tmp/" "$PROJECT_DIR/working/" "$PROJECT_DIR/output/" "$PROJECT_DIR/tools/ROM_resigner/tmp/"
 fi
 
 # Get the args
@@ -226,10 +232,9 @@ if [ $AONLY == true ]; then
     "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" Aonly ${NOVNDK} "$PROJECT_DIR/output" ${@} || LEAVE
 fi
 
-# Umount all inside working folder and delete it
-UMOUNT "$PROJECT_DIR/working/system"
-umount -l "$PROJECT_DIR/working/*" >> /dev/null 2>&1
-sudo rm -rf "$PROJECT_DIR/cache/" "$PROJECT_DIR/tmp/" "$PROJECT_DIR/working/" >> /dev/null 2>&1
+# Force all partitions to be unmounted.
+UMOUNT_ALL
+sudo rm -rf "$PROJECT_DIR/cache/" "$PROJECT_DIR/tmp/" "$PROJECT_DIR/working/" "$PROJECT_DIR/tools/ROM_resigner/tmp/"
 
 # Minor thing
 if [ ! $USERNAME == "root" ]; then
