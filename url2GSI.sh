@@ -114,9 +114,12 @@ if [ -f "$LOCK" ]; then
 else
     mkdir -p "$PROJECT_DIR/cache/"
     touch "$LOCK"
-    echo "-> Warning: Unmounting all partitions inside working folder, remove all temporary folders which are used to do GSI process."
+    echo "-> Warning: Unmounting all partitions inside working folder, deleting all temporary folders/files which are used to do GSI process..."
     UMOUNT_ALL
     sudo rm -rf "$PROJECT_DIR/cache/" "$PROJECT_DIR/tmp/" "$PROJECT_DIR/working/" "$PROJECT_DIR/output/" "$PROJECT_DIR/tools/ROM_resigner/tmp/"
+    sudo find . -type d -name "__pycache__" -exec rm -rf {} +
+    sudo find . -type f -name "*.pyc" -exec rm -rf {} +
+    echo " - Done."
 fi
 
 # Get the args
