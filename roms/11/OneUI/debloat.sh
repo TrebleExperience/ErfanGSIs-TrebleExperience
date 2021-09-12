@@ -13,9 +13,6 @@ rm -rf $1/app/AllshareFileShareClient
 rm -rf $1/app/AllshareFileShareServer
 rm -rf $1/app/AllshareFileShare
 rm -rf $1/app/AllshareMediaShare
-rm -rf $1/app/AntHalService
-rm -rf $1/app/ANTPlusPlugins
-rm -rf $1/app/ANTPlusTest
 rm -rf $1/app/AssistantMenu_M
 rm -rf $1/app/ARCore
 rm -rf $1/app/ARDrawing
@@ -146,7 +143,6 @@ rm -rf $1/app/WeatherWidget2017
 rm -rf $1/app/Weather_Stub
 rm -rf $1/app/YouTube
 rm -rf $1/priv-app/AndroidAutoStub
-rm -rf $1/priv-app/ANTRadioService
 rm -rf $1/priv-app/AREmoji
 rm -rf $1/priv-app/AREmojiEditor
 rm -rf $1/priv-app/AuthFramework
