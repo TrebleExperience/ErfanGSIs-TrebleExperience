@@ -239,10 +239,8 @@ fi
 UMOUNT_ALL
 sudo rm -rf "$PROJECT_DIR/cache/" "$PROJECT_DIR/tmp/" "$PROJECT_DIR/working/" "$PROJECT_DIR/tools/ROM_resigner/tmp/"
 
-# Minor thing
-if [ ! $USERNAME == "root" ]; then
-    chown -R ${USERNAME}:${USERNAME} $PROJECT_DIR/output
-fi
+# We're lazy to run chown command
+chown -R ${USERNAME}:${USERNAME} $PROJECT_DIR/output
 
 # Done message
 echo " > Done, ${SRCTYPENAME} ROM successfully ported, wait for Bo³+t to finish the process." | sed "s/-/ /g"
