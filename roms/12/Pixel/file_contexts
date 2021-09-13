@@ -1,0 +1,2 @@
+/system/bin/fix_ex_sdcard.sh u:object_r:system_file:s0
+/system/bin/clear_cache.sh u:object_r:system_file:s0

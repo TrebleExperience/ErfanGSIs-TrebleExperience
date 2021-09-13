@@ -36,8 +36,41 @@ rm -rf $1/../init.environ.rc
 # Copy own environ init
 cp -rp $thispath/init/init.environ.rc $1/../init.environ.rc
 
-# More fixes (@nippon/829b244dcea3b36eecabc6053fc6fc02ebc3e099)
+# Try to fix height ratio
+sed -i "/ro.com.google.ime.height_ratio/d" $1/product/etc/build.prop
 echo "ro.com.google.ime.height_ratio=1.0" >> $1/product/etc/build.prop
+
+# Recovery fix (Derped but this works)
+echo "
+service fix_sdcard /system/bin/sh /system/bin/fix_ex_sdcard.sh
+    class core 
+    user root" >> $1/etc/init/hw/init.rc
+
+# Bootloop fix (Derped but this works)
+echo "
+service clear_cache /system/bin/sh /system/bin/clear_cache.sh
+     class core
+     user root" >> $1/etc/init/hw/init.rc
+
+
+# Append file_context
+cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts
 
 # Enable GXO Overlay
 echo "ro.boot.vendor.overlay.theme=com.google.android.systemui.gxoverlay" >> $1/product/etc/build.prop
+
+# Init tmp variable.
+TMPDIR="$thispath/../../../tmp/services_tmp"
+SYSTEMDIR="$thispath/../../../tmp/system/system"
+APKTOOL="$thispath/../../../tools/apktool/apktool.jar"
+[[ -d "$TMPDIR" ]] && rm -rf "$TMPDIR"
+mkdir -p $TMPDIR
+
+# Start the process: Fix manufacter message issue (lazy patch)
+echo "-> Patching services.jar, wait a moment..."
+java -jar $APKTOOL d $SYSTEMDIR/framework/services.jar --output $TMPDIR/ -f >> $TMPDIR/services.log 2>&1
+sed -i "/invoke-virtual {v0}, Lcom\/android\/server\/wm\/ActivityTaskManagerInternal;->showSystemReadyErrorDialogsIfNeeded()V/d" $TMPDIR/smali/com/android/server/am/ActivityManagerService.smali >> /dev/null 2>&1
+cd $TMPDIR && java -jar $APKTOOL b --output $TMPDIR/services.jar >> $TMPDIR/services.log 2>&1 || [[ $? -eq 1 ]] && true
+mv $TMPDIR/services.jar $SYSTEMDIR/framework/services.jar
+chown root:root $SYSTEMDIR/framework/services.jar && chmod 0644 $SYSTEMDIR/framework/services.jar
+echo " - Patched services.jar successfully!"
