@@ -7,6 +7,16 @@ thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 # Drop prebuilt fstab.postinstall
 rm -rf $systempath/etc/fstab.postinstall
 
+# Drop prebuilt apns-conf.xml
+rm -rf $1/etc/apns-conf.xml
+
+# Download apns-conf.xml from Google Source
+curl -s "https://android.googlesource.com/device/sample/+/master/etc/apns-full-conf.xml?format=TEXT" | base64 --decode > $1/etc/apns-conf.xml
+
+# Also fix user/group name & chmod permission
+chown root:root $1/etc/apns-conf.xml
+chmod 0644 $1/etc/apns-conf.xml
+
 # Patch for system
 rsync -ra $thispath/system/ $systempath
 rm -rf $1/etc/permissions/qti_permissions.xml
