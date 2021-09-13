@@ -210,9 +210,7 @@ if [ $MOUNTED == false ]; then
         MOUNT "system.img" "system" "System"
         URL="$PROJECT_DIR/working/system"
         if [ -f "$PROJECT_DIR/working/vendor.img" ]; then
-            if [ ! -f "$PROJECT_DIR/output/.tmp" ]; then
-                MOUNT "vendor.img" "vendor" "Vendor"
-            fi
+            MOUNT "vendor.img" "vendor" "Vendor"
         fi
     else
         echo "-> Error, System Image doesn't exists, abort!"
