@@ -264,7 +264,19 @@ output="$outdir/$outputimagename"
 outputvendoroverlays="$outdir/$outputvendoroverlaysname"
 outputodmoverlays="$outdir/$outputodmoverlaysname"
 outputinfo="$outdir/$outputtextname"
-$scriptsdir/getinfo.sh "$systemdir/system" > "$outputinfo"
+
+# Get info
+if $(cat $systemdir/system/build.prop | grep -qo 'qssi'); then
+    echo "-> QSSI build detected! Trying to get the correct device info."
+    if [ -f "$LOCALDIR/working/vendor.img" ]; then
+        $scriptsdir/getinfo.sh "$systemdir/system" "$LOCALDIR/working/vendor" true > "$outputinfo"
+    else
+        echo " - The vendor image doesn't exist, isn't possible to get the device's codename, model instead of QSSI props."
+        $scriptsdir/getinfo.sh "$systemdir/system" /dev/null false > "$outputinfo"
+    fi
+else
+    $scriptsdir/getinfo.sh "$systemdir/system" "$LOCALDIR/working/vendor" false > "$outputinfo"
+fi
 
 # Getting system size and add approximately 5% on it just for free space
 systemsize=`du -sk $systemdir | awk '{$1*=1024;$1=int($1*1.05);printf $1}'`
