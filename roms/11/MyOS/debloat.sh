@@ -7,7 +7,6 @@ thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 rm -rf $1/app/DtsUltra
 rm -rf $1/app/DualSta
 rm -rf $1/app/EMode
-rm -rf $1/app/LiveWallpaper_*
 rm -rf $1/app/MusicPlayerMFV
 rm -rf $1/app/Recorder_MFV
 rm -rf $1/app/UmeBrowser
