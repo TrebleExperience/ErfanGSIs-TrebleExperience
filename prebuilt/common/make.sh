@@ -19,7 +19,6 @@ chmod 0644 $1/etc/apns-conf.xml
 
 # Patch for system
 rsync -ra $thispath/system/ $systempath
-rm -rf $1/etc/permissions/qti_permissions.xml
 rm -rf $1/etc/permissions/com.qti.dpmframework.xml
 
 # Append file_context
@@ -35,6 +34,18 @@ sed -i "/sys.usb.configfs/d" $plat_property
 sed -i "/sys.usb.controller/d" $plat_property
 sed -i "/sys.usb.config/d" $plat_property
 sed -i "/ro.build.fingerprint/d" $plat_property
+
+# Remove qti_permissions
+find $systemdir -type f -name "qti_permissions.xml" | xargs rm -rf
+
+# Remove firmware
+find $systemdir -type d -name "firmware" | xargs rm -rf
+
+# Remove avb
+find $systemdir -type d -name "avb" | xargs rm -rf
+
+# Remove com.qualcomm.location
+find $systemdir -type d -name "com.qualcomm.location" | xargs rm -rf
 
 # Drop prebuilt verity key (AVB)
 rm -rf $1/../verity_key
