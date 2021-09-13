@@ -197,21 +197,6 @@ if [[ -f $romsdir/$sourcever/$romtype/$romtypename/debloat.sh || -f $romsdir/$so
     $romsdir/$sourcever/$romtype/$romtypename/debloat.sh "$systemdir/system" 2>/dev/null
 fi
 
-# Resign to AOSP keys
-if [[ ! -e $romsdir/$sourcever/$romtype/$romtypename/DONTRESIGN ]]; then
-    if [[ ! -e $romsdir/$sourcever/$romtype/DONTRESIGN ]]; then
-        echo "-> Resigning to AOSP keys, just wait."
-        ispython2=`python -c 'import sys; print("%i" % (sys.hexversion<0x03000000))'`
-        if [ $ispython2 -eq 0 ]; then
-            python2=python2
-        else
-            python2=python
-        fi
-        $python2 $toolsdir/ROM_resigner/resign.py "$systemdir/system" $toolsdir/ROM_resigner/AOSP_security > $tempdir/resign.log 2>&1
-        $prebuiltdir/resigned/make.sh "$systemdir/system" 2>/dev/null
-    fi
-fi
-
 # Start patching
 echo "-> Patching started..."
 $scriptsdir/fixsymlinks.sh "$systemdir/system" 2>/dev/null
@@ -241,6 +226,21 @@ fi
 if [ "$outputtype" == "Aonly" ]; then
     $prebuiltdir/$sourcever/makeA.sh "$systemdir/system" 2>/dev/null
     $romsdir/$sourcever/$romtype/makeA.sh "$systemdir/system" 2>/dev/null
+fi
+
+# Resign to AOSP keys
+if [[ ! -e $romsdir/$sourcever/$romtype/$romtypename/DONTRESIGN ]]; then
+    if [[ ! -e $romsdir/$sourcever/$romtype/DONTRESIGN ]]; then
+        echo "-> Resigning to AOSP keys, just wait."
+        ispython2=`python -c 'import sys; print("%i" % (sys.hexversion<0x03000000))'`
+        if [ $ispython2 -eq 0 ]; then
+            python2=python2
+        else
+            python2=python
+        fi
+        $python2 $toolsdir/ROM_resigner/resign.py "$systemdir/system" $toolsdir/ROM_resigner/AOSP_security > $tempdir/resign.log 2>&1
+        $prebuiltdir/resigned/make.sh "$systemdir/system" 2>/dev/null
+    fi
 fi
 
 # Fixing environ
