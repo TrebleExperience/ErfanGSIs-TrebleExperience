@@ -284,10 +284,10 @@ echo "-> Creating Image (This may take a while to finish): $outputimagename"
 # Build the GSI image
 if [ ! -f "$romsdir/$sourcever/$romtype/build/file_contexts" ]; then
     echo "-> Note: Custom security contexts not found for this ROM, errors or SELinux problem may appear"
-    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output false > $tempdir/mkimage.log
+    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output false > $tempdir/mkimage.log || rm -rf $output
 else
     echo "-> Note: Custom security contexts found!"
-    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/build > $tempdir/mkimage.log
+    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/build > $tempdir/mkimage.log || rm -rf $output
 fi
 
 # Check if the output image has been built
