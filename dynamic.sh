@@ -47,8 +47,17 @@ OVERLAYS_VENDOR=false
 
 MIUI=false
 
+OPPO=false
+MY_ENGINEERING_IMAGE="$WORKING/my_engineering.img"
+MY_ENGINEERING_DIR="$WORKING/my_engineering"
+MY_COMPANY_IMAGE="$WORKING/my_company.img"
+MY_COMPANY_DIR="$WORKING/my_company"
+MY_PRODUCT_IMAGE="$WORKING/my_product.img"
+MY_PRODUCT_DIR="$WORKING/my_product"
+
 if [ "${EUID}" -ne 0 ]; then
    echo "-> Run as root!"
+   exit 1
 fi
 
 MOUNT() {
@@ -62,6 +71,16 @@ MOUNT() {
    fi
 }
 
+UMOUNT_ALL() {
+   for partition in "$(pwd)/working/*"; do
+      if [ -d "$partition" ]; then
+         umount -f $partition >> /dev/null 2>&1 || true
+         umount -l $partition >> /dev/null 2>&1 || true
+      fi
+   done
+   rm -rf "$(pwd)/working/*"
+}
+
 usage() {
    echo "Usage: $0 <Path to firmware>"
    echo -e "\tPath to firmware: the zip!"
@@ -71,6 +90,8 @@ usage() {
    echo -e "\t--overlays: Take the overlays from /vendor and put them in a temporary folder and compress at the end of the GSI process"
    echo -e "\t--oneplus: Merge oneplus partitions into system (OxygenOS/HydrogenOS only)"
    echo -e "\t--pixel: Merge Pixel partitions into system (Pixel/Generic from Google only)"
+   echo -e "\t--miui: Copy device-features stuff from vendor into system"
+   echo -e "\t--oppo: Merge oppo (RealmeUI for eg) partitions into system"
 }
 
 POSITIONAL=()
@@ -110,6 +131,11 @@ while [[ $# -gt 0 ]]; do
       SYSTEM_NEW=true
       shift
       ;;
+   --oppo)
+      OPPO=true
+      SYSTEM_NEW=true
+      shift
+      ;;
    --help | -h | -?)
       usage
       exit
@@ -121,6 +147,9 @@ while [[ $# -gt 0 ]]; do
    esac
 done
 set -- "${POSITIONAL[@]}"
+
+# Umount all partitions
+UMOUNT_ALL
 
 if [ ! -d "$WORKING/" ]; then
    mkdir -p "$WORKING"
@@ -205,6 +234,33 @@ if [ "$ONEPLUS" == true ]; then
    if [ -f "$INDIA_IMAGE" ]; then
       if [ -d "$INDIA_DIR" ]; then
          if [ -d "$INDIA_DIR/*app*/" ]; then
+            sudo umount "$INDIA_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+fi
+
+if [ "$OPPO" == true ]; then
+   if [ -f "$MY_COMPANY_IMAGE" ]; then
+      if [ -d "$MY_COMPANY_DIR" ]; then
+         if [ -d "$MY_COMPANY_DIR/etc/" ]; then
+            sudo umount "$MY_COMPANY_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_ENGINEERING_IMAGE" ]; then
+      if [ -d "$MY_ENGINEERING_DIR" ]; then
+         if [ -d "$MY_ENGINEERING_DIR/etc" ]; then
+            sudo umount "$MY_ENGINEERING_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_PRODUCT_IMAGE" ]; then
+      if [ -d "$MY_PRODUCT_DIR" ]; then
+         if [ -d "$MY_PRODUCT_DIR/etc/" ]; then
             sudo umount "$INDIA_DIR/"
          fi
       fi
@@ -324,6 +380,27 @@ if [ "$ONEPLUS" == true ]; then
    fi
 fi
 
+if [ "$OPPO" == true ]; then
+   if [ -f "$MY_COMPANY_IMAGE" ]; then
+      if [ ! -d "$MY_COMPANY_DIR/" ]; then
+         mkdir $MY_COMPANY_DIR
+      fi
+      MOUNT $MY_COMPANY_IMAGE $MY_COMPANY_DIR/ "my_company"
+   fi
+   if [ -f "$MY_ENGINEERING_IMAGE" ]; then
+      if [ ! -d "$MY_ENGINEERING_DIR/" ]; then
+         mkdir $MY_ENGINEERING_DIR
+      fi
+      MOUNT $MY_ENGINEERING_IMAGE $MY_ENGINEERING_DIR/ "my_engineering"
+   fi
+   if [ -f "$MY_PRODUCT_IMAGE" ]; then
+      if [ ! -d "$MY_PRODUCT_DIR/" ]; then
+         mkdir $MY_PRODUCT_DIR
+      fi
+      MOUNT $MY_PRODUCT_IMAGE $MY_PRODUCT_DIR/ "my_product"
+   fi
+fi
+
 if [ "$SYSTEM_OTHER" == true ]; then
    if [ -f "$SYSTEM_OTHER_IMAGE" ]; then
       if [ ! -d "$SYSTEM_OTHER_DIR/" ]; then
@@ -431,6 +508,33 @@ if [ "$ONEPLUS" == true ]; then
    fi
 fi
 
+if [ "$OPPO" == true ]; then
+   if [ -f "$MY_COMPANY_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_company
+      mkdir -p $SYSTEM_NEW_DIR/my_company
+      chmod 0755 $SYSTEM_NEW_DIR/my_company
+      chown -R root:root $SYSTEM_NEW_DIR/my_company
+      cp -frp $MY_COMPANY_DIR/* $SYSTEM_NEW_DIR/my_company >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_ENGINEERING_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_engineering
+      mkdir -p $SYSTEM_NEW_DIR/my_engineering
+      chmod 0755 $SYSTEM_NEW_DIR/my_engineering
+      chown -R root:root $SYSTEM_NEW_DIR/my_engineering
+      cp -frp $MY_ENGINEERING_DIR/* $SYSTEM_NEW_DIR/my_engineering >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_PRODUCT_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_product
+      mkdir -p $SYSTEM_NEW_DIR/my_product
+      chmod 0755 $SYSTEM_NEW_DIR/my_product
+      chown -R root:root $SYSTEM_NEW_DIR/my_product
+      cp -frp $MY_PRODUCT_DIR/* $SYSTEM_NEW_DIR/my_product >/dev/null 2>&1
+      sync
+   fi
+fi
+
 if [ "$ONEPLUS" == true ]; then
    if [ -f "$OPPRODUCT_IMAGE" ]; then
       sudo umount $OPPRODUCT_DIR/
@@ -440,6 +544,18 @@ if [ "$ONEPLUS" == true ]; then
    fi
    if [ -f "$INDIA_IMAGE" ]; then
       sudo umount $INDIA_DIR/
+   fi
+fi
+
+if [ "$OPPO" == true ]; then
+   if [ -f "$MY_COMPANY_IMAGE" ]; then
+      sudo umount $MY_COMPANY_DIR/
+   fi
+   if [ -f "$MY_ENGINEERING_IMAGE" ]; then
+      sudo umount $MY_ENGINEERING_DIR/
+   fi
+   if [ -f "$MY_PRODUCT_IMAGE" ]; then
+      sudo umount $MY_PRODUCT_DIR/
    fi
 fi
 
@@ -491,7 +607,7 @@ if [ "$SYSTEM_NEW" == true ]; then
 fi
 
 mv $WORKING/system_new.img $WORKING/system.tmp
-sudo rm -rf $SYSTEM_DIR $SYSTEM_NEW_DIR $PRODUCT_DIR $SYSTEM_IMAGE $SYSTEM_OTHER_DIR $SYSTEM_OTHER_IMAGE $PRODUCT_IMAGE $SYSTEM_EXT_DIR $SYSTEM_EXT_IMAGE $OPPRODUCT_DIR $OPPRODUCT_IMAGE $ODM_DIR $ODM_IMAGE $VENDOR_DIR
+sudo rm -rf $SYSTEM_DIR $SYSTEM_NEW_DIR $PRODUCT_DIR $SYSTEM_IMAGE $SYSTEM_OTHER_DIR $SYSTEM_OTHER_IMAGE $PRODUCT_IMAGE $SYSTEM_EXT_DIR $SYSTEM_EXT_IMAGE $OPPRODUCT_DIR $OPPRODUCT_IMAGE $ODM_DIR $ODM_IMAGE $VENDOR_DIR $MY_COMPANY_IMAGE $MY_COMPANY_DIR $MY_ENGINEERING_IMAGE $MY_ENGINEERING_DIR $MY_PRODUCT_IMAGE $MY_PRODUCT_DIR
 
 if [ "$SYSTEM_NEW" == true ]; then
    mv $WORKING/system.tmp $WORKING/system.img
