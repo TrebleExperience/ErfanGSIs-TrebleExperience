@@ -43,4 +43,10 @@ sudo bash https://bigota.d.miui.com/V12.5.4.0.RCUMIXM/miui_BILOBAGlobal_V12.5.4.
 * Commit with your sign and co-authorship of helpers and others (If necessary)
 
 ### Credits
-See [contributors](https://github.com/TrebleExperience/ErfanGSIs-TrebleExperience/graphs/contributors) here.
+* Erfan Abdi
+* Phhusson
+* AOSP/Google
+* Xiaoxindada
+* GSI Tutorials
+* Nippon
+* See other [contributors](https://github.com/TrebleExperience/ErfanGSIs-TrebleExperience/graphs/contributors) here.
