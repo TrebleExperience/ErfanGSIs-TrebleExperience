@@ -54,6 +54,28 @@ MY_COMPANY_IMAGE="$WORKING/my_company.img"
 MY_COMPANY_DIR="$WORKING/my_company"
 MY_PRODUCT_IMAGE="$WORKING/my_product.img"
 MY_PRODUCT_DIR="$WORKING/my_product"
+MY_CARRIER_IMAGE="$WORKING/my_carrier.img"
+MY_CARRIER_DIR="$WORKING/my_carrier"
+MY_CUSTOM_IMAGE="$WORKING/my_custom.img"
+MY_CUSTOM_DIR="$WORKING/my_custom"
+MY_PRELOAD_IMAGE="$WORKING/my_preload.img"
+MY_PRELOAD_DIR="$WORKING/my_preload"
+MY_MANIFEST_IMAGE="$WORKING/my_manifest.img"
+MY_MANIFEST_DIR="$WORKING/my_manifest"
+MY_REGION_IMAGE="$WORKING/my_region.img"
+MY_REGION_DIR="$WORKING/my_region"
+MY_ODM_IMAGE="$WORKING/my_odm.img"
+MY_ODM_DIR="$WORKING/my_odm"
+MY_STOCK_IMAGE="$WORKING/my_stock.img"
+MY_STOCK_DIR="$WORKING/my_stock"
+MY_VERSION_IMAGE="$WORKING/my_version.img"
+MY_VERSION_DIR="$WORKING/my_version"
+MY_OPERATOR_IMAGE="$WORKING/my_operator.img"
+MY_OPERATOR_DIR="$WORKING/my_operator"
+MY_COUNTRY_IMAGE="$WORKING/my_country.img"
+MY_COUNTRY_DIR="$WORKING/my_country"
+MY_HEYTAP_IMAGE="$WORKING/my_heytap.img"
+MY_HEYTAP_DIR="$WORKING/my_heytap"
 
 if [ "${EUID}" -ne 0 ]; then
    echo "-> Run as root!"
@@ -266,6 +288,94 @@ if [ "$OPPO" == true ]; then
       fi
       DYNAMIC=true
    fi
+   if [ -f "$MY_CARRIER_IMAGE" ]; then
+      if [ -d "$MY_CARRIER_DIR" ]; then
+         if [ -d "$MY_CARRIER_DIR/etc/" ]; then
+            sudo umount "$MY_CARRIER_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_CUSTOM_IMAGE" ]; then
+      if [ -d "$MY_CUSTOM_DIR" ]; then
+         if [ -d "$MY_CUSTOM_DIR/etc" ]; then
+            sudo umount "$MY_CUSTOM_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_PRELOAD_IMAGE" ]; then
+      if [ -d "$MY_PRELOAD_DIR" ]; then
+         if [ -d "$MY_PRELOAD_DIR/etc/" ]; then
+            sudo umount "$MY_PRELOAD_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_MANIFEST_IMAGE" ]; then
+      if [ -d "$MY_MANIFEST_DIR" ]; then
+         if [ -d "$MY_MANIFEST_DIR/etc/" ]; then
+            sudo umount "$MY_MANIFEST_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_REGION_IMAGE" ]; then
+      if [ -d "$MY_REGION_DIR" ]; then
+         if [ -d "$MY_REGION_DIR/etc/" ]; then
+            sudo umount "$MY_REGION_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_ODM_IMAGE" ]; then
+      if [ -d "$MY_ODM_DIR" ]; then
+         if [ -d "$MY_ODM_DIR/etc/" ]; then
+            sudo umount "$MY_ODM_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_STOCK_IMAGE" ]; then
+      if [ -d "$MY_STOCK_DIR" ]; then
+         if [ -d "$MY_STOCK_DIR/etc/" ]; then
+            sudo umount "$MY_STOCK_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_VERSION_IMAGE" ]; then
+      if [ -d "$MY_VERSION_DIR" ]; then
+         if [ -d "$MY_VERSION_DIR/etc/" ]; then
+            sudo umount "$MY_VERSION_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_OPERATOR_IMAGE" ]; then
+      if [ -d "$MY_OPERATOR_DIR" ]; then
+         if [ -d "$MY_OPERATOR_DIR/etc/" ]; then
+            sudo umount "$MY_OPERATOR_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_COUNTRY_IMAGE" ]; then
+      if [ -d "$MY_COUNTRY_DIR" ]; then
+         if [ -d "$MY_COUNTRY_DIR/etc/" ]; then
+            sudo umount "$MY_COUNTRY_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
+   if [ -f "$MY_HEYTAP_IMAGE" ]; then
+      if [ -d "$MY_HEYTAP_DIR" ]; then
+         if [ -d "$MY_HEYTAP_DIR/etc/" ]; then
+            sudo umount "$MY_HEYTAP_DIR/"
+         fi
+      fi
+      DYNAMIC=true
+   fi
 fi
 
 if [ "$SYSTEM_OTHER" == true ]; then
@@ -398,6 +508,72 @@ if [ "$OPPO" == true ]; then
          mkdir $MY_PRODUCT_DIR
       fi
       MOUNT $MY_PRODUCT_IMAGE $MY_PRODUCT_DIR/ "my_product"
+   fi
+   if [ -f "$MY_CARRIER_IMAGE" ]; then
+      if [ ! -d "$MY_CARRIER_DIR/" ]; then
+         mkdir $MY_CARRIER_DIR
+      fi
+      MOUNT $MY_CARRIER_IMAGE $MY_CARRIER_DIR/ "my_carrier"
+   fi
+   if [ -f "$MY_CUSTOM_IMAGE" ]; then
+      if [ ! -d "$MY_CUSTOM_DIR/" ]; then
+         mkdir $MY_CUSTOM_DIR
+      fi
+      MOUNT $MY_CUSTOM_IMAGE $MY_CUSTOM_DIR/ "my_custom"
+   fi
+   if [ -f "$MY_PRELOAD_IMAGE" ]; then
+      if [ ! -d "$MY_PRELOAD_DIR/" ]; then
+         mkdir $MY_PRELOAD_DIR
+      fi
+      MOUNT $MY_PRELOAD_IMAGE $MY_PRELOAD_DIR/ "my_preload"
+   fi
+   if [ -f "$MY_MANIFEST_IMAGE" ]; then
+      if [ ! -d "$MY_MANIFEST_DIR/" ]; then
+         mkdir $MY_MANIFEST_DIR
+      fi
+      MOUNT $MY_MANIFEST_IMAGE $MY_MANIFEST_DIR/ "my_manifest"
+   fi
+   if [ -f "$MY_REGION_IMAGE" ]; then
+      if [ ! -d "$MY_REGION_DIR/" ]; then
+         mkdir $MY_REGION_DIR
+      fi
+      MOUNT $MY_REGION_IMAGE $MY_REGION_DIR/ "my_region"
+   fi
+   if [ -f "$MY_ODM_IMAGE" ]; then
+      if [ ! -d "$MY_ODM_DIR/" ]; then
+         mkdir $MY_ODM_DIR
+      fi
+      MOUNT $MY_ODM_IMAGE $MY_PRODUCT_DIR/ "my_odm"
+   fi
+   if [ -f "$MY_STOCK_IMAGE" ]; then
+      if [ ! -d "$MY_STOCK_DIR/" ]; then
+         mkdir $MY_STOCK_DIR
+      fi
+      MOUNT $MY_STOCK_IMAGE $MY_STOCK_DIR/ "my_stock"
+   fi
+   if [ -f "$MY_VERSION_IMAGE" ]; then
+      if [ ! -d "$MY_VERSION_DIR/" ]; then
+         mkdir $MY_VERSION_DIR
+      fi
+      MOUNT $MY_VERSION_IMAGE $MY_ENGINEERING_DIR/ "my_version"
+   fi
+   if [ -f "$MY_OPERATOR_IMAGE" ]; then
+      if [ ! -d "$MY_OPERATOR_DIR/" ]; then
+         mkdir $MY_OPERATOR_DIR
+      fi
+      MOUNT $MY_OPERATOR_IMAGE $MY_PRODUCT_DIR/ "my_operator"
+   fi
+   if [ -f "$MY_COUNTRY_IMAGE" ]; then
+      if [ ! -d "$MY_COUNTRY_DIR/" ]; then
+         mkdir $MY_COUNTRY_DIR
+      fi
+      MOUNT $MY_COUNTRY_IMAGE $MY_COUNTRY_DIR/ "my_country"
+   fi
+   if [ -f "$MY_HEYTAP_IMAGE" ]; then
+      if [ ! -d "$MY_HEYTAP_DIR/" ]; then
+         mkdir $MY_HEYTAP_DIR
+      fi
+      MOUNT $MY_HEYTAP_IMAGE $MY_PRODUCT_DIR/ "my_heytap"
    fi
 fi
 
@@ -533,6 +709,94 @@ if [ "$OPPO" == true ]; then
       cp -frp $MY_PRODUCT_DIR/* $SYSTEM_NEW_DIR/my_product >/dev/null 2>&1
       sync
    fi
+   if [ -f "$MY_CARRIER_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_carrier
+      mkdir -p $SYSTEM_NEW_DIR/my_carrier
+      chmod 0755 $SYSTEM_NEW_DIR/my_carrier
+      chown -R root:root $SYSTEM_NEW_DIR/my_carrier
+      cp -frp $MY_CARRIER_DIR/* $SYSTEM_NEW_DIR/my_carrier >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_CUSTOM_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_custom
+      mkdir -p $SYSTEM_NEW_DIR/my_custom
+      chmod 0755 $SYSTEM_NEW_DIR/my_custom
+      chown -R root:root $SYSTEM_NEW_DIR/my_custom
+      cp -frp $MY_CUSTOM_DIR/* $SYSTEM_NEW_DIR/my_custom >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_PRELOAD_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_preload
+      mkdir -p $SYSTEM_NEW_DIR/my_preload
+      chmod 0755 $SYSTEM_NEW_DIR/my_preload
+      chown -R root:root $SYSTEM_NEW_DIR/my_preload
+      cp -frp $MY_PRELOAD_DIR/* $SYSTEM_NEW_DIR/my_preload >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_MANIFEST_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_manifest
+      mkdir -p $SYSTEM_NEW_DIR/my_manifest
+      chmod 0755 $SYSTEM_NEW_DIR/my_manifest
+      chown -R root:root $SYSTEM_NEW_DIR/my_manifest
+      cp -frp $MY_MANIFEST_DIR/* $SYSTEM_NEW_DIR/my_manifest >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_REGION_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_region
+      mkdir -p $SYSTEM_NEW_DIR/my_region
+      chmod 0755 $SYSTEM_NEW_DIR/my_region
+      chown -R root:root $SYSTEM_NEW_DIR/my_region
+      cp -frp $MY_REGION_DIR/* $SYSTEM_NEW_DIR/my_region >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_ODM_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_odm
+      mkdir -p $SYSTEM_NEW_DIR/my_odm
+      chmod 0755 $SYSTEM_NEW_DIR/my_odm
+      chown -R root:root $SYSTEM_NEW_DIR/my_odm
+      cp -frp $MY_ODM_DIR/* $SYSTEM_NEW_DIR/my_odm >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_STOCK_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_stock
+      mkdir -p $SYSTEM_NEW_DIR/my_stock
+      chmod 0755 $SYSTEM_NEW_DIR/my_stock
+      chown -R root:root $SYSTEM_NEW_DIR/my_stock
+      cp -frp $MY_STOCK_DIR/* $SYSTEM_NEW_DIR/my_stock >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_VERSION_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_version
+      mkdir -p $SYSTEM_NEW_DIR/my_version
+      chmod 0755 $SYSTEM_NEW_DIR/my_version
+      chown -R root:root $SYSTEM_NEW_DIR/my_version
+      cp -frp $MY_VERSION_DIR/* $SYSTEM_NEW_DIR/my_version >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_OPERATOR_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_operator
+      mkdir -p $SYSTEM_NEW_DIR/my_operator
+      chmod 0755 $SYSTEM_NEW_DIR/my_operator
+      chown -R root:root $SYSTEM_NEW_DIR/my_operator
+      cp -frp $MY_OPERATOR_DIR/* $SYSTEM_NEW_DIR/my_operator >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_COUNTRY_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_country
+      mkdir -p $SYSTEM_NEW_DIR/my_country
+      chmod 0755 $SYSTEM_NEW_DIR/my_country
+      chown -R root:root $SYSTEM_NEW_DIR/my_country
+      cp -frp $MY_COUNTRY_DIR/* $SYSTEM_NEW_DIR/my_country >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$MY_HEYTAP_IMAGE" ]; then
+      rm -rf $SYSTEM_NEW_DIR/my_heytap
+      mkdir -p $SYSTEM_NEW_DIR/my_heytap
+      chmod 0755 $SYSTEM_NEW_DIR/my_heytap
+      chown -R root:root $SYSTEM_NEW_DIR/my_heytap
+      cp -frp $MY_HEYTAP_DIR/* $SYSTEM_NEW_DIR/my_heytap >/dev/null 2>&1
+      sync
+   fi
 fi
 
 if [ "$ONEPLUS" == true ]; then
@@ -556,6 +820,39 @@ if [ "$OPPO" == true ]; then
    fi
    if [ -f "$MY_PRODUCT_IMAGE" ]; then
       sudo umount $MY_PRODUCT_DIR/
+   fi
+   if [ -f "$MY_CARRIER_IMAGE" ]; then
+      sudo umount $MY_CARRIER_DIR/
+   fi
+   if [ -f "$MY_CUSTOM_IMAGE" ]; then
+      sudo umount $MY_CUSTOM_DIR/
+   fi
+   if [ -f "$MY_PRELOAD_IMAGE" ]; then
+      sudo umount $MY_PRELOAD_DIR/
+   fi
+   if [ -f "$MY_MANIFEST_IMAGE" ]; then
+      sudo umount $MY_MANIFEST_DIR/
+   fi
+   if [ -f "$MY_REGION_IMAGE" ]; then
+      sudo umount $MY_REGION_DIR/
+   fi
+   if [ -f "$MY_ODM_IMAGE" ]; then
+      sudo umount $MY_ODM_DIR/
+   fi
+   if [ -f "$MY_STOCK_IMAGE" ]; then
+      sudo umount $MY_STOCK_DIR/
+   fi
+   if [ -f "$MY_VERSION_IMAGE" ]; then
+      sudo umount $MY_VERSION_DIR/
+   fi
+   if [ -f "$MY_OPERATOR_IMAGE" ]; then
+      sudo umount $MY_OPERATOR_DIR/
+   fi
+   if [ -f "$MY_COUNTRY_IMAGE" ]; then
+      sudo umount $MY_COMPANY_DIR/
+   fi
+   if [ -f "$MY_HEYTAP_IMAGE" ]; then
+      sudo umount $MY_HEYTAP_DIR/
    fi
 fi
 
