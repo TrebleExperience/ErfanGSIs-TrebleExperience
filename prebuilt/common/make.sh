@@ -10,8 +10,8 @@ rm -rf $systempath/etc/fstab.postinstall
 # Drop prebuilt apns-conf.xml
 rm -rf $1/etc/apns-conf.xml
 
-# Download apns-conf.xml from Google Source
-curl -s "https://android.googlesource.com/device/sample/+/master/etc/apns-full-conf.xml?format=TEXT" | base64 --decode > $1/etc/apns-conf.xml
+# Download apns-conf.xml from LineageOS
+curl -s "https://raw.githubusercontent.com/LineageOS/android_vendor_lineage/lineage-18.1/prebuilt/common/etc/apns-conf.xml" > $1/etc/apns-conf.xml
 
 # Also fix user/group name & chmod permission
 chown root:root $1/etc/apns-conf.xml
