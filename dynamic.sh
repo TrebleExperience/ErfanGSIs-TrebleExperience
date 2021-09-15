@@ -543,7 +543,7 @@ if [ "$OPPO" == true ]; then
       if [ ! -d "$MY_ODM_DIR/" ]; then
          mkdir $MY_ODM_DIR
       fi
-      MOUNT $MY_ODM_IMAGE $MY_PRODUCT_DIR/ "my_odm"
+      MOUNT $MY_ODM_IMAGE $MY_ODM_DIR/ "my_odm"
    fi
    if [ -f "$MY_STOCK_IMAGE" ]; then
       if [ ! -d "$MY_STOCK_DIR/" ]; then
@@ -555,13 +555,13 @@ if [ "$OPPO" == true ]; then
       if [ ! -d "$MY_VERSION_DIR/" ]; then
          mkdir $MY_VERSION_DIR
       fi
-      MOUNT $MY_VERSION_IMAGE $MY_ENGINEERING_DIR/ "my_version"
+      MOUNT $MY_VERSION_IMAGE $MY_VERSION_DIR/ "my_version"
    fi
    if [ -f "$MY_OPERATOR_IMAGE" ]; then
       if [ ! -d "$MY_OPERATOR_DIR/" ]; then
          mkdir $MY_OPERATOR_DIR
       fi
-      MOUNT $MY_OPERATOR_IMAGE $MY_PRODUCT_DIR/ "my_operator"
+      MOUNT $MY_OPERATOR_IMAGE $MY_OPERATOR_DIR/ "my_operator"
    fi
    if [ -f "$MY_COUNTRY_IMAGE" ]; then
       if [ ! -d "$MY_COUNTRY_DIR/" ]; then
@@ -573,7 +573,7 @@ if [ "$OPPO" == true ]; then
       if [ ! -d "$MY_HEYTAP_DIR/" ]; then
          mkdir $MY_HEYTAP_DIR
       fi
-      MOUNT $MY_HEYTAP_IMAGE $MY_PRODUCT_DIR/ "my_heytap"
+      MOUNT $MY_HEYTAP_IMAGE $MY_HEYTAP_DIR/ "my_heytap"
    fi
 fi
 
