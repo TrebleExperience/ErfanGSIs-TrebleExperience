@@ -180,6 +180,9 @@ if [[ $(7z l -ba "$romzip" | grep system.new.dat) ]]; then
             cat $partition.new.dat.{0..999} 2>/dev/null >> $partition.new.dat
             rm -rf $partition.new.dat.{0..999}
         fi
+        if [[ -f $partition.00011011.patch.dat ]]; then
+            find . -type f -name "*.00011011*" | rename 's/.00011011//g' > /dev/null 2>&1
+        fi
         ls | grep "\.new\.dat" | while read i; do
             line=$(echo "$i" | cut -d"." -f1)
             if [[ $(echo "$i" | grep "\.dat\.xz") ]]; then
