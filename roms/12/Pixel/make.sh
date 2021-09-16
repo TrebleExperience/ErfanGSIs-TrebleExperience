@@ -40,24 +40,14 @@ cp -rp $thispath/init/init.environ.rc $1/../init.environ.rc
 sed -i "/ro.com.google.ime.height_ratio/d" $1/product/etc/build.prop
 echo "ro.com.google.ime.height_ratio=1.0" >> $1/product/etc/build.prop
 
-# Recovery fix (Derped but this works)
-echo "
-service fix_sdcard /system/bin/sh /system/bin/fix_ex_sdcard.sh
-    class core 
-    user root" >> $1/etc/init/hw/init.rc
-
-# Bootloop fix (Derped but this works)
-echo "
-service clear_cache /system/bin/sh /system/bin/clear_cache.sh
-     class core
-     user root" >> $1/etc/init/hw/init.rc
-
-
 # Append file_context
 cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts
 
-# Enable GXO Overlay
-echo "ro.boot.vendor.overlay.theme=com.google.android.systemui.gxoverlay" >> $1/product/etc/build.prop
+# Merge monet props stuff
+sed -i "/persist.sysui.monet/d" $1/product/etc/build.prop
+sed -i "/ro.boot.vendor.overlay.theme/d" $1/product/etc/build.prop
+echo "persist.sysui.monet=true" >> $1/product/etc/build.prop
+echo "ro.boot.vendor.overlay.theme=com.android.internal.systemui.navbar.gestural;com.google.android.systemui.gxoverlay" >> $1/product/etc/build.prop
 
 # Init tmp variable.
 TMPDIR="$thispath/../../../tmp/services_tmp"
