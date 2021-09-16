@@ -6,5 +6,8 @@ thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 # Copy system stuffs
 rsync -ra $thispath/system/ $systempath
 
+# Append file_context
+cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts
+
 python $thispath/../../scripts/custom_manifest.py $1/../../manifest.xml $thispath/manifest.xml $1/etc/vintf/manifest.xml
 cp -fpr $1/../../manifest.xml $1/etc/vintf/manifest.xml
