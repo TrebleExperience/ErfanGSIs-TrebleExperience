@@ -28,6 +28,25 @@ if [[ -z $(grep '[^[:space:]]' $TMPFILE) ]]; then
     rm -rf $TMPFILE $LOCAL/vendor.prop
 else
     echo " - Additional vendor properties obtained successfully! Process completed."
+    sed -i '/ro.control_privapp_permissions/d' $TMPFILE
+    sed -i '/debug.sf/d' $TMPFILE
+    sed -i '/vendor.display/d' $TMPFILE
+    sed -i '/sys.haptic/d' $TMPFILE
+    sed -i '/hbm/d' $TMPFILE
+    sed -i '/ro.oem_unlock.pst/d' $TMPFILE
+    sed -i '/ro.frp.pst/d' $TMPFILE
+    sed -i '/ro.build.expect/d' $TMPFILE
+    sed -i '/ro.sf.lcd_density/d' $TMPFILE
+    sed -i '/ro.apex.updatable/d' $TMPFILE
+    sed -i '/vendor.audio/d' $TMPFILE
+    sed -i '/log/d' $TMPFILE
+    sed -i '/opengles.version/d' $TMPFILE
+    sed -i '/vendor.perf/d' $TMPFILE
+    sed -i '/vendor.media/d' $TMPFILE
+    sed -i '/debug.media/d' $TMPFILE
+    sed -i '/ro.telephony.iwlan_operation_mode/d' $TMPFILE
+    sed -i '/external_storage/d' $TMPFILE
+    sed -i '/^\s*$/d' $TMPFILE
     cat $TMPFILE >> $SYSTEM_DIR/build.prop
     rm -rf $TMPFILE $LOCAL/vendor.prop
 fi
