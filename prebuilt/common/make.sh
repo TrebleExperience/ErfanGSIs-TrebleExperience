@@ -63,6 +63,9 @@ sed -i "/reboot_on_failure/d" $1/etc/init/apexd.rc
 # Append props
 cat $thispath/build.prop >> $1/build.prop
 
+# Append extra code to phh script
+cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
+
 # Disable Actionable props
 sed -i "/ro.actionable_compatible_property.enabled/d" $1/etc/prop.default
 sed -i "/ro.actionable_compatible_property.enabled/d" $1/build.prop
@@ -151,7 +154,14 @@ else
       rm -rf $1/usr/keylayout/uinput-goodix.kl
       touch $1/usr/keylayout/uinput-fpc.kl
       touch $1/usr/keylayout/uinput-goodix.kl
-fi 
+fi
 
-# Append extra code to phh script
-cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
+# If the ROM supports getting vendor properties, we will get them.
+if [ -f $romdir/SUPPORTSVENDORPROPS ]; then
+    echo "-> Getting props from the vendor is allowed in this rom, trying to get them..."
+    if [ -d $thispath/../../working/vendor ]; then
+        bash $thispath/getVendorProps.sh $thispath/../../working/vendor $systempath
+    else
+        echo " - Failed because the vendor seems unmounted."
+    fi
+fi
