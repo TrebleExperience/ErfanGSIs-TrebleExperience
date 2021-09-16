@@ -48,18 +48,17 @@ rsync -ra $thispath/system/ $systempath
 cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
 
 # Overlays
-if [ ! -d  $1/product ]; then
-    rm -rf $1/product
-    mkdir -p $1/product
+if [ ! -d  $1/product/overlay ]; then
+    mkdir -p $1/product/overlay
+    chmod 0755 $1/product/overlay
+    chown root:root $1/product/overlay
 fi
-mkdir -p $1/product/overlay
 
-cp -fpr $thispath/nondevice_overlay/* $1/product/overlay/
-
-if [ -f $romdir/NODEVICEOVERLAY ]; then
-    echo "-> Using device specific overlays is not supported in this rom. Skipping..."
+# Copy navigation bar aosp overlays
+if [ -f $romdir/NOAOSPOVERLAY ]; then
+    echo "-> Using AOSP overlays isn't supported in this rom. Skipping..."
 else
-    cp -fpr $thispath/overlay/* $1/product/overlay/
+    cp -fpr $thispath/aosp_overlay/* $1/product/overlay/
 fi
 
 # Append file_context
