@@ -160,7 +160,7 @@ fi
 if [ -f $romdir/SUPPORTSVENDORPROPS ]; then
     echo "-> Getting props from the vendor is allowed in this rom, trying to get them..."
     if [ -d $thispath/../../working/vendor ]; then
-        bash $thispath/getVendorProps.sh $thispath/../../working/vendor $systempath
+        bash $thispath/getVendorProps.sh $thispath/../../working/vendor $1
     else
         echo " - Failed because the vendor seems unmounted."
     fi
