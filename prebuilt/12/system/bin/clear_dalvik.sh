@@ -1,2 +1,4 @@
 #!/system/bin/sh
-rm -rf /data/dalvik-cache
+while true; do
+    rm -rf /data/dalvik-cache
+done
