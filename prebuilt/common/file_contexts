@@ -4,7 +4,7 @@
 /system/bin/gsed u:object_r:system_file:s0
 /system/bin/hdrfix.sh u:object_r:update_engine_exec:s0
 /system/bin/hdrfix_post-data.sh u:object_r:update_engine_exec:s0
-/system/bin/objdump u:object_r:system_file:s0z
+/system/bin/objdump u:object_r:system_file:s0
 /system/bin/permissiver.sh u:object_r:update_engine_exec:s0
 /system/bin/phh-on-boot.sh u:object_r:update_engine_exec:s0
 /system/bin/phh-prop-handler.sh u:object_r:update_engine_exec:s0
