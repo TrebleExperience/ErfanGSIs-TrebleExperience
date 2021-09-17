@@ -40,9 +40,6 @@ cp -rp $thispath/init/init.environ.rc $1/../init.environ.rc
 sed -i "/ro.com.google.ime.height_ratio/d" $1/product/etc/build.prop
 echo "ro.com.google.ime.height_ratio=1.0" >> $1/product/etc/build.prop
 
-# Append file_context
-cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts
-
 # Merge monet props stuff
 sed -i "/persist.sysui.monet/d" $1/product/etc/build.prop
 sed -i "/ro.boot.vendor.overlay.theme/d" $1/product/etc/build.prop
