@@ -28,6 +28,12 @@ if [[ -z $(grep '[^[:space:]]' $TMPFILE) ]]; then
     rm -rf $TMPFILE $LOCAL/vendor.prop
 else
     echo " - Additional vendor properties obtained successfully! Process completed."
+
+    # Make it clean (& natural)
+    sed -i '1 i\# ADDITIONAL VENDOR BUILD PROPERTIES (Obtained automatically via prebuilt/common/getVendorProps.sh)' $TMPFILE
+    sed -i '1 i\\n' $TMPFILE
+
+    # Common drops: Necessary!
     sed -i '/ro.control_privapp_permissions/d' $TMPFILE
     sed -i '/debug.sf/d' $TMPFILE
     sed -i '/vendor.display/d' $TMPFILE
@@ -46,6 +52,11 @@ else
     sed -i '/ro.telephony.iwlan_operation_mode/d' $TMPFILE
     sed -i '/external_storage/d' $TMPFILE
     sed -i '/^\s*$/d' $TMPFILE
+
+    # Do '# end' at final
+    sed -i -e '$a# end' $TMPFILE
+
+    # Cat it to system now
     cat $TMPFILE >> $SYSTEM_DIR/build.prop
     rm -rf $TMPFILE $LOCAL/vendor.prop
 fi
