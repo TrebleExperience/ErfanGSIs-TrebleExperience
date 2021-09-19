@@ -37,7 +37,6 @@ else
     sed -i '/ro.frp.pst/d' $TMPFILE
     sed -i '/ro.build.expect/d' $TMPFILE
     sed -i '/ro.sf.lcd_density/d' $TMPFILE
-    sed -i '/ro.apex.updatable/d' $TMPFILE
     sed -i '/vendor.audio/d' $TMPFILE
     sed -i '/log/d' $TMPFILE
     sed -i '/opengles.version/d' $TMPFILE
