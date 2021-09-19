@@ -17,6 +17,7 @@
 /system/etc/fstab.postinstall u:object_r:system_file:s0
 /system/etc/init/config u:object_r:system_file:s0
 /system/etc/init/config/skip_mount.cfg u:object_r:system_file:s0
+/system/etc/init/permissiver.rc u:object_r:system_file:s0
 /system/etc/init/vndk.rc u:object_r:system_file:s0
 /system/etc/init/wificonf.rc u:object_r:system_file:s0
 /system/etc/permissions/interfaces.xml u:object_r:system_file:s0
