@@ -35,6 +35,16 @@ sed -i "/sys.usb.controller/d" $plat_property
 sed -i "/sys.usb.config/d" $plat_property
 sed -i "/ro.build.fingerprint/d" $plat_property
 
+# If the ROM supports getting vendor properties, we will get them.
+if [ -f $romdir/SUPPORTSVENDORPROPS ]; then
+    echo "-> Getting props from the vendor is allowed in this rom, trying to get them..."
+    if [ -d $thispath/../../working/vendor ]; then
+        bash $thispath/getVendorProps.sh $thispath/../../working/vendor $1 || true
+    else
+        echo " - Failed because the vendor seems unmounted."
+    fi
+fi
+
 # Remove qti_permissions
 find $systemdir -type f -name "qti_permissions.xml" | xargs rm -rf
 
@@ -154,14 +164,4 @@ else
       rm -rf $1/usr/keylayout/uinput-goodix.kl
       touch $1/usr/keylayout/uinput-fpc.kl
       touch $1/usr/keylayout/uinput-goodix.kl
-fi
-
-# If the ROM supports getting vendor properties, we will get them.
-if [ -f $romdir/SUPPORTSVENDORPROPS ]; then
-    echo "-> Getting props from the vendor is allowed in this rom, trying to get them..."
-    if [ -d $thispath/../../working/vendor ]; then
-        bash $thispath/getVendorProps.sh $thispath/../../working/vendor $1
-    else
-        echo " - Failed because the vendor seems unmounted."
-    fi
 fi
