@@ -8,6 +8,7 @@
 /system/bin/permissiver.sh u:object_r:update_engine_exec:s0
 /system/bin/phh-on-boot.sh u:object_r:update_engine_exec:s0
 /system/bin/phh-prop-handler.sh u:object_r:update_engine_exec:s0
+/system/bin/qti_permissions_remove.sh u:object_r:update_engine_exec:s0
 /system/bin/rw-system.sh u:object_r:update_engine_exec:s0
 /system/bin/secilc u:object_r:system_file:s0
 /system/bin/strace u:object_r:system_file:s0
@@ -18,6 +19,7 @@
 /system/etc/init/config u:object_r:system_file:s0
 /system/etc/init/config/skip_mount.cfg u:object_r:system_file:s0
 /system/etc/init/permissiver.rc u:object_r:system_file:s0
+/system/etc/init/qti_permissions_remove.rc u:object_r:system_file:s0
 /system/etc/init/vndk.rc u:object_r:system_file:s0
 /system/etc/init/wificonf.rc u:object_r:system_file:s0
 /system/etc/permissions/interfaces.xml u:object_r:system_file:s0
