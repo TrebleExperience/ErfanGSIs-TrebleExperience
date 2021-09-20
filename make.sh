@@ -180,8 +180,17 @@ fi
 # Init date var first
 date=`date +%Y%m%d`
 
+# Get build display id & model
+displayid=$(grep -oP "(?<=^ro.build.display.id=).*" -hs $systemdir/system/build.prop | head -1)
+[[ -z "$displayid" ]] && displayid=$(grep -oP "(?<=^ro.system.build.id=).*" -hs $systemdir/system/build.prop | head -1)
+[[ -z "$displayid" ]] && displayid=$(grep -oP "(?<=^ro.build.id=).*" -hs $systemdir/system/build.prop | head -1)
+codename=$(grep -oP "(?<=^ro.product.vendor.device=).*" -hs "$LOCALDIR/working/vendor/build.prop" | head -1)
+[[ -z "${codename}" ]] && codename=$(grep -oP "(?<=^ro.product.system.device=).*" -hs $systemdir/system/build.prop | head -1)
+[[ -z "${codename}" ]] && codename=$(grep -oP "(?<=^ro.product.device=).*" -hs $systemdir/system/build.prop | head -1)
+[[ -z "${codename}" ]] && codename=Generic
+
 # Debloat thing
-outputtreename="$romtypename-$sourcever-$date-System-Tree.txt"
+outputtreename="trebleExp[$romtypename]-$codename-[GSI+SGSI]-$displayid-$outputtype-$sourcever-$date-System-Tree.txt"
 outputtree="$outdir/$outputtreename"
 
 if [ ! -f "$outputtree" ]; then
@@ -255,11 +264,11 @@ if [ "$outputtype" == "Aonly" ]; then
 fi
 
 # Out info
-outputname="$romtypename-$outputtype-$sourcever-$date-ErfanGSI-TrebleExp"
+outputname="trebleExp[$romtypename]-$codename-[GSI+SGSI]-$displayid-$outputtype-$sourcever-$date"
 outputimagename="$outputname".img
 outputtextname="$outputname".txt
-outputvendoroverlaysname="$romtypename-$sourcever-$date-VendorOverlays.tar.gz"
-outputodmoverlaysname="$romtypename-$sourcever-$date-ODMOverlays.tar.gz"
+outputvendoroverlaysname="trebleExp[$romtypename]-$codename-[GSI+SGSI]-$displayid-$sourcever-$date-VendorOverlays.tar.gz"
+outputodmoverlaysname="trebleExp[$romtypename]-$codename-[GSI+SGSI]-$displayid-$sourcever-$date-ODMOverlays.tar.gz"
 output="$outdir/$outputimagename"
 outputvendoroverlays="$outdir/$outputvendoroverlaysname"
 outputodmoverlays="$outdir/$outputodmoverlaysname"
@@ -318,10 +327,9 @@ if [ -f "$LOCALDIR/output/.tmp" ]; then
 else
     if [[ -d "$LOCALDIR/working/vendor/overlay" && ! -f "$outputvendoroverlays" ]]; then
         mkdir -p "$LOCALDIR/output/vendorOverlays"
-        cp -vrp $LOCALDIR/working/vendor/overlay/* "$LOCALDIR/output/vendorOverlays" >> /dev/null 2>&1
-        rm -rf "$LOCALDIR/output/vendorOverlays/home"
-        tar -zcvf "$outputvendoroverlays" "$LOCALDIR/output/vendorOverlays" >> /dev/null 2>&1
-        rm -rf "$LOCALDIR/output/vendorOverlays"
+        cp -frp working/vendor/overlay/* "output/vendorOverlays" >> /dev/null 2>&1
+        tar -zcvf "$outputvendoroverlays" "output/vendorOverlays" >> /dev/null 2>&1
+        rm -rf "output/vendorOverlays"
     fi
 fi
 if [ -f "$LOCALDIR/output/.otmp" ]; then
