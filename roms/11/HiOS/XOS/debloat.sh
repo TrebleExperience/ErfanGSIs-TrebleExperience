@@ -1,0 +1,33 @@
+#!/bin/bash
+
+rm -rf $1/product/app/DtsAudio
+rm -rf $1/product/app/YoParty
+rm -rf $1/product/operator/app/Beez
+rm -rf $1/product/operator/app/Boomplay
+rm -rf $1/product/operator/app/CNNIndonesia
+rm -rf $1/product/operator/app/Drive
+rm -rf $1/product/operator/app/Duo
+rm -rf $1/product/operator/app/EtalaseApp
+rm -rf $1/product/operator/app/FacebookFull
+rm -rf $1/product/operator/app/FacebookFull
+rm -rf $1/product/operator/app/Instagram
+rm -rf $1/product/operator/app/Messenger
+rm -rf $1/product/operator/app/MobileLegendsBangBang
+rm -rf $1/product/operator/app/PalmPay
+rm -rf $1/product/operator/app/Palmcredit
+rm -rf $1/product/operator/app/ScooperNews
+rm -rf $1/product/operator/app/TikTok
+rm -rf $1/product/operator/app/TikTokzhiliao
+rm -rf $1/product/operator/app/Vskit
+rm -rf $1/product/operator/app/travelinAirportTravel
+rm -rf $1/system_ext/app/SmartAssistant
+rm -rf $1/system_ext/app/HiManager
+rm -rf $1/system_ext/app/BatteryLab
+rm -rf $1/system_ext/app/sysStasl
+rm -rf $1/system_ext/app/MtkGallery2
+rm -rf $1/system_ext/app/OOBEv5
+rm -rf $1/system_ext/app/XHide
+rm -rf $1/system_ext/app/MagazineService
+rm -rf $1/system_ext/app/FaceID
+rm -rf $1/system_ext/app/WeZone
+rm -rf $1/system_ext/app/HiBrowser
