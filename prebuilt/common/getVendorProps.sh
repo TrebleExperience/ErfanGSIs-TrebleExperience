@@ -50,6 +50,7 @@ else
     sed -i '/vendor.media/d' $TMPFILE
     sed -i '/debug.media/d' $TMPFILE
     sed -i '/ro.telephony.iwlan_operation_mode/d' $TMPFILE
+    sed -i '/ro.apex.updatable/d' $TMPFILE
     sed -i '/external_storage/d' $TMPFILE
     sed -i '/^\s*$/d' $TMPFILE
 
