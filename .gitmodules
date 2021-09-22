@@ -1,6 +1,3 @@
-[submodule "tools/update_payload_extractor"]
-	path = tools/update_payload_extractor
-	url = https://github.com/TrebleExperience/update_payload_extractor.git
 [submodule "prebuilt/vendor_vndk"]
 	path = prebuilt/vendor_vndk
 	url = https://github.com/TrebleExperience/vendor_vndk.git

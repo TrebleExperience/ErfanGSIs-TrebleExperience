@@ -60,14 +60,10 @@ if [[ ! -d "$toolsdir/oppo_ozip_decrypt" ]]; then
 else
     git -C "$toolsdir/oppo_ozip_decrypt" pull > /dev/null 2>&1
 fi
-if [[ ! -d "$toolsdir/update_payload_extractor" ]]; then
-    git clone -q https://github.com/TrebleExperience/update_payload_extractor.git "$toolsdir/update_payload_extractor" > /dev/null 2>&1
-else
-    git -C "$toolsdir/update_payload_extractor" pull > /dev/null 2>&1
-fi
 
 simg2img="$toolsdir/$HOST/bin/simg2img"
 unsin="$toolsdir/$HOST/bin/unsin"
+payload="$toolsdir/$HOST/bin/payload-dumper-go"
 payload_extractor="$toolsdir/update_payload_extractor/extract.py"
 sdat2img="$toolsdir/sdat2img.py"
 ozipdecrypt="$toolsdir/oppo_ozip_decrypt/ozipdecrypt.py"
@@ -355,7 +351,7 @@ elif [[ $(7z l -ba "$romzip" | grep .tar) && ! $(7z l -ba "$romzip" | grep tar.m
 elif [[ $(7z l -ba "$romzip" | grep payload.bin) ]]; then
     echo "-> AB OTA detected"
     7z e -y "$romzip" payload.bin 2>/dev/null >> $tmpdir/zip.log
-    python3 "$LOCALDIR/tools/update_payload_extractor/payload_dumper.py" --out $tmpdir payload.bin
+    $payload -o $tmpdir payload.bin 2> $tmpdir/payload-dumper-go.log >> $tmpdir/payload-dumper-go.log
     for partition in $PARTITIONS; do
         [[ -e "$tmpdir/$partition.img" ]] && mv "$tmpdir/$partition.img" "$outdir/$partition.img"
     done
