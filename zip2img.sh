@@ -82,7 +82,7 @@ brotli_exec="$toolsdir/$HOST/bin/brotli"
 
 romzip="$(realpath $1)"
 romzipext="${romzip##*.}"
-PARTITIONS="system vendor cust odm oem factory product xrom modem systemex oppo_product preload_common system_ext system_other opproduct reserve india my_carrier my_custom my_engineering my_preload my_manifest my_region my_odm my_stock my_version my_operator my_country my_product my_company my_heytap"
+PARTITIONS="system vendor cust odm oem factory product xrom systemex oppo_product preload_common system_ext system_other opproduct reserve india my_carrier my_custom my_engineering my_preload my_manifest my_region my_odm my_stock my_version my_operator my_country my_product my_company my_heytap"
 EXT4PARTITIONS="system vendor cust odm oem factory product xrom systemex oppo_product preload_common"
 OTHERPARTITIONS="super_3.img:product super_5.img:odm super_2.img:system"
 
