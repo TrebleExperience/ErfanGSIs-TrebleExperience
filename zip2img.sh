@@ -55,18 +55,13 @@ LOCALDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 HOST="$(uname)"
 toolsdir="$LOCALDIR/tools"
 
-if [[ ! -d "$toolsdir/extract_android_ota_payload" ]]; then
-    git clone -q https://github.com/TrebleExperience/update_payload_extractor.git "$toolsdir/extract_android_ota_payload" > /dev/null 2>&1
-else
-    git -C "$toolsdir/extract_android_ota_payload" pull > /dev/null 2>&1
-fi
 if [[ ! -d "$toolsdir/oppo_ozip_decrypt" ]]; then
     git clone -q https://github.com/bkerler/oppo_ozip_decrypt.git "$toolsdir/oppo_ozip_decrypt" > /dev/null 2>&1
 else
     git -C "$toolsdir/oppo_ozip_decrypt" pull > /dev/null 2>&1
 fi
 if [[ ! -d "$toolsdir/update_payload_extractor" ]]; then
-    git clone -q https://github.com/erfanoabdi/update_payload_extractor.git "$toolsdir/update_payload_extractor" > /dev/null 2>&1
+    git clone -q https://github.com/TrebleExperience/update_payload_extractor.git "$toolsdir/update_payload_extractor" > /dev/null 2>&1
 else
     git -C "$toolsdir/update_payload_extractor" pull > /dev/null 2>&1
 fi
@@ -360,7 +355,7 @@ elif [[ $(7z l -ba "$romzip" | grep .tar) && ! $(7z l -ba "$romzip" | grep tar.m
 elif [[ $(7z l -ba "$romzip" | grep payload.bin) ]]; then
     echo "-> AB OTA detected"
     7z e -y "$romzip" payload.bin 2>/dev/null >> $tmpdir/zip.log
-    python3 "$LOCALDIR/tools/extract_android_ota_payload/extract_android_ota_payload.py" payload.bin $tmpdir
+    python3 "$LOCALDIR/tools/update_payload_extractor/payload_dumper.py" --out $tmpdir payload.bin
     for partition in $PARTITIONS; do
         [[ -e "$tmpdir/$partition.img" ]] && mv "$tmpdir/$partition.img" "$outdir/$partition.img"
     done
