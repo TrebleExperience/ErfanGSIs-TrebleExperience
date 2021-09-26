@@ -1,0 +1,5 @@
+/system/framework/android.hardware.wifi.hostapd-V1.0-java.jar u:object_r:system_file:s0
+/system/framework/vendor.huawei.hardware.biometrics.fingerprint-V2.1-java.jar u:object_r:system_file:s0
+/system/framework/vendor.huawei.hardware.tp-V1.0-java.jar u:object_r:system_file:s0
+/system/framework/vendor.qti.hardware.radio.am-V1.0-java.jar u:object_r:system_file:s0
+/system/framework/vendor.qti.qcril.am-V1.0-java.jar u:object_r:system_file:s0
