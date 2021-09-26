@@ -184,6 +184,7 @@ date=`date +%Y%m%d`
 displayid=$(grep -oP "(?<=^ro.build.display.id=).*" -hs $systemdir/system/build.prop | head -1)
 [[ -z "$displayid" ]] && displayid=$(grep -oP "(?<=^ro.system.build.id=).*" -hs $systemdir/system/build.prop | head -1)
 [[ -z "$displayid" ]] && displayid=$(grep -oP "(?<=^ro.build.id=).*" -hs $systemdir/system/build.prop | head -1)
+displayid=`echo $displayid | sed "s/ /-/g"`
 codename=$(grep -oP "(?<=^ro.product.vendor.device=).*" -hs "$LOCALDIR/working/vendor/build.prop" | head -1)
 [[ -z "${codename}" ]] && codename=$(grep -oP "(?<=^ro.product.system.device=).*" -hs $systemdir/system/build.prop | head -1)
 [[ -z "${codename}" ]] && codename=$(grep -oP "(?<=^ro.product.device=).*" -hs $systemdir/system/build.prop | head -1)
