@@ -191,7 +191,7 @@ codename=$(grep -oP "(?<=^ro.product.vendor.device=).*" -hs "$LOCALDIR/working/v
 [[ -z "${codename}" ]] && codename=Generic
 
 # Debloat thing
-outputtreename="trebleExp[$romtypename]-$codename-[GSI+SGSI]-$displayid-$outputtype-$sourcever-$date-System-Tree.txt"
+outputtreename="trebleExp[$romtypename]-$codename-[GSI+SGSI]-$displayid-$sourcever-$date-System-Tree.txt"
 outputtree="$outdir/$outputtreename"
 
 if [ ! -f "$outputtree" ]; then
