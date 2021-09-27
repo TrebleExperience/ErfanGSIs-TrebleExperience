@@ -1,0 +1,2 @@
+/system/etc/init/init.blackshark.common.rc u:object_r:system_file:s0
+/system/etc/init/init.blackshark.rc u:object_r:system_file:s0
