@@ -1,6 +1,6 @@
 #!/bin/bash
 # Project OEM-GSI Porter by Erfan Abdi <erfangplus@gmail.com>
-# Project TrebleExperience by riansouzasantos <riansart@yahoo.com>, Hitalo <hitalo331@outlook.com> and Velosh <daffetyxd@gmail.com>
+# Project TrebleExperience by Hitalo <hitalo331@outlook.com> and Velosh <daffetyxd@gmail.com>
 
 systemDir="$1"
 if [ ! -d "$systemdir/vgc" ]; then
