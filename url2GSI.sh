@@ -82,10 +82,6 @@ MOUNT() {
     fi
 }
 
-UMOUNT() {
-    sudo umount "$1"
-}
-
 UMOUNT_ALL() {
     for partition in $(pwd)/working/*; do
         if [ -d "$partition" ]; then
