@@ -253,7 +253,7 @@ elif [[ $(7z l -ba "$romzip" | grep ".pac$") ]]; then
     find $tmpdir/ -name "* *" -type d,f | rename 's/ /_/g' > /dev/null 2>&1
     pac_list=`find $tmpdir/ -type f -name "*.pac" -printf '%P\n' | sort`
     for file in $pac_list; do
-       $pacextractor $file
+       $pacextractor $file  2>/dev/null >> $tmpdir/pacextractor.log
     done
 elif [[ $(7z l -ba "$romzip" | grep "system.bin") ]]; then
     echo "-> Bin images detected"
