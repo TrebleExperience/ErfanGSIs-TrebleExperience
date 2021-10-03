@@ -44,10 +44,6 @@ for overlay in $vendor_overlays; do
     fi
 done
 
-if getprop ro.vendor.build.fingerprint | grep -qiE '^samsung/' ;then
-    mount -o bind /mnt/phh/empty_dir "/vendor/overlay" || true
-fi
-
 # Fix no Earpiece in audio_policy
 for f in \
     /odm/etc/audio_policy_configuration.xml \
@@ -87,8 +83,3 @@ fi
 frp_node="$(getprop ro.frp.pst)"
 chown -h system.system $frp_node
 chmod 0660 $frp_node
-
-# Drop samsung overlays
-if getprop ro.vendor.build.fingerprint | grep -qiE '^samsung'; then
-    mount -o bind /system/phh/empty /vendor/overlay
-fi
