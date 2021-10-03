@@ -3,19 +3,6 @@
 systempath=$1
 thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 
-rm -rf $1/priv-app/BuiltInPrintService
-rm -rf $1/priv-app/CalendarProvider
-rm -rf $1/priv-app/TagGoogle
-rm -rf $1/priv-app/VCalendar2
-rm -rf $1/priv-app/VDefense
-rm -rf $1/priv-app/VinContact
-rm -rf $1/priv-app/VinDialer
-rm -rf $1/priv-app/VinMessage
-rm -rf $1/priv-app/VsmartSolutions
-rm -rf $1/priv-app/VinSoundRecorder
-rm -rf $1/priv-app/VinClipboard
-rm -rf $1/priv-app/VinWeather
-rm -rf $1/priv-app/VsCamera
 rm -rf $1/product/app/CalculatorGoogle
 rm -rf $1/product/app/CalendarGoogle
 rm -rf $1/product/app/DeskClockGoogle
