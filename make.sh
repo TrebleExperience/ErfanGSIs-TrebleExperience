@@ -171,6 +171,11 @@ if [[ ! -d "$romsdir/$sourcever/$romtype" ]]; then
     exit 1
 fi
 
+if [[ "$sourcever" == "11" || "$sourcever" == "12" ]]; then
+    echo "-> Building a GSI as system-as-system is not possible in Android R/S, reconsider building with AB ramdisk."
+    exit 1
+fi
+
 # Detect arch
 if [[ ! -f "$systemdir/system/lib64/libandroid.so" ]]; then
     echo "-> A64/ARM32 ROM detected! Can't build due missing A64/ARM32 VNDK/Libraries for it."
