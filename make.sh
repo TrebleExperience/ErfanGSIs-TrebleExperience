@@ -171,9 +171,11 @@ if [[ ! -d "$romsdir/$sourcever/$romtype" ]]; then
     exit 1
 fi
 
-if [[ "$sourcever" == "11" || "$sourcever" == "12" ]]; then
-    echo "-> Building a GSI as system-as-system is not possible in Android R/S, reconsider building with AB ramdisk."
-    exit 1
+if [ "$sourcetype" == "Aonly" ]; then
+    if [[ "$sourcever" == "11" || "$sourcever" == "12" ]]; then
+        echo "-> Building a GSI as system-as-system is not possible in Android R/S, reconsider building with AB ramdisk."
+        exit 1
+    fi
 fi
 
 # Detect arch
