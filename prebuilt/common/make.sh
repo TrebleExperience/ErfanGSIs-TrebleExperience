@@ -27,6 +27,11 @@ cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts
 # Make logcat binary executable
 sed -i "s/u:object_r:logcat_exec:s0/u:object_r:logd_exec:s0/g" $1/etc/selinux/plat_file_contexts
 
+# Drop QCC thing (Always crashing)
+rm -rf $1/system_ext/app/QCC*
+rm -rf $1/system_ext/priv-app/QCC*
+rm -rf $1/system_ext/lib/libqcc*.so
+
 # Cleanup plat property
 plat_property=$1/etc/selinux/plat_property_contexts
 sed -i "/ro.opengles.version/d" $plat_property
