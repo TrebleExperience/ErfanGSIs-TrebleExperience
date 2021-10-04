@@ -20,6 +20,7 @@ for APEX in $APEXES; do
     7z e -y "$APEXDIR/$APEX" apex_pubkey -o"$APEXDIR/$APEXNAME" >> $TMPDIR/apex_extract.log
     python3 $DEAPEXER extract "$APEXDIR/$APEX" "$APEXDIR/$APEXNAME"
     rm -rf "$APEXDIR/$APEXNAME/lost+found"
+    rm "$APEXDIR/$APEX"
 done
 
 # For Android 12
