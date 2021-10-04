@@ -609,7 +609,7 @@ if [[ "$OVERLAYS_VENDOR" == true || "$MIUI" == true ]]; then
 fi
 
 if [ "$SYSTEM_NEW" == true ]; then
-   cp -vrp $SYSTEM_DIR/* $SYSTEM_NEW_DIR/ >/dev/null 2>&1 && sync
+   cp -frp $SYSTEM_DIR/* $SYSTEM_NEW_DIR/ >/dev/null 2>&1 && sync
    umount $SYSTEM_DIR/
 fi
 
@@ -617,7 +617,7 @@ if [ "$PRODUCT" == true ]; then
    if [ -f "$PRODUCT_IMAGE" ]; then
       rm -rf $SYSTEM_NEW_DIR/product $SYSTEM_NEW_DIR/system/product
       mkdir -p $SYSTEM_NEW_DIR/system/product
-      cp -vrp $PRODUCT_DIR/* $SYSTEM_NEW_DIR/system/product/ >/dev/null 2>&1
+      cp -frp $PRODUCT_DIR/* $SYSTEM_NEW_DIR/system/product/ >/dev/null 2>&1
       ln -s /system/product/ $SYSTEM_NEW_DIR/product
       sync
    fi
@@ -636,7 +636,7 @@ if [ "$ODM" == true ]; then
       fi
       if [ -d "$ODM_DIR/overlay" ]; then
          mkdir -p "$WORKING/odmOverlays"
-         cp -vrp $ODM_DIR/overlay/* "$WORKING/odmOverlays" >/dev/null 2>&1
+         cp -frp $ODM_DIR/overlay/* "$WORKING/odmOverlays" >/dev/null 2>&1
          rm -rf "$WORKING/odmOverlays/home"
          tar -zcvf "$WORKING/odmOverlays.gz" "$WORKING/odmOverlays" >/dev/null 2>&1
          rm -rf $WORKING/odmOverlays/
@@ -656,7 +656,7 @@ fi
 
 if [ "$SYSTEM_OTHER" == true ]; then
    if [ -f "$SYSTEM_OTHER_IMAGE" ]; then
-      cp -vrp $SYSTEM_OTHER_DIR/* system/ >/dev/null 2>&1 && sync
+      cp -frp $SYSTEM_OTHER_DIR/* system/ >/dev/null 2>&1 && sync
    fi
 fi
 
@@ -670,21 +670,19 @@ if [ "$ONEPLUS" == true ]; then
    if [ -f "$OPPRODUCT_IMAGE" ]; then
       rm -rf $SYSTEM_NEW_DIR/oneplus $SYSTEM_NEW_DIR/system/oneplus
       mkdir -p $SYSTEM_NEW_DIR/system/oneplus
-      cp -vrp $OPPRODUCT_DIR/* $SYSTEM_NEW_DIR/system/oneplus/ >/dev/null 2>&1
+      cp -frp $OPPRODUCT_DIR/* $SYSTEM_NEW_DIR/system/oneplus/ >/dev/null 2>&1
       ln -s /system/oneplus/ $SYSTEM_NEW_DIR/oneplus
       sync
-      if [ -f "$RESERVE_IMAGE" ]; then
-         rm -rf $SYSTEM_NEW_DIR/system/reserve
-         mkdir -p $SYSTEM_NEW_DIR/system/reserve
-         cp -vrp $RESERVE_DIR/* $SYSTEM_NEW_DIR/system/reserve/ >/dev/null 2>&1
-         sync
-      fi
-      if [ -f "$INDIA_IMAGE" ]; then
-         rm -rf $SYSTEM_NEW_DIR/system/india
-         mkdir -p $SYSTEM_NEW_DIR/system/india
-         cp -vrp $INDIA_DIR/* $SYSTEM_NEW_DIR/system/india/ >/dev/null 2>&1
-         sync
-      fi
+   fi
+   if [ -f "$RESERVE_IMAGE" ]; then
+      [[ ! -d $SYSTEM_NEW_DIR/system/reserve ]] && mkdir -p $SYSTEM_NEW_DIR/system/reserve
+      cp -frp $RESERVE_DIR/* $SYSTEM_NEW_DIR/system/reserve/ >/dev/null 2>&1
+      sync
+   fi
+   if [ -f "$INDIA_IMAGE" ]; then
+      [[ ! -d $SYSTEM_NEW_DIR/system/india ]] && mkdir -p $SYSTEM_NEW_DIR/system/india
+      cp -frp $INDIA_DIR/* $SYSTEM_NEW_DIR/system/india/ >/dev/null 2>&1
+      sync
    fi
 fi
 
@@ -864,7 +862,7 @@ if [ "$SYSTEM_EXT" == true ]; then
    if [ -f "$SYSTEM_EXT_IMAGE" ]; then
       rm -rf $SYSTEM_NEW_DIR/system_ext $SYSTEM_NEW_DIR/system/system_ext
       mkdir -p $SYSTEM_NEW_DIR/system/system_ext
-      cp -vrp $SYSTEM_EXT_DIR/* $SYSTEM_NEW_DIR/system/system_ext/ >/dev/null 2>&1
+      cp -frp $SYSTEM_EXT_DIR/* $SYSTEM_NEW_DIR/system/system_ext/ >/dev/null 2>&1
       ln -s /system/system_ext/ $SYSTEM_NEW_DIR/system_ext
       sync
    fi
@@ -880,7 +878,7 @@ if [[ "$OVERLAYS_VENDOR" == true || "$MIUI" == true ]]; then
    if [ -f "$VENDOR_IMAGE" ]; then
       if [[ -d "$VENDOR_DIR/overlay" && "$OVERLAYS_VENDOR" == true ]]; then
          mkdir -p "$WORKING/vendorOverlays"
-         cp -vrp $VENDOR_DIR/overlay/* "$WORKING/vendorOverlays" >/dev/null 2>&1
+         cp -frp $VENDOR_DIR/overlay/* "$WORKING/vendorOverlays" >/dev/null 2>&1
          rm -rf "$WORKING/vendorOverlays/home"
          tar -zcvf "$WORKING/vendorOverlays.gz" "$WORKING/vendorOverlays" >/dev/null 2>&1
          rm -rf $WORKING/vendorOverlays/
