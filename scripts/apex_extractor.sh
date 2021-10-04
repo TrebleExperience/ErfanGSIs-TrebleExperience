@@ -38,3 +38,5 @@ for CAPEX in $CAPEXES; do
     rm -rf "$APEXDIR/$CAPEXNAME/lost+found"
     rm -rf "$APEXDIR/$CAPEX"
 done
+
+rm -rf $TMPDIR
