@@ -4,6 +4,12 @@ systempath=$1
 romdir=$2
 thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 
+if [ ! -d "$1/product" ]; then
+    echo "-> Abort! Product partition missing, critical problem."
+    touch $thispath/../../tmp/FATALERROR
+    exit 1
+fi
+
 # Drop apex prop
 sed -i '/ro.apex.updatable/d' $1/build.prop
 sed -i '/ro.apex.updatable/d' $1/product/build.prop
