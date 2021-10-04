@@ -7,6 +7,9 @@ TMPDIR="$LOCALDIR/../tmp/apex_ext"
 APEXDIR="$1"
 
 # Start process
+[[ -d "$TMPDIR" ]] && rm -rf "$TMPDIR"
+mkdir -p $TMPDIR
+
 APEXES=$(ls "$APEXDIR" | grep "\.apex$")
 for APEX in $APEXES; do
     APEXNAME=$(echo "$APEX" | sed 's/\.apex//')
