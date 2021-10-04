@@ -8,3 +8,4 @@ input
 working
 tools/extract_android_ota_payload/
 __pycache__/
+*.pyc
