@@ -48,5 +48,17 @@ sed -i 's/persist.miui.density_v2/#&/' $1/build.prop
 sed -i 's/persist.miui.density_v2/#&/' $1/product/build.prop
 sed -i 's/persist.miui.density_v2/#&/' $1/system_ext/build.prop
 
+# Check if device_features exists
+if [ ! -d "$1/etc/device_features" ]; then
+    echo "-> Device Features doesn't exists! Trying to get from firmware's vendor..."
+    # If doens't exists: Check if device_features exists
+    if [ -d "$thispath/../../../working/vendor/etc/device_features" ]; then
+        cp -frp "$thispath/../../../working/vendor/etc/device_features" "$1/etc/"
+        echo " - Done!"
+    else
+        echo " - Failed! Vendor seems unmounted or Device Features doesn't exists."
+    fi
+fi
+
 # Cat own rw-system.add.sh
 cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
