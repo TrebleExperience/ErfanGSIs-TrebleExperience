@@ -15,7 +15,7 @@ for APEX in $APEXES; do
     fi
     mkdir -p "$APEXDIR/$APEXNAME"
     7z e -y "$APEXDIR/$APEX" apex_pubkey -o"$APEXDIR/$APEXNAME" >> $TMPDIR/apex_extract.log
-    $DEAPEXER extract "$APEXDIR/$APEX" "$APEXDIR/$APEXNAME"
+    python3 $DEAPEXER extract "$APEXDIR/$APEX" "$APEXDIR/$APEXNAME"
     rm -rf "$APEXDIR/$APEXNAME/lost+found"
 done
 
@@ -30,7 +30,7 @@ for CAPEX in $CAPEXES; do
     mv -f "$APEXDIR/original_apex" "$APEXDIR/$CAPEXNAME.apex"
     mkdir -p "$APEXDIR/$CAPEXNAME"
     7z e -y "$APEXDIR/$CAPEXNAME.apex" apex_pubkey -o"$APEXDIR/$CAPEXNAME" >> $TMPDIR/apex_extract.log
-    $DEAPEXER "$APEXDIR/$CAPEXNAME.apex" "$APEXDIR/$CAPEXNAME"
+    python3 $DEAPEXER "$APEXDIR/$CAPEXNAME.apex" "$APEXDIR/$CAPEXNAME"
     rm -rf "$APEXDIR/$CAPEXNAME/lost+found"
     rm -rf "$APEXDIR/$CAPEX"
 done
