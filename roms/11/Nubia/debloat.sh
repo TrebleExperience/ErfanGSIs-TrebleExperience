@@ -45,8 +45,5 @@ rm -rf $1/system_ext/media/theme/thememanager/default_white_mech
 rm -rf $1/product/priv-app/ConfigUpdater
 rm -rf $1/product/priv-app/GooglePlayServicesUpdater
 
-# Drop QCC (Always crashing)
-rm -rf $1/system_ext/app/QCC/
-
 # Drop chinese/nubia shits.
 rm -rf $1/preset_apps/*

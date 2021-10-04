@@ -46,7 +46,6 @@ rm -rf $1/product/app/GoogleTTS
 rm -rf $1/product/priv-app/AndroidAutoStub
 rm -rf $1/product/priv-app/CarrierServices
 rm -rf $1/product/priv-app/Velvet
-rm -rf $1/system_ext/app/QCC
 rm -rf $1/system_ext/app/QTIDiagServices
 rm -rf $1/system_ext/app/com.qualcomm.qti.services.systemhelper
 rm -rf $1/system_ext/priv-app/GoogleFeedback
