@@ -136,11 +136,9 @@ rm -rf $1/product/app/colorservice
 rm -rf $1/product/app/DeviceInfo
 rm -rf $1/product/app/QdcmFF
 rm -rf $1/product/app/talkback
-rm -rf $1/product/app/Chrome
 rm -rf $1/product/app/GoogleAssistant
 rm -rf $1/product/app/GoogleTTS
 rm -rf $1/product/app/Photos
-rm -rf $1/product/app/WebViewGoogle
 rm -rf $1/product/app/com.google.mainline.telemetry
 rm -rf $1/product/app/Calculator
 rm -rf $1/product/app/Drive
@@ -148,7 +146,6 @@ rm -rf $1/product/app/YTMusic
 rm -rf $1/product/app/CalendarGoogle
 rm -rf $1/product/app/Duo
 rm -rf $1/product/app/Maps
-rm -rf $1/product/app/TrichromeLibrary
 rm -rf $1/product/app/YouTube
 rm -rf $1/product/app/Gmail2
 rm -rf $1/product/app/GooglePay
