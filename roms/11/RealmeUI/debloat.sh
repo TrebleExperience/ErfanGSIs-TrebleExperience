@@ -3,6 +3,9 @@
 systempath=$1
 thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 
+# Use 12: ColorOS's debloat
+bash $thispath/../../12/ColorOS/debloat.sh $1
+
 # my_product
 rm -rf $1/../my_product/decouping_wallpaper/common/* # Drop common walls
 
@@ -12,7 +15,6 @@ rm -rf $1/../my_region/app/KeKePay
 rm -rf $1/../my_region/app/OcrScanner
 rm -rf $1/../my_region/app/OcrService
 rm -rf $1/../my_region/del-app/*
-rm -rf $1/../my_region/priv-app/KeKeThemeSpace
 
 # my_preload
 rm -rf $1/../my_preload/app/GoogleContacts
@@ -48,7 +50,6 @@ rm -rf $1/../my_heytap/priv-app/Velvet
 rm -rf $1/../my_heytap/priv-app/Wellbeing
 
 # my_stock
-rm -rf $1/../my_stock/app/KeKePay
 rm -rf $1/../my_stock/app/KeKePay
 rm -rf $1/../my_stock/app/Music
 rm -rf $1/../my_stock/app/OppoWeather2
