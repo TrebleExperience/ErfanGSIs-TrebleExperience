@@ -178,3 +178,19 @@ rm -rf $1/india/priv-app/OPWorkLifeBalance
 rm -rf $1/india/reserve/EpicGameApp
 rm -rf $1/india/reserve/IndiaOPRoamingAppRelease
 rm -rf $1/india/reserve/OPNote
+
+# Nuke Google Apps inside reserve
+rm -rf $1/reserve/product/app/Calculator
+rm -rf $1/reserve/product/app/CalendarGoogle
+rm -rf $1/reserve/product/app/Chrome
+rm -rf $1/reserve/product/app/Drive
+rm -rf $1/reserve/product/app/Duo
+rm -rf $1/reserve/product/app/Gmail2
+rm -rf $1/reserve/product/app/GoogleTTS
+rm -rf $1/reserve/product/app/Maps
+rm -rf $1/reserve/product/app/Photos
+rm -rf $1/reserve/product/app/talkback
+rm -rf $1/reserve/product/app/Videos
+rm -rf $1/reserve/product/app/YouTube
+rm -rf $1/reserve/product/app/YTMusic
+rm -rf $1/reserve/product/priv-app/Wellbeing
