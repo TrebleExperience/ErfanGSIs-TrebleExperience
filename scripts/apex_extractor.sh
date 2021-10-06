@@ -10,33 +10,20 @@ APEXDIR="$1"
 [[ -d "$TMPDIR" ]] && rm -rf "$TMPDIR"
 mkdir -p $TMPDIR
 
-APEXES=$(ls "$APEXDIR" | grep "\.apex$")
+APEXES=$(ls "$APEXDIR" | grep ".*apex")
 for APEX in $APEXES; do
-    APEXNAME=$(echo "$APEX" | sed 's/\.apex//')
+    APEXNAME=$(echo "$APEX" | sed 's/\.[^.]*$//')
     if [[ -d "$APEXDIR/$APEXNAME" || -d "$APEXDIR/$APEX" ]]; then
         continue
+    fi
+    if [[ $APEX == *".capex" ]]; then
+        7z e -y "$APEXDIR/$APEX" original_apex -o"$APEXDIR" 2>/dev/null >> "$TMPDIR"/zip.log
+        mv -f "$APEXDIR/original_apex" "$APEXDIR/$APEXNAME.apex"
+        rm -rf "$APEXDIR/$APEX"
     fi
     mkdir -p "$APEXDIR/$APEXNAME"
     7z e -y "$APEXDIR/$APEX" apex_pubkey -o"$APEXDIR/$APEXNAME" >> $TMPDIR/apex_extract.log
     python3 $DEAPEXER extract "$APEXDIR/$APEX" "$APEXDIR/$APEXNAME"
     rm -rf "$APEXDIR/$APEXNAME/lost+found"
-    rm "$APEXDIR/$APEX"
+    rm "$APEXDIR/$APEXNAME.apex"
 done
-
-# For Android 12
-CAPEXES=$(ls "$APEXDIR" | grep "\.capex$")
-for CAPEX in $CAPEXES; do
-    if [[ -z $CAPEX ]]; then
-        continue
-    fi
-    CAPEXNAME=$(echo "$CAPEX" | sed 's/\.capex//')
-    7z e -y "$APEXDIR/$CAPEX" original_apex -o"$APEXDIR" >> $TMPDIR/apex_extract.log
-    mv -f "$APEXDIR/original_apex" "$APEXDIR/$CAPEXNAME.apex"
-    mkdir -p "$APEXDIR/$CAPEXNAME"
-    7z e -y "$APEXDIR/$CAPEXNAME.apex" apex_pubkey -o"$APEXDIR/$CAPEXNAME" >> $TMPDIR/apex_extract.log
-    python3 $DEAPEXER "$APEXDIR/$CAPEXNAME.apex" "$APEXDIR/$CAPEXNAME"
-    rm -rf "$APEXDIR/$CAPEXNAME/lost+found"
-    rm -rf "$APEXDIR/$CAPEX"
-done
-
-rm -rf $TMPDIR
