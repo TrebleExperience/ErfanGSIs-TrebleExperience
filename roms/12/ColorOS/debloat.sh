@@ -51,7 +51,6 @@ rm -rf $1/../my_stock/priv-app/MyDevices
 rm -rf $1/../my_stock/priv-app/NumberRecognition
 rm -rf $1/../my_stock/priv-app/OPSynergy
 rm -rf $1/../my_stock/priv-app/OShare
-rm -rf $1/../my_stock/priv-app/OppoBootReg
 rm -rf $1/../my_stock/priv-app/OppoDCS
 rm -rf $1/../my_stock/priv-app/OppoGallery2
 rm -rf $1/../my_stock/priv-app/SmartDrive
