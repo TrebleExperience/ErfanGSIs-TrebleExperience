@@ -13,7 +13,7 @@ mkdir -p $TMPDIR
 APEXES=$(ls "$APEXDIR" | grep ".*apex")
 for APEX in $APEXES; do
     APEXNAME=$(echo "$APEX" | sed 's/\.[^.]*$//')
-    if [[ -d "$APEXDIR/$APEXNAME" || -d "$APEXDIR/$APEX" ]]; then
+    if [[ -d "$APEXDIR/$APEXNAME" ]]; then
         continue
     fi
     if [[ $APEX == *".capex" ]]; then
@@ -22,8 +22,11 @@ for APEX in $APEXES; do
         rm -rf "$APEXDIR/$APEX"
     fi
     mkdir -p "$APEXDIR/$APEXNAME"
-    7z e -y "$APEXDIR/$APEX" apex_pubkey -o"$APEXDIR/$APEXNAME" >> $TMPDIR/apex_extract.log
-    python3 $DEAPEXER extract "$APEXDIR/$APEX" "$APEXDIR/$APEXNAME"
+    7z e -y "$APEXDIR/$APEX" apex_pubkey -o"$APEXDIR/$APEXNAME" 2>/dev/null >> "$TMPDIR"/zip.log
+    python3 $DEAPEXER extract "$APEXDIR/$APEXNAME.apex" "$APEXDIR/$APEXNAME" 2>/dev/null
+    rm "$APEXDIR/$APEXNAME/apex_payload.img"
     rm -rf "$APEXDIR/$APEXNAME/lost+found"
     rm "$APEXDIR/$APEXNAME.apex"
 done
+
+rm -rf "$TMPDIR"
