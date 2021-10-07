@@ -166,7 +166,5 @@ rm -rf $1/priv-app/picker
 rm -rf $1/priv-app/safe
 rm -rf $1/priv-app/suggestion
 rm -rf $1/priv-app/wt_logcat
-rm -rf $1/product/app/Chrome
-rm -rf $1/product/app/Chrome-Stub
 rm -rf $1/product/app/MarkupGoogle
 rm -rf $1/product/app/talkback
