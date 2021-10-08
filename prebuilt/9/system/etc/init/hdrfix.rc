@@ -1,0 +1,10 @@
+# Project OEM-GSI Porter by Erfan Abdi <erfangplus@gmail.com>
+
+on init
+    setprop isHDRLayer.patched 0
+
+on property:sys.boot_completed=1 && property:isHDRLayer.patched=0
+    exec - root -- /system/bin/hdrfix.sh
+
+on post-fs-data
+    exec - root -- /system/bin/hdrfix_post-data.sh
