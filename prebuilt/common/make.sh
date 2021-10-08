@@ -75,6 +75,9 @@ rm -rf $1/recovery-from-boot.*
 sed -i "/reboot_on_failure/d" $1/etc/init/hw/init.rc
 sed -i "/reboot_on_failure/d" $1/etc/init/apexd.rc
 
+# Drop ro.expect.recovery_id
+sed -i "/ro.expect.recovery_id/d" $1/build.prop
+
 # Append props
 cat $thispath/build.prop >> $1/build.prop
 
