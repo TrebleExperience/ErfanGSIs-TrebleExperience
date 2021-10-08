@@ -213,6 +213,7 @@ fi
 echo "-> Patching started..."
 $scriptsdir/fixsymlinks.sh "$systemdir/system" 2>/dev/null
 $scriptsdir/nukeABstuffs.sh "$systemdir/system" 2>/dev/null
+$LOCALDIR/build/common/DropManufacturer/make.sh
 
 # Check if extra VNDK has been requested
 if [[ $novndk == "false" ]]; then
