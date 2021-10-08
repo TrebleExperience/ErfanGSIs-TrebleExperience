@@ -68,13 +68,7 @@ done
 
 # If flag variable is false, then the ROM isn't even supported.
 if [ "$flag" == "false" ]; then
-    echo "-> Heyaa! This rom: $romtype is not supported rom, supported roms:"
-    for dir in "${roms[@]}"
-    do
-        ver=`echo "$dir" | rev | cut -d "/" -f 2 | rev`
-        rom=`echo "$dir" | rev | cut -d "/" -f 1 | rev`
-        echo "$rom for Android $ver"
-    done
+    echo "-> Heyaa! $romtype is not a supported ROM! Please review the list of supported ROMs."
     exit 1
 fi
 
@@ -168,7 +162,7 @@ fi
 
 # Detect rom folder again
 if [[ ! -d "$romsdir/$sourcever/$romtype" ]]; then
-    echo "-> $romtype is not supported rom for android $sourcever."
+    echo "-> $romtype is not a supported ROM for Android $sourcever. Please review the list of supported ROMs."
     exit 1
 fi
 
