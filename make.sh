@@ -312,13 +312,18 @@ echo "Raw Image Size: $(bytesToHuman $systemsize)" >> "$outputinfo"
 
 echo "-> Creating Image (This may take a while to finish): $outputimagename"
 
+# Use ext4fs to make image in P or older!
+if [ "$sourcever" == "9" ]; then
+    useold="--old"
+fi
+
 # Build the GSI image
 if [ ! -f "$romsdir/$sourcever/$romtype/build/file_contexts" ]; then
     echo "-> Note: Custom security contexts not found for this ROM, errors or SELinux problem may appear"
-    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output false > $tempdir/mkimage.log || rm -rf $output
+    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output false $useold > $tempdir/mkimage.log || rm -rf $output
 else
     echo "-> Note: Custom security contexts found!"
-    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/build > $tempdir/mkimage.log || rm -rf $output
+    $scriptsdir/mkimage.sh $systemdir $outputtype $systemsize $output $romsdir/$sourcever/$romtype/build $useold > $tempdir/mkimage.log || rm -rf $output
 fi
 
 # Check if the output image has been built

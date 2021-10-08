@@ -113,8 +113,16 @@ sudo mkdir -p "$systemdir/firmware"
 sudo mkdir -p "$systemdir/dsp"
 sudo mkdir -p "$systemdir/cache"
 
-if [ "$outputtype" == "Aonly" ]; then
-    sudo $toolsdir/mkuserimg_mke2fs.py "$systemdir/system" "$output" ext4 "/system" $syssize $fcontexts -j "0" -T "1230768000" -L "system" -I "256" -M "/system" -m "0" 
+if [ "$6" == "--old" ]; then
+    if [ "$outputtype" == "Aonly" ]; then
+        sudo $make_ext4fs -T 1230768000 -I "256" -j "0" -S $fcontexts -l $syssize -L system -a system -s "$output" "$systemdir/system"
+    else
+        sudo $make_ext4fs -T 1230768000 -I "256" -j "0" -S $fcontexts -l $syssize -L / -a / -s "$output" "$systemdir/"
+    fi
 else
-    sudo $toolsdir/mkuserimg_mke2fs.py "$systemdir/" "$output" ext4 "/" $syssize $fcontexts -j "0" -T "1230768000" -L "/" -I "256" -M "/" -m "0"
+    if [ "$outputtype" == "Aonly" ]; then
+        sudo $toolsdir/mkuserimg_mke2fs.py "$systemdir/system" "$output" ext4 "/system" $syssize $fcontexts -j "0" -T "1230768000" -L "system" -I "256" -M "/system" -m "0"
+    else
+        sudo $toolsdir/mkuserimg_mke2fs.py "$systemdir/" "$output" ext4 "/" $syssize $fcontexts -j "0" -T "1230768000" -L "/" -I "256" -M "/" -m "0"
+    fi
 fi
