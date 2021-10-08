@@ -21,20 +21,6 @@ sed -i '/debug.sf/d' $1/build.prop
 sed -i '/persist.sar.mode/d' $1/build.prop
 sed -i '/opengles.version/d' $1/build.prop
 
-# Overlays
-if [ ! -d  $1/product/overlay ]; then
-    mkdir -p $1/product/overlay
-    chmod 0755 $1/product/overlay
-    chown root:root $1/product/overlay
-fi
-
-# Copy navigation bar aosp overlays
-if [ -f $romdir/NOAOSPOVERLAY ]; then
-    echo "-> Using AOSP overlays isn't supported in this rom. Skipping..."
-else
-    cp -fpr $thispath/aosp_overlay/* $1/product/overlay/
-fi
-
 ## Brightness fix
 # Some systems are using custom light services, don't apply this patch on those roms
 if [ -f $romdir/DONTPATCHLIGHT ]; then
