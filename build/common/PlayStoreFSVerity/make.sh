@@ -34,5 +34,5 @@ if [ -f "$SYSTEMDIR/product/security/fsverity/play_store_fsi_cert.der" ]; then
 else
     rsync -ra $LOCALDIR/product $SYSTEMDIR
     cat $LOCALDIR/file_contexts >> $SYSTEMDIR/etc/selinux/plat_file_contexts
-    echo " - Done, process completed successfully."
+    echo " - Done, patched successfully. Process completed."
 fi
