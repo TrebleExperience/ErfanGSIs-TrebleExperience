@@ -12,6 +12,7 @@ toolsdir="$LOCALDIR/tools"
 romsdir="$LOCALDIR/roms"
 prebuiltdir="$LOCALDIR/prebuilt"
 scriptsdir="$LOCALDIR/scripts"
+patchesdir="$LOCALDIR/build"
 sourcepath=$1
 romtype=$2
 outputtype=$3
@@ -213,7 +214,7 @@ fi
 echo "-> Patching started..."
 $scriptsdir/fixsymlinks.sh "$systemdir/system" 2>/dev/null
 $scriptsdir/nukeABstuffs.sh "$systemdir/system" 2>/dev/null
-$LOCALDIR/build/common/DropManufacturer/make.sh
+$patchesdir/common/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" "$sourcever"
 
 # Check if extra VNDK has been requested
 if [[ $novndk == "false" ]]; then

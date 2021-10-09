@@ -10,6 +10,7 @@ LOCALDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 TMPDIR="$LOCALDIR/../../../tmp/services_tmp"
 SERVICES="$(realpath "$(find $LOCALDIR/../../../tmp/system -maxdepth 4 -type f -name services.jar)")"
 APKTOOL="$LOCALDIR/../../../tools/apktool/apktool.jar"
+SYSTEMDIR="$1"
 [[ -d "$TMPDIR" ]] && rm -rf "$TMPDIR"
 mkdir -p $TMPDIR
 cd $TMPDIR
@@ -35,13 +36,6 @@ if [[ $? -ge 1 ]]; then
 else
     # Double-check if we got true result
     if [ -f "$TMPDIR/services.jar" ]; then
-        if [ -d "$LOCALDIR/../../../tmp/system/system" ]; then
-            SYSTEMDIR="$LOCALDIR/../../../tmp/system/system"
-        else
-            SYSTEMDIR="$LOCALDIR/../../../tmp/system"
-        fi
-        SYSTEMDIR="$(echo "$(realpath $SYSTEMDIR)")"
-
         # Backup: Create a services.jar.bak as services.jar backup (if GSI fails to start due to dalvik security)
         cp -frp $SERVICES $SYSTEMDIR/framework/services.jar.bak
 
