@@ -594,18 +594,6 @@ if getprop ro.vendor.build.fingerprint | grep -qiE '^samsung/' && [ "$vndk" -ge 
     fi
 fi
 
-# QSSI Devices audio policy
-sku="$(getprop ro.boot.product.vendor.sku)"
-if [ -f /vendor/etc/audio_policy_configuration_sec.xml ]; then
-    mount /vendor/etc/audio_policy_configuration_sec.xml /vendor/etc/audio_policy_configuration.xml
-elif [ -f /vendor/etc/audio/sku_${sku}_qssi/audio_policy_configuration.xml ] && [ -f /vendor/etc/audio/sku_$sku/audio_policy_configuration.xml ]; then
-    mount /vendor/etc/audio/sku_${sku}_qssi/audio_policy_configuration.xml /vendor/etc/audio/sku_$sku/audio_policy_configuration.xml
-elif [ -f /vendor/etc/audio/audio_policy_configuration.xml ]; then
-    mount /vendor/etc/audio/audio_policy_configuration.xml /vendor/etc/audio_policy_configuration.xml
-elif [ -f /vendor/etc/audio_policy_configuration_base.xml ]; then
-    mount /vendor/etc/audio_policy_configuration_base.xml /vendor/etc/audio_policy_configuration.xml
-fi
-
 # For ZF8, the "best" audio policy isn't the one for QSSI
 if getprop ro.vendor.build.fingerprint |grep -q -e /ASUS_I006D:;then
     umount /vendor/etc/audio
