@@ -52,6 +52,7 @@ else
     sed -i '/ro.telephony.iwlan_operation_mode/d' $TMPFILE
     sed -i '/ro.apex.updatable/d' $TMPFILE
     sed -i '/external_storage/d' $TMPFILE
+    sed -i '/ro.expect.recovery_id/d' $TMPFILE
     sed -i '/^\s*$/d' $TMPFILE
 
     # Do '# end' at final
