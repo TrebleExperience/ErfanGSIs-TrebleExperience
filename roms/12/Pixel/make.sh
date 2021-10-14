@@ -30,11 +30,15 @@ sed -i "/debug.sf.latch_unsignaled/d" $1/build.prop
 
 # Drop HbmSVManager which is crashing light hal
 rm -rf $1/system_ext/priv-app/HbmSVManager
-rm -rf $1/../init.environ.rc
-
-# Copy own environ init
-cp -rp $thispath/init/init.environ.rc $1/../init.environ.rc
 
 # Try to fix height ratio
 sed -i "/ro.com.google.ime.height_ratio/d" $1/product/etc/build.prop
 echo "ro.com.google.ime.height_ratio=1.0" >> $1/product/etc/build.prop
+
+# Merge monet props stuff
+sed -i "/persist.sysui.monet/d" $1/product/etc/build.prop
+sed -i "/ro.boot.vendor.overlay.theme/d" $1/product/etc/build.prop
+echo "" >> $1/product/etc/build.prop
+echo "# Monet fix (Not fully)" >> $1/product/etc/build.prop
+echo "persist.sysui.monet=true" >> $1/product/etc/build.prop
+echo "ro.boot.vendor.overlay.theme=com.android.internal.systemui.navbar.gestural;com.google.android.systemui.gxoverlay" >> $1/product/etc/build.prop
