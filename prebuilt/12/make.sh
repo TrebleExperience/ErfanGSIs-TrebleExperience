@@ -10,14 +10,6 @@ if [[ ! -d "$1/system_ext" || ! -d "$1/product" ]]; then
     exit 1
 fi
 
-# Merge monet props stuff
-sed -i "/persist.sysui.monet/d" $1/product/etc/build.prop
-sed -i "/ro.boot.vendor.overlay.theme/d" $1/product/etc/build.prop
-echo "" >> $1/product/etc/build.prop
-echo "# Monet fix (Not fully)" >> $1/product/etc/build.prop
-echo "persist.sysui.monet=true" >> $1/product/etc/build.prop
-echo "ro.boot.vendor.overlay.theme=com.android.internal.systemui.navbar.gestural;com.google.android.systemui.gxoverlay" >> $1/product/etc/build.prop
-
 # Drop apex prop
 sed -i '/ro.apex.updatable/d' $1/build.prop
 sed -i '/ro.apex.updatable/d' $1/product/etc/build.prop
