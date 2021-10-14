@@ -60,6 +60,8 @@ if [ "${EUID}" -ne 0 ]; then
    exit 1
 fi
 
+echo "-> Running DM Script (2.0)"
+
 MOUNT() {
    if $(sudo mount -o loop "$1" "$2" >/dev/null 2>&1); then
       GOOD=true
