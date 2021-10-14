@@ -45,8 +45,6 @@ VENDOR_DIR="$WORKING/vendor"
 VENDOR_IMAGE="$WORKING/vendor.img"
 OVERLAYS_VENDOR=false
 
-MIUI=false
-
 OPPO=false
 MY_PRODUCT_IMAGE="$WORKING/my_product.img"
 MY_PRODUCT_DIR="$WORKING/my_product"
@@ -96,7 +94,6 @@ usage() {
    echo -e "\t--overlays: Take the overlays from /vendor and put them in a temporary folder and compress at the end of the GSI process"
    echo -e "\t--oneplus: Merge oneplus partitions into system (OxygenOS/HydrogenOS only)"
    echo -e "\t--pixel: Merge Pixel partitions into system (Pixel/Generic from Google only)"
-   echo -e "\t--miui: Copy device-features stuff from vendor into system"
    echo -e "\t--oppo: Merge oppo (RealmeUI for eg) partitions into system"
 }
 
@@ -130,11 +127,6 @@ while [[ $# -gt 0 ]]; do
       ;;
    --overlays)
       OVERLAYS_VENDOR=true
-      shift
-      ;;
-   --miui)
-      MIUI=true
-      SYSTEM_NEW=true
       shift
       ;;
    --oppo)
@@ -199,7 +191,7 @@ if [ "$PRODUCT" == true ]; then
    fi
 fi
 
-if [[ $OVERLAYS_VENDOR == true || $MIUI == true ]]; then
+if [ $OVERLAYS_VENDOR == true ]; then
    if [ -f "$VENDOR_IMAGE" ]; then
       if [ -d "$VENDOR_DIR" ]; then
          if [ -d "$VENDOR_DIR/etc/" ]; then
@@ -304,7 +296,7 @@ if [ "$SYSTEM_EXT" == true ]; then
    fi
 fi
 
-if [[ "$DYNAMIC" == false && "$MIUI" == false ]]; then
+if [ "$DYNAMIC" == false ]; then
    echo "-> Abort due non-dynamic firmware or the options were not selected correctly."
    exit 1
 else
@@ -439,7 +431,7 @@ if [ "$SYSTEM_EXT" == true ]; then
    fi
 fi
 
-if [[ "$OVERLAYS_VENDOR" == true || "$MIUI" == true ]]; then
+if [ "$OVERLAYS_VENDOR" == true ]; then
    if [ -f "$VENDOR_IMAGE" ]; then
       if [ ! -d "$VENDOR_DIR/" ]; then
          mkdir $VENDOR_DIR
@@ -604,7 +596,7 @@ if [ "$SYSTEM_EXT" == true ]; then
    fi
 fi
 
-if [[ "$OVERLAYS_VENDOR" == true || "$MIUI" == true ]]; then
+if [ "$OVERLAYS_VENDOR" == true ]; then
    if [ -f "$VENDOR_IMAGE" ]; then
       if [[ -d "$VENDOR_DIR/overlay" && "$OVERLAYS_VENDOR" == true ]]; then
          mkdir -p "$WORKING/vendorOverlays"
@@ -617,15 +609,10 @@ if [[ "$OVERLAYS_VENDOR" == true || "$MIUI" == true ]]; then
          fi
          mv "$WORKING/vendorOverlays.gz" "$PROJECT_DIR/output/.tmp"
       fi
-      if [[ -d "$VENDOR_DIR/etc/device_features" && "$MIUI" == true ]]; then
-         if [ ! -d "$SYSTEM_NEW_DIR/system/etc/device_features" ]; then
-            cp -frp "$VENDOR_DIR/etc/device_features" "$SYSTEM_NEW_DIR/system/etc" && sync
-         fi
-      fi
    fi
 fi
 
-if [[ "$OVERLAYS_VENDOR" == true || "$MIUI" == true ]]; then
+if [ "$OVERLAYS_VENDOR" == true ]; then
    if [ -f "$VENDOR_IMAGE" ]; then
       sudo umount $VENDOR_DIR/
    fi
