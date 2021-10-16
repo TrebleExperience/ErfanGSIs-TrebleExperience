@@ -5,12 +5,14 @@
 
 set +e
 
+# Core variables, don't edit.
+SYSTEMDIR="$1"
+SERVICES="$SYSTEMDIR/framework/services.jar"
+
 # Init tmp variable.
 LOCALDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 TMPDIR="$LOCALDIR/../../../tmp/services_tmp"
-SERVICES="$(realpath "$(find $LOCALDIR/../../../tmp/system -maxdepth 4 -type f -name services.jar)")"
 APKTOOL="$LOCALDIR/../../../tools/apktool/apktool.jar"
-SYSTEMDIR="$1"
 [[ -d "$TMPDIR" ]] && rm -rf "$TMPDIR"
 mkdir -p $TMPDIR
 cd $TMPDIR
