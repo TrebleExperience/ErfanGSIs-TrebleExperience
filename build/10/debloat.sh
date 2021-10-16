@@ -1,2 +1,1 @@
-#!/bin/bash
-# Soon.
+../11/debloat.sh
