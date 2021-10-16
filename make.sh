@@ -204,11 +204,9 @@ if [ ! -f "$outputtree" ]; then
 fi
 
 # Debloat
-if [[ -f $romsdir/$sourcever/$romtype/$romtypename/debloat.sh || -f $romsdir/$sourcever/$romtype/debloat.sh ]]; then
-    echo "-> De-bloating"
-    $romsdir/$sourcever/$romtype/debloat.sh "$systemdir/system" 2>/dev/null
-    $romsdir/$sourcever/$romtype/$romtypename/debloat.sh "$systemdir/system" 2>/dev/null
-fi
+echo "-> De-bloating"
+$romsdir/$sourcever/$romtype/debloat.sh "$systemdir/system" 2>/dev/null
+$romsdir/$sourcever/$romtype/$romtypename/debloat.sh "$systemdir/system" 2>/dev/null
 
 # Start patching
 echo "-> Patching started..."
