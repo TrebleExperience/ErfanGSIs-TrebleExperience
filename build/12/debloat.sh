@@ -7,7 +7,6 @@ rm -rf $1/product/app/Chrome
 rm -rf $1/product/app/DevicePolicyPrebuilt
 rm -rf $1/product/app/DiagnosticsToolPrebuilt
 rm -rf $1/product/app/Drive
-rm -rf $1/product/app/GoogleCamera
 rm -rf $1/product/app/GoogleContacts
 rm -rf $1/product/app/GoogleTTS
 rm -rf $1/product/app/Maps
@@ -24,7 +23,6 @@ rm -rf $1/product/app/YouTubeMusicPrebuilt
 rm -rf $1/product/priv-app/DevicePersonalizationPrebuiltPixel2020
 rm -rf $1/product/priv-app/EuiccGoogle
 rm -rf $1/product/priv-app/EuiccSupportPixel
-rm -rf $1/product/priv-app/HelpRtcPrebuilt
 rm -rf $1/product/priv-app/PixelLiveWallpaperPrebuilt
 rm -rf $1/product/priv-app/PrebuiltGmsCore/app_chimera
 rm -rf $1/product/priv-app/PrebuiltGmsCoreQt/app_chimera
