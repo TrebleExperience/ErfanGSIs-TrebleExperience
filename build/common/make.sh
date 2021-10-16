@@ -14,3 +14,6 @@ $LOCALDIR/DropManufacturer/make.sh $SYSTEMDIR $ROMDIR $AVERSION
 
 # PlayStoreFSVerity: Try to fix non-verified device in non-gms GSIs
 $LOCALDIR/PlayStoreFSVerity/make.sh $SYSTEMDIR $ROMDIR $AVERSION
+
+# Do debloat
+$LOCALDIR/../$AVERSION/debloat.sh $SYSTEMDIR
