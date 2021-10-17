@@ -18,19 +18,21 @@ sourcepath=$1
 romtype=$2
 outputtype=$3
 novndk=$4
+gapps=$5
 
 # Util functions
 usage() {
-echo "Usage: $0 <Path to GSI system> <Firmware type> <Output type> <Extra VNDK> [Output Dir]"
+echo "Usage: $0 <Path to GSI system> <Firmware type> <Output type> <Extra VNDK> <GApps> [Output Dir]"
     echo -e "\tPath to GSI system: Mount GSI and set mount point"
     echo -e "\tFirmware type: Firmware mode"
     echo -e "\tOutput type: AB or Aonly"
     echo -e "\tExtra VNDK: Use it to not include extra VNDK, with false & true args"
+    echo -e "\tGApps: Push GApps"
     echo -e "\tOutput Dir: set output dir"
 }
 
-# Need at least 4 args
-if [ "$4" == "" ]; then
+# Need at least 5 args
+if [ "$5" == "" ]; then
     echo "-> ERROR!"
     echo " - Enter all needed parameters"
     usage
@@ -38,13 +40,13 @@ if [ "$4" == "" ]; then
 fi
 
 # Check output arg
-if [ "$5" == "" ]; then
+if [ "$6" == "" ]; then
     echo "-> Create out dir"
     outdirname="out"
     outdir="$LOCALDIR/$outdirname"
     mkdir -p "$outdir"
 else
-    outdir="$5"
+    outdir="$6"
 fi
 
 # Check if have special name.
@@ -204,6 +206,14 @@ if [ ! -f "$outputtree" ]; then
     echo " - Done!"
 fi
 
+# Check if GApps has been requested
+if [[ $gapps == "false" ]]; then
+    echo "-> No GApps requested, skip."
+else
+    echo "-> Copying prebuilt GApps from Android $sourcever, note: Experimental feature."
+    $vendordir/google/make.sh "$systemdir/system" "$sourcever" 2>/dev/null
+fi
+
 # Debloat
 echo "-> De-bloating"
 $romsdir/$sourcever/$romtype/debloat.sh "$systemdir/system" 2>/dev/null
@@ -220,7 +230,7 @@ if [[ $novndk == "false" ]]; then
     echo "-> Extra VNDK requested, copying VNDK from Android $sourcever into GSI"
     $prebuiltdir/vendor_vndk/make$sourcever.sh "$systemdir/system" 2>/dev/null
 else
-    echo "-> No extra VNDK requested, skipping the VNDK process..."
+    echo "-> No extra VNDK requested, skip."
 fi
 
 # Patching moment

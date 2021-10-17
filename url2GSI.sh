@@ -9,6 +9,7 @@ AB=true
 AONLY=true
 MOUNTED=false
 NOVNDK=false
+GAPPS=false
 CLEAN=false
 DYNAMIC=false
 
@@ -39,7 +40,7 @@ echo " - This branch is private, the public repository is available on TrebleExp
 
 # Util functions
 usage() {
-    echo "Usage: [--help|-h|-?] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] [--dynamic|-d] [--no-vndks|-nv] $0 <Firmware link> <Firmware type> [Other args]"
+    echo "Usage: [--help|-h|-?] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] [--dynamic|-d] [--no-vndks|-nv] [--gapps|-g] $0 <Firmware link> <Firmware type> [Other args]"
     echo -e "\tFirmware link: Firmware download link or local path"
     echo -e "\tFirmware type: Firmware mode"
     echo -e "\t--ab: Build only AB"
@@ -47,6 +48,7 @@ usage() {
     echo -e "\t--cleanup: Cleanup downloaded firmware"
     echo -e "\t--dynamic: Use this option only if the firmware contains dynamic partitions"
     echo -e "\t--novndk: Do not include extra VNDK"
+    echo -e "\t--gapps: Add prebuilt GApps inside system"
     echo -e "\t--help: To show this info"
 }
 
@@ -144,6 +146,10 @@ while [[ $# -gt 0 ]]; do
         NOVNDK=true
         shift
         ;;
+    --gapps | -g)
+        GAPPS=true
+        shift
+        ;;
     --dynamic | -d)
         DYNAMIC=true
         shift
@@ -219,7 +225,7 @@ fi
 
 # GSI process (AB)
 if [ $AB == true ]; then
-   "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" AB ${NOVNDK} "$PROJECT_DIR/output" ${@} || LEAVE
+   "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" AB ${NOVNDK} ${GAPPS} "$PROJECT_DIR/output" ${@} || LEAVE
 fi
 
 # Remove ROM_resigner tmp dir
@@ -229,7 +235,7 @@ fi
 
 # GSI process (AB)
 if [ $AONLY == true ]; then
-    "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" Aonly ${NOVNDK} "$PROJECT_DIR/output" ${@} || LEAVE
+    "$PROJECT_DIR"/make.sh "${URL}" "${SRCTYPE}" Aonly ${NOVNDK} ${GAPPS} "$PROJECT_DIR/output" ${@} || LEAVE
 fi
 
 # Force all partitions to be unmounted.
