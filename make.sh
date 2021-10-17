@@ -7,12 +7,13 @@
 LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 tempdirname="tmp"
 tempdir="$LOCALDIR/$tempdirname"
+patchesdir="$LOCALDIR/build"
+prebuiltdir="$LOCALDIR/prebuilt"
+romsdir="$LOCALDIR/roms"
+scriptsdir="$LOCALDIR/scripts"
 systemdir="$tempdir/system"
 toolsdir="$LOCALDIR/tools"
-romsdir="$LOCALDIR/roms"
-prebuiltdir="$LOCALDIR/prebuilt"
-scriptsdir="$LOCALDIR/scripts"
-patchesdir="$LOCALDIR/build"
+vendordir="$LOCALDIR/vendor"
 sourcepath=$1
 romtype=$2
 outputtype=$3
@@ -223,9 +224,9 @@ else
 fi
 
 # Patching moment
-$prebuiltdir/$sourcever/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
-$prebuiltdir/$sourcever/makeroot.sh "$systemdir" "$romsdir/$sourcever/$romtype" 2>/dev/null
-$prebuiltdir/common/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
+$vendordir/phhusson/$sourcever/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
+$vendordir/phhusson/$sourcever/makeroot.sh "$systemdir" "$romsdir/$sourcever/$romtype" 2>/dev/null
+$vendordir/phhusson/common/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
 [[ -f $LOCALDIR/tmp/FATALERROR ]] && exit 1
 $romsdir/$sourcever/$romtype/make.sh "$systemdir/system" 2>/dev/null
 $romsdir/$sourcever/$romtype/makeroot.sh "$systemdir" 2>/dev/null
@@ -237,7 +238,7 @@ if [ "$outputtype" == "Aonly" ] && [ ! "$romtype" == "$romtypename" ]; then
     $romsdir/$sourcever/$romtype/$romtypename/makeA.sh "$systemdir/system" 2>/dev/null
 fi
 if [ "$outputtype" == "Aonly" ]; then
-    $prebuiltdir/$sourcever/makeA.sh "$systemdir/system" 2>/dev/null
+    $vendordir/phhusson/$sourcever/makeA.sh "$systemdir/system" 2>/dev/null
     $romsdir/$sourcever/$romtype/makeA.sh "$systemdir/system" 2>/dev/null
 fi
 
@@ -252,7 +253,7 @@ if [[ ! -e $romsdir/$sourcever/$romtype/$romtypename/DONTRESIGN ]]; then
             python2=python
         fi
         $python2 $toolsdir/ROM_resigner/resign.py "$systemdir/system" $toolsdir/ROM_resigner/AOSP_security > $tempdir/resign.log 2>&1
-        $prebuiltdir/resigned/make.sh "$systemdir/system" 2>/dev/null
+        $vendordir/phhusson/resigned/make.sh "$systemdir/system" 2>/dev/null
     fi
 fi
 
