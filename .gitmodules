@@ -7,3 +7,6 @@
 [submodule "tools/oppo_ozip_decrypt"]
 	path = tools/oppo_ozip_decrypt
 	url = https://github.com/bkerler/oppo_ozip_decrypt.git
+[submodule "vendor/google"]
+	path = vendor/google
+	url = https://github.com/TrebleExperience/vendor_google_apps.git
