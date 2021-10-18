@@ -69,6 +69,7 @@ rm -rf $1/app/greenguard
 rm -rf $1/app/mab
 rm -rf $1/app/mi_connect_service
 rm -rf $1/data-app/*
+rm -rf $1/priv-app/Browser
 rm -rf $1/priv-app/BuiltInPrintService
 rm -rf $1/priv-app/CellBroadcastLegacyApp
 rm -rf $1/priv-app/ContentExtension
@@ -86,6 +87,9 @@ rm -rf $1/priv-app/MiRcs
 rm -rf $1/priv-app/MiService
 rm -rf $1/priv-app/MiShare
 rm -rf $1/priv-app/Mirror
+rm -rf $1/priv-app/MiuiCamera
+rm -rf $1/priv-app/MiuiGallery
+rm -rf $1/priv-app/MiuiVideo
 rm -rf $1/priv-app/Music
 rm -rf $1/priv-app/MusicFX
 rm -rf $1/priv-app/ONS
