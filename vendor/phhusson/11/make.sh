@@ -15,8 +15,8 @@ sed -i '/ro.apex.updatable/d' $1/build.prop
 sed -i '/ro.apex.updatable/d' $1/product/build.prop
 
 # Deal with non-flattened apex
-$thispath/../../scripts/apex_extractor.sh $1/apex
-$thispath/../../scripts/apex_extractor.sh $1/system_ext/apex
+$thispath/../../../scripts/apex_extractor.sh $1/apex
+$thispath/../../../scripts/apex_extractor.sh $1/system_ext/apex
 echo "ro.apex.updatable=false" >> $1/product/build.prop
 
 # Nuke dpi prop
