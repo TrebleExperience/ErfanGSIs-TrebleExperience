@@ -223,6 +223,7 @@ elif [[ $(7z l -ba "$romzip" | gawk '{print $NF}' | grep "system_new.img\|^syste
     find $tmpdir/ -name "* *" -type d,f | rename 's/ /_/g' > /dev/null 2>&1 # removes space from file name
     find $tmpdir/ -mindepth 2 -type f -name "*_image.emmc.img" -exec mv {} . \; # move .img in sub-dir to $tmpdir
     find $tmpdir/ -mindepth 2 -type f -name "*_new.img" -exec mv {} . \; # move .img in sub-dir to $tmpdir
+    find $tmpdir/ -maxdepth 1 -type f -name "*.img.gz" -exec gzip -d {} \; # unzip gzip
     find $tmpdir/ -mindepth 2 -type f -name "*.img.ext4" -exec mv {} . \; # move .img in sub-dir to $tmpdir
     find $tmpdir/ -mindepth 2 -type f -name "*.img" -exec mv {} . \; # move .img in sub-dir to $tmpdir
     find $tmpdir/ -type f ! -name "*img*" -exec rm -rf {} \; # delete other files
