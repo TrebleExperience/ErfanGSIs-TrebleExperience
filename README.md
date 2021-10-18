@@ -35,6 +35,7 @@ sudo bash https://bigota.d.miui.com/V12.5.4.0.RCUMIXM/miui_BILOBAGlobal_V12.5.4.
 
 ## Note
 * If you are going to edit the fork, please respect the License and NOTICE!
+* I won't push anything to this repo anymore, this repository is archived.
 
 ## Tips
 * Use our [Bo³+t](https://github.com/TrebleExperience/Bot3) fork if you want a telegram bot which is supported and adapted to our ErfanGSI fork.
