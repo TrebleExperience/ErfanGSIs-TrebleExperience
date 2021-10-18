@@ -6,7 +6,7 @@ thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 
 if [ ! -d "$1/product" ]; then
     echo "-> Abort! Product partition missing, critical problem."
-    touch $thispath/../../tmp/FATALERROR
+    touch $thispath/../../../tmp/FATALERROR
     exit 1
 fi
 
@@ -42,7 +42,7 @@ sed -i '/ro.control_privapp_permissions/d' $1/build.prop
 sed -i '/ro.control_privapp_permissions/d' $1/product/build.prop
 
 # Deal with non-flattened apex
-$thispath/../../scripts/apex_extractor.sh $1/apex
+$thispath/../../../scripts/apex_extractor.sh $1/apex
 echo "ro.apex.updatable=false" >> $1/product/build.prop
 
 # Copy system files
@@ -73,8 +73,8 @@ sed -i "s/android.hardware.media.c2/android.hardware.erfan.c2/g" $1/etc/vintf/ma
 rm -rf $1/etc/vintf/manifest/manifest_media_c2_software.xml
 
 # Fix vendor CAF sepolicies
-$thispath/../../scripts/sepolicy_prop_remover.sh $1/etc/selinux/plat_property_contexts "device/qcom/sepolicy" > $1/../../plat_property_contexts
-mv $1/../../plat_property_contexts $1/etc/selinux/plat_property_contexts
+$thispath/../../../scripts/sepolicy_prop_remover.sh $1/etc/selinux/plat_property_contexts "device/qcom/sepolicy" > $1/../../../plat_property_contexts
+mv $1/../../../plat_property_contexts $1/etc/selinux/plat_property_contexts
 sed -i "/typetransition location_app/d" $1/etc/selinux/plat_sepolicy.cil
 
 ## Init style wifi fix

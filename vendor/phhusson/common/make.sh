@@ -43,8 +43,8 @@ sed -i "/ro.build.fingerprint/d" $plat_property
 # If the ROM supports getting vendor properties, we will get them.
 if [ -f $romdir/SUPPORTSVENDORPROPS ]; then
     echo "-> Getting props from the vendor is allowed in this rom, trying to get them..."
-    if [ -d $thispath/../../working/vendor ]; then
-        bash $thispath/getVendorProps.sh $thispath/../../working/vendor $1 || true
+    if [ -d $thispath/../../../working/vendor ]; then
+        bash $thispath/getVendorProps.sh $thispath/../../../working/vendor $1 || true
     else
         echo " - Failed because the vendor seems unmounted."
     fi
@@ -156,11 +156,11 @@ echo "ro.force.debuggable=1" >> $1/product/etc/build.prop
 
 # cleanup build prop
 if grep -q ADDITIONAL_BUILD_PROPERTIES $1/build.prop; then
-    $thispath/../../scripts/propcleanner.sh $1/build.prop > $1/../../build.prop
+    $thispath/../../../scripts/propcleanner.sh $1/build.prop > $1/../../build.prop
     cp -fpr $1/../../build.prop $1/
 fi
 if grep -q post_process_props $1/product/etc/build.prop; then
-    $thispath/../../scripts/propcleannerS.sh $1/product/etc/build.prop > $1/../../build.prop
+    $thispath/../../../scripts/propcleannerS.sh $1/product/etc/build.prop > $1/../../build.prop
     cp -fpr $1/../../build.prop $1/product/etc/
 fi
 

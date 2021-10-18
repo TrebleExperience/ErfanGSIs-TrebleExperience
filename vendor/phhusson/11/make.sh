@@ -6,7 +6,7 @@ thispath=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 if [[ ! -d "$1/system_ext" || ! -d "$1/product" ]]; then
     echo "-> Abort! Important partitions are missing, critical problem."
-    touch $thispath/../../tmp/FATALERROR
+    touch $thispath/../../../tmp/FATALERROR
     exit 1
 fi
 
@@ -90,8 +90,8 @@ if $(grep -q 'ro.product.property_source_order=' $1/build.prop); then
 fi
 
 # Fix vendor CAF sepolicies
-$thispath/../../scripts/sepolicy_prop_remover.sh $1/etc/selinux/plat_property_contexts "device/qcom/sepolicy" > $1/../../plat_property_contexts
-mv $1/../../plat_property_contexts $1/etc/selinux/plat_property_contexts
+$thispath/../../../scripts/sepolicy_prop_remover.sh $1/etc/selinux/plat_property_contexts "device/qcom/sepolicy" > $1/../../../plat_property_contexts
+mv $1/../../../plat_property_contexts $1/etc/selinux/plat_property_contexts
 sed -i "/typetransition location_app/d" $1/etc/selinux/plat_sepolicy.cil
 
 # GSI always generate dex pre-opt in system image

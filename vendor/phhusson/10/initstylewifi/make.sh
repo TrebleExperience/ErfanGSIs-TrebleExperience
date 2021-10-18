@@ -2,9 +2,9 @@
 
 systempath=$1
 LOCALDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-scriptsdir=$LOCALDIR/../../../scripts
-toolsdir=$LOCALDIR/../../../tools
-TMPDIR=$LOCALDIR/../../../tmp/initstylewifi
+scriptsdir=$LOCALDIR/../../../../scripts
+toolsdir=$LOCALDIR/../../../../tools
+TMPDIR=$LOCALDIR/../../../../tmp/initstylewifi
 mkdir -p "$TMPDIR"
 
 BAKSMALIJAR="$toolsdir"/smali/baksmali.jar
