@@ -138,22 +138,6 @@ if [ -f $1/lib64/libbluetooth_qti.so ]; then
     echo "ro.bluetooth.library_name=libbluetooth_qti.so" >> $1/build.prop
 fi
 
-# Enable debugging
-sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/build.prop
-sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/build.prop
-sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/build.prop
-
-if [ -d "$1/system_ext" ]; then
-    sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/system_ext/etc/build.prop
-    sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/system_ext/etc/build.prop
-    sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/system_ext/etc/build.prop
-fi
-
-sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/product/etc/build.prop
-sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/product/etc/build.prop
-sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/product/etc/build.prop
-echo "ro.force.debuggable=1" >> $1/product/etc/build.prop
-
 # cleanup build prop
 if grep -q ADDITIONAL_BUILD_PROPERTIES $1/build.prop; then
     $thispath/../../../scripts/propcleanner.sh $1/build.prop > $1/../../build.prop

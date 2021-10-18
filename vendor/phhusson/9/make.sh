@@ -21,7 +21,12 @@ sed -i '/debug.sf/d' $1/build.prop
 sed -i '/persist.sar.mode/d' $1/build.prop
 sed -i '/opengles.version/d' $1/build.prop
 
-## Brightness fix
+# Enable debugging
+sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/build.prop
+sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/build.prop
+sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/build.prop
+echo "ro.force.debuggable=1" >> $1/build.prop
+
 # Some systems are using custom light services, don't apply this patch on those roms
 if [ -f $romdir/DONTPATCHLIGHT ]; then
     echo "-> Patching lights for brightness fix is not supported in this rom. Skipping..."

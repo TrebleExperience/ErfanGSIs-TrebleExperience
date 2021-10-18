@@ -77,7 +77,15 @@ $thispath/../../../scripts/sepolicy_prop_remover.sh $1/etc/selinux/plat_property
 mv $1/../../../plat_property_contexts $1/etc/selinux/plat_property_contexts
 sed -i "/typetransition location_app/d" $1/etc/selinux/plat_sepolicy.cil
 
-## Init style wifi fix
+# Enable debugging
+sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/build.prop
+sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/build.prop
+sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/build.prop
+sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/product/build.prop
+sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/product/build.prop
+sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/product/build.prop
+echo "ro.force.debuggable=1" >> $1/product/build.prop
+
 # Some systems are using custom wifi services, don't apply this patch on those roms
 if [ -f $romdir/DONTPATCHWIFI ]; then
     echo "-> Patching wifi-service for init style wifi is not supported in this rom. Skipping..."
@@ -86,7 +94,6 @@ else
     $thispath/initstylewifi/make.sh "$systempath"
 fi
 
-## Brightness fix
 # Some systems are using custom light services, don't apply this patch on those roms
 if [ -f $romdir/DONTPATCHLIGHT ]; then
     echo "-> Patching lights for brightness fix is not supported in this rom. Skipping..."

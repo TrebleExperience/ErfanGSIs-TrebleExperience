@@ -105,6 +105,18 @@ echo "ro.lmk.kill_heaviest_task=true" >> $1/product/build.prop
 echo "ro.lmk.kill_timeout_ms=100" >> $1/product/build.prop
 echo "ro.lmk.use_minfree_levels=true" >> $1/product/build.prop
 
+# Enable debugging
+sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/build.prop
+sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/build.prop
+sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/build.prop
+sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/system_ext/build.prop
+sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/system_ext/build.prop
+sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/system_ext/build.prop
+sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/product/build.prop
+sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/product/build.prop
+sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/product/build.prop
+echo "ro.force.debuggable=1" >> $1/product/build.prop
+
 # Minor changes
 sed -i '/u:object_r:vendor_default_prop:s0/d' $1/etc/selinux/plat_property_contexts
 sed -i '/software.version/d' $1/etc/selinux/plat_property_contexts

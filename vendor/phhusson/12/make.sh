@@ -115,6 +115,18 @@ echo "debug.sf.high_fps_early_gl_phase_offset_ns=" >> $1/product/etc/build.prop
 echo "debug.sf.high_fps_early_app_phase_offset_ns=" >> $1/product/etc/build.prop
 echo "debug.sf.high_fps_early_gl_app_phase_offset_ns=" >> $1/product/etc/build.prop
 
+# Enable debugging
+sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/build.prop
+sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/build.prop
+sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/build.prop
+sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/system_ext/etc/build.prop
+sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/system_ext/etc/build.prop
+sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/system_ext/etc/build.prop
+sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/product/etc/build.prop
+sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/product/etc/build.prop
+sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/product/etc/build.prop
+echo "ro.force.debuggable=1" >> $1/product/etc/build.prop
+
 # Minor changes
 sed -i '/software.version/d' $1/etc/selinux/plat_property_contexts
 sed -i '/ro.build.fingerprint    u:object_r:fingerprint_prop:s0/d' $1/etc/selinux/plat_property_contexts
