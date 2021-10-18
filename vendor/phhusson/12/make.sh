@@ -13,7 +13,7 @@ fi
 # Drop apex prop
 sed -i '/ro.apex.updatable/d' $1/build.prop
 sed -i '/ro.apex.updatable/d' $1/product/etc/build.prop
-sed -i '/ro.apex.updatable/d' $1/system_ext/build.prop
+sed -i '/ro.apex.updatable/d' $1/system_ext/etc/build.prop
 
 # Deal with non-flattened apex
 if [ -d "$1/apex/com.android.vndk.current" ]; then
@@ -25,15 +25,15 @@ echo "ro.apex.updatable=true" >> $1/product/etc/build.prop
 # Nuke dpi prop
 sed -i 's/ro.sf.lcd/#&/' $1/build.prop
 sed -i 's/ro.sf.lcd/#&/' $1/product/etc/build.prop
-sed -i 's/ro.sf.lcd/#&/' $1/system_ext/build.prop
+sed -i 's/ro.sf.lcd/#&/' $1/system_ext/etc/build.prop
 
 # Always enable CdmaLTEPhone
 sed -i '/telephony.lteOnCdmaDevice/d' $1/build.prop
 sed -i '/telephony.lteOnCdmaDevice/d' $1/product/etc/build.prop
-sed -i '/telephony.lteOnCdmaDevice/d' $1/system_ext/build.prop
+sed -i '/telephony.lteOnCdmaDevice/d' $1/system_ext/etc/build.prop
 echo "telephony.lteOnCdmaDevice=1" >> $1/build.prop
 echo "telephony.lteOnCdmaDevice=1" >> $1/product/etc/build.prop
-echo "telephony.lteOnCdmaDevice=1" >> $1/system_ext/build.prop
+echo "telephony.lteOnCdmaDevice=1" >> $1/system_ext/etc/build.prop
 
 # Drop some props (again)
 sed -i '/vendor.display/d' $1/build.prop
@@ -48,7 +48,7 @@ sed -i '/media.settings.xml/d' $1/build.prop
 # Drop control privapp permissions
 sed -i '/ro.control_privapp_permissions/d' $1/build.prop
 sed -i '/ro.control_privapp_permissions/d' $1/product/etc/build.prop
-sed -i '/ro.control_privapp_permissions/d' $1/system_ext/build.prop
+sed -i '/ro.control_privapp_permissions/d' $1/system_ext/etc/build.prop
 
 # Copy system files
 rsync -ra $thispath/system/ $systempath
