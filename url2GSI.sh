@@ -11,7 +11,7 @@ MOUNTED=false
 NOVNDK=false
 GAPPS=false
 CLEAN=false
-DYNAMIC=false
+MERGE=false
 
 # Lock for GSI process
 LOCK="$PROJECT_DIR/cache/.lock"
@@ -40,13 +40,13 @@ echo " - This branch is private, the public repository is available on TrebleExp
 
 # Util functions
 usage() {
-    echo "Usage: [--help|-h|-?] [--ab|-b] [--aonly|-a] [--mounted|-m] [--cleanup|-c] [--dynamic|-d] [--no-vndks|-nv] [--gapps|-g] $0 <Firmware link> <Firmware type> [Other args]"
+    echo "Usage: [--help|-h|-?] [--ab|-b] [--aonly|-a] [--cleanup|-c] [--merge|-m] [--no-vndks|-nv] [--gapps|-g] $0 <Firmware link> <Firmware type> [Other args]"
     echo -e "\tFirmware link: Firmware download link or local path"
     echo -e "\tFirmware type: Firmware mode"
     echo -e "\t--ab: Build only AB"
     echo -e "\t--aonly: Build only A-Only"
     echo -e "\t--cleanup: Cleanup downloaded firmware"
-    echo -e "\t--dynamic: Use this option only if the firmware contains dynamic partitions"
+    echo -e "\t--merger: Merge partitions & others into system"
     echo -e "\t--novndk: Do not include extra VNDK"
     echo -e "\t--gapps: Add prebuilt GApps inside system"
     echo -e "\t--help: To show this info"
@@ -150,8 +150,8 @@ while [[ $# -gt 0 ]]; do
         GAPPS=true
         shift
         ;;
-    --dynamic | -d)
-        DYNAMIC=true
+    --merge | -m)
+        MERGE=true
         shift
         ;;
     --help | -h | -?)
@@ -203,9 +203,9 @@ if [ $MOUNTED == false ]; then
         DOWNLOAD "$URL" "$ZIP_NAME"
         URL="$ZIP_NAME"
     fi
-    if [ "$DYNAMIC" == true ]; then
-       "$PROJECT_DIR"/dynamic.sh "$URL" --odm --product --ext --oneplus --overlays --pixel --miui --oppo
-    elif [ $DYNAMIC == false ] ; then
+    if [ "$MERGE" == true ]; then
+       "$PROJECT_DIR"/scripts/merger.sh "$URL" || exit 1
+    elif [ $MERGE == false ] ; then
        "$PROJECT_DIR"/zip2img.sh "$URL" "$PROJECT_DIR/working" || exit 1
     fi
     if [ $CLEAN == true ]; then
