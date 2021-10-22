@@ -1,7 +1,5 @@
 #!/bin/bash
 SYSTEMDIR="$1"
-VENDORDIR="$2"
-IS_QSSI="$3"
 
 flavor=$(grep -oP "(?<=^ro.build.flavor=).*" -hs "$SYSTEMDIR"/build*.prop)
 [[ -z "${flavor}" ]] && flavor=$(grep -oP "(?<=^ro.system.build.flavor=).*" -hs "$SYSTEMDIR"/build*.prop)
@@ -16,24 +14,12 @@ tags=$(grep -oP "(?<=^ro.build.tags=).*" -hs "$SYSTEMDIR"/build*.prop)
 [[ -z "${tags}" ]] && tags=$(grep -oP "(?<=^ro.system.build.tags=).*" -hs "$SYSTEMDIR"/build*.prop)
 fingerprint=$(grep -oP "(?<=^ro.build.fingerprint=).*" -hs "$SYSTEMDIR"/build*.prop)
 [[ -z "${fingerprint}" ]] && fingerprint=$(grep -oP "(?<=^ro.system.build.fingerprint=).*" -hs "$SYSTEMDIR"/build*.prop)
-if [ $IS_QSSI == "false" ]; then
-    brand=$(grep -oP "(?<=^ro.product.brand=).*" -hs "$SYSTEMDIR"/build*.prop | head -1)
-elif [ $IS_QSSI == "true" ]; then
-    brand=$(grep -oP "(?<=^ro.product.vendor.brand=).*" -hs "$VENDORDIR"/build.prop | head -1)
-fi
+brand=$(grep -oP "(?<=^ro.product.brand=).*" -hs "$SYSTEMDIR"/build*.prop | head -1)
 [[ -z "${brand}" ]] && brand=$(grep -oP "(?<=^ro.product.system.brand=).*" -hs "$SYSTEMDIR"/build*.prop | head -1)
 [[ -z "${brand}" ]] && brand=$(echo $fingerprint | cut -d / -f1 )
-if [ $IS_QSSI == "false" ]; then
-    model=$(grep -oP "(?<=^ro.product.model=).*" -hs "$SYSTEMDIR"/build*.prop | head -1)
-elif [ $IS_QSSI == "true" ]; then
-    model=$(grep -oP "(?<=^ro.product.vendor.model=).*" -hs "$VENDORDIR"/build.prop | head -1)
-fi
+model=$(grep -oP "(?<=^ro.product.model=).*" -hs "$SYSTEMDIR"/build*.prop | head -1)
 [[ -z "${model}" ]] && model=$(grep -oP "(?<=^ro.product.system.model=).*" -hs "$SYSTEMDIR"/build*.prop | head -1)
-if [ $IS_QSSI == "false" ]; then
-    codename=$(grep -oP "(?<=^ro.product.device=).*" -hs "$SYSTEMDIR"/build*.prop | head -1)
-elif [ $IS_QSSI == "true" ]; then
-    codename=$(grep -oP "(?<=^ro.product.vendor.device=).*" -hs "$VENDORDIR"/build.prop | head -1)
-fi
+codename=$(grep -oP "(?<=^ro.product.device=).*" -hs "$SYSTEMDIR"/build*.prop | head -1)
 [[ -z "${codename}" ]] && codename=$(grep -oP "(?<=^ro.product.system.device=).*" -hs "$SYSTEMDIR"/build*.prop | head -1)
 [[ -z "${codename}" ]] && codename=$(echo $fingerprint | cut -d / -f3 | cut -d : -f1 )
 [[ -z "${codename}" ]] && codename=$(grep -oP "(?<=^ro.build.fota.version=).*" -hs "$SYSTEMDIR"/build*.prop | cut -d - -f1 | head -1)
