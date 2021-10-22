@@ -95,7 +95,8 @@ echo "ro.lmk.kill_heaviest_task=true" >> $1/product/etc/build.prop
 echo "ro.lmk.kill_timeout_ms=100" >> $1/product/etc/build.prop
 echo "ro.lmk.use_minfree_levels=true" >> $1/product/etc/build.prop
 
-#sudo sed -i "s|/dev/uinput               0660   uhid       uhid|/dev/uinput               0660   system     bluetooth|" $1/etc/ueventd.rc
+# Don't write binary XML files
+echo "persist.sys.binary_xml=false" >> $1/build.prop
 
 # Disable bpfloader
 rm -rf $1/etc/init/bpfloader.rc
