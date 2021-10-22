@@ -40,6 +40,29 @@ sed -i "/sys.usb.controller/d" $plat_property
 sed -i "/sys.usb.config/d" $plat_property
 sed -i "/ro.build.fingerprint/d" $plat_property
 
+if [ -d $thispath/../../../working/vendor ]; then
+    if $(cat $1/build.prop | grep -qo 'qssi'); then
+        brand=$(cat $thispath/../../../working/vendor/build.prop | grep 'ro.product.vendor.brand')
+        device=$(cat $thispath/../../../working/vendor/build.prop | grep 'ro.product.vendor.device')
+        manufacturer=$(cat $thispath/../../../working/vendor/build.prop | grep 'ro.product.vendor.manufacturer')
+        model=$(cat $thispath/../../../working/vendor/build.prop | grep 'ro.product.vendor.model')
+        name=$(cat $thispath/../../../working/vendor/build.prop | grep 'ro.product.vendor.name')
+
+        sed -i '/ro.product.system./d' $1/build.prop
+
+        echo "" >> $1/build.prop
+        echo "# Device fixed info" >>$1/build.prop
+        echo "$brand" >> $1/build.prop
+        echo "$device" >> $1/build.prop
+        echo "$manufacturer" >> $1/build.prop
+        echo "$model" >> $1/build.prop
+        echo "$name" >> $1/build.prop
+        echo "" >> $1/build.prop
+
+        sed -i 's/ro.product.vendor./ro.product.system./g' $1/build.prop
+    fi
+fi
+
 # If the ROM supports getting vendor properties, we will get them.
 if [ -f $romdir/SUPPORTSVENDORPROPS ]; then
     echo "-> Getting props from the vendor is allowed in this rom, trying to get them..."
