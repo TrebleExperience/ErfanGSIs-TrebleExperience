@@ -74,16 +74,16 @@ if [ -f $romdir/SUPPORTSVENDORPROPS ]; then
 fi
 
 # Remove qti_permissions
-find $systemdir -type f -name "qti_permissions.xml" | xargs rm -rf
+find $1 -type f -name "qti_permissions.xml" | xargs rm -rf
 
 # Remove firmware
-find $systemdir -type d -name "firmware" | xargs rm -rf
+find $1 -type d -name "firmware" | xargs rm -rf
 
 # Remove avb
-find $systemdir -type d -name "avb" | xargs rm -rf
+find $1 -type d -name "avb" | xargs rm -rf
 
 # Remove com.qualcomm.location
-find $systemdir -type d -name "com.qualcomm.location" | xargs rm -rf
+find $1 -type d -name "com.qualcomm.location" | xargs rm -rf
 
 # Drop prebuilt verity key (AVB)
 rm -rf $1/../verity_key
