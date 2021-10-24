@@ -23,24 +23,3 @@ sed -i "/ro.secure/d" $1/build.prop
 sed -i "/ro.secure/d" $1/etc/prop.default
 echo "ro.secure=0" >> $1/build.prop
 echo "ro.secure=0" >> $1/etc/prop.default
-
-# Drop reboot_on_failure on apexd too
-sed -i "/reboot_on_failure/d" $1/etc/init/apexd.rc
-
-# Also drop avb stuff
-rm -rf $1/../verity_key
-
-# Drop useless recovery files inside
-rm -rf $1/../init.recovery*
-
-# Try to enable debugging
-sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/build.prop
-sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/build.prop
-sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/build.prop
-sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/system_ext/etc/build.prop
-sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/system_ext/etc/build.prop
-sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/system_ext/etc/build.prop
-sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/product/etc/build.prop
-sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/product/etc/build.prop
-sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/product/etc/build.prop
-echo "ro.force.debuggable=1" >> $1/product/etc/build.prop
