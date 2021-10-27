@@ -13,6 +13,9 @@ GAPPS=false
 CLEAN=false
 MERGE=false
 
+# Check for partitions to validate if the merger usage is needed
+PARTITIONS="system_ext product reserve india my_bigball my_carrier my_company my_engineering my_heytap my_manifest my_preload my_product my_region my_stock my_version"
+
 # Lock for GSI process
 LOCK="$PROJECT_DIR/cache/.lock"
 
@@ -115,9 +118,12 @@ if [ -f "$LOCK" ]; then
 else
     mkdir -p "$PROJECT_DIR/cache/"
     touch "$LOCK"
-    echo "-> Warning: Unmounting all partitions inside working folder, deleting all temporary folders/files which are used to do GSI process..."
-    UMOUNT_ALL
-    sudo rm -rf "$PROJECT_DIR/cache/" "$PROJECT_DIR/tmp/" "$PROJECT_DIR/working/" "$PROJECT_DIR/output/" "$PROJECT_DIR/tools/ROM_resigner/tmp/"
+    if [ ! -d "$1" ]; then
+        echo "-> Warning: Unmounting all partitions inside working folder, deleting all temporary folders/files which are used to do GSI process..."
+        UMOUNT_ALL
+        sudo rm -rf "$PROJECT_DIR/working/"
+    fi
+    sudo rm -rf "$PROJECT_DIR/output/" "$PROJECT_DIR/cache/" "$PROJECT_DIR/tmp/"  "$PROJECT_DIR/tools/ROM_resigner/tmp/"
     sudo find . -type d -name "__pycache__" -exec rm -rf {} +
     sudo find . -type f -name "*.pyc" -exec rm -rf {} +
     echo " - Done."
@@ -221,6 +227,16 @@ if [ $MOUNTED == false ]; then
         echo "-> Error, System Image doesn't exists, abort!"
         exit 1
     fi
+fi
+
+if [ "$MERGE" == false ]; then
+    for partition in $PARTITIONS; do
+        if [ -f "$PROJECT_DIR/working/$partition.img" ]; then
+            # If exists, then the merge usage is needed!
+            echo " - Oops... Seems you forgot to enable merger argument (-m), there are existing partition(s) that need to be merged into the system partition. Abort."
+            exit 1
+        fi
+    done
 fi
 
 # GSI process (AB)
