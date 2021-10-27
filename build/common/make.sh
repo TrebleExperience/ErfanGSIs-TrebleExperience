@@ -10,7 +10,7 @@ ROMDIR="$2"
 AVERSION="$3"
 
 # DropManufacturer: Always patch services.jar to drop message from the manufacturer
-$LOCALDIR/DropManufacturer/make.sh $SYSTEMDIR $ROMDIR $AVERSION
+#$LOCALDIR/DropManufacturer/make.sh $SYSTEMDIR $ROMDIR $AVERSION
 
 # PlayStoreFSVerity: Try to fix non-verified device in non-gms GSIs
 $LOCALDIR/PlayStoreFSVerity/make.sh $SYSTEMDIR $ROMDIR $AVERSION
