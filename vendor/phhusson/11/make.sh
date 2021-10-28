@@ -17,7 +17,9 @@ sed -i '/ro.apex.updatable/d' $1/product/build.prop
 # Deal with non-flattened apex
 $thispath/../../../scripts/apex_extractor.sh $1/apex
 $thispath/../../../scripts/apex_extractor.sh $1/system_ext/apex
+echo "# Force non-updatable APEX" >> $1/product/build.prop
 echo "ro.apex.updatable=false" >> $1/product/build.prop
+echo "" >> $1/product/build.prop
 
 # Nuke dpi prop
 sed -i 's/ro.sf.lcd/#&/' $1/build.prop
@@ -28,9 +30,15 @@ sed -i 's/ro.sf.lcd/#&/' $1/system_ext/build.prop
 sed -i '/telephony.lteOnCdmaDevice/d' $1/build.prop
 sed -i '/telephony.lteOnCdmaDevice/d' $1/product/build.prop
 sed -i '/telephony.lteOnCdmaDevice/d' $1/system_ext/build.prop
+echo "# Always enable CdmaLTEPhone" >> $1/build.prop
+echo "# Always enable CdmaLTEPhone" >> $1/product/build.prop
+echo "# Always enable CdmaLTEPhone" >> $1/system_ext/build.prop
 echo "telephony.lteOnCdmaDevice=1" >> $1/build.prop
 echo "telephony.lteOnCdmaDevice=1" >> $1/product/build.prop
 echo "telephony.lteOnCdmaDevice=1" >> $1/system_ext/build.prop
+echo "" >> $1/build.prop
+echo "" >> $1/product/build.prop
+echo "" >> $1/system_ext/build.prop
 
 # Drop some props (again)
 sed -i '/vendor.display/d' $1/build.prop
@@ -39,7 +47,7 @@ sed -i '/debug.sf/d' $1/build.prop
 sed -i '/persist.sar.mode/d' $1/build.prop
 sed -i '/opengles.version/d' $1/build.prop
 
-# Drop VNDK prop inside product
+# Disable specific product VNDK version
 sed -i '/product.vndk.version/d' $1/product/build.prop
 
 # Drop CAF media.settings
@@ -86,7 +94,9 @@ rm -rf $1/etc/vintf/manifest/manifest_media_c2_software.xml
 # Minor changes
 if $(grep -q 'ro.product.property_source_order=' $1/build.prop); then
     sed -i '/ro.product.property\_source\_order\=/d' $1/build.prop
+    echo "# Fix product source order" >> $1/product/etc/build.prop
     echo "ro.product.property_source_order=system,product,system_ext,vendor,odm" >> $1/build.prop
+    echo "" >> $1/build.prop
 fi
 
 # Fix vendor CAF sepolicies
@@ -95,15 +105,21 @@ mv $1/../../../plat_property_contexts $1/etc/selinux/plat_property_contexts
 sed -i "/typetransition location_app/d" $1/etc/selinux/plat_sepolicy.cil
 
 # GSI always generate dex pre-opt in system image
+echo "# GSI always generate dex pre-opt in system image" >> $1/product/build.prop
 echo "ro.cp_system_other_odex=0" >> $1/product/build.prop
+echo "" >> $1/product/build.prop
 
 # GSI disables non-AOSP nnapi extensions on product partition
+echo "# GSI disables non-AOSP nnapi extensions on product partition" >> $1/product/build.prop
 echo "ro.nnapi.extensions.deny_on_product=true" >> $1/product/build.prop
+echo "" >> $1/product/build.prop
 
 # TODO(b/136212765): the default for LMK
+echo "# TODO(b/136212765): the default for LMK" >> $1/product/build.prop
 echo "ro.lmk.kill_heaviest_task=true" >> $1/product/build.prop
 echo "ro.lmk.kill_timeout_ms=100" >> $1/product/build.prop
 echo "ro.lmk.use_minfree_levels=true" >> $1/product/build.prop
+echo "" >> $1/product/build.prop
 
 # Enable debugging
 sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/build.prop
@@ -115,7 +131,9 @@ sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/system_ext/build.prop
 sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/product/build.prop
 sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/product/build.prop
 sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/product/build.prop
+echo "# Force enable debugging" >> $1/product/build.prop
 echo "ro.force.debuggable=1" >> $1/product/build.prop
+echo "" >> $1/product/build.prop
 
 # Minor changes
 sed -i '/u:object_r:vendor_default_prop:s0/d' $1/etc/selinux/plat_property_contexts

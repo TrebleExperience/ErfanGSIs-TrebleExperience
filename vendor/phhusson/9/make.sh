@@ -11,8 +11,9 @@ rsync -ra $thispath/system/ $systempath
 sed -i 's/ro.sf.lcd/#&/' $1/build.prop
 
 # Always enable CdmaLTEPhone
-sed -i '/telephony.lteOnCdmaDevice/d' $1/build.prop
+echo "# Always enable CdmaLTEPhone" >> $1/build.prop
 echo "telephony.lteOnCdmaDevice=1" >> $1/build.prop
+echo "" >> $1/build.prop
 
 # Drop some props (again)
 sed -i '/vendor.display/d' $1/build.prop
@@ -25,7 +26,9 @@ sed -i '/opengles.version/d' $1/build.prop
 sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/build.prop
 sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/build.prop
 sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/build.prop
-echo "ro.force.debuggable=1" >> $1/build.prop
+echo "# Force enable debugging" >> $1/product/build.prop
+echo "ro.force.debuggable=1" >> $1/product/build.prop
+echo "" >> $1/product/build.prop
 
 # Some systems are using custom light services, don't apply this patch on those roms
 if [ -f $romdir/DONTPATCHLIGHT ]; then

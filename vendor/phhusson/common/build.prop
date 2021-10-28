@@ -1,3 +1,8 @@
+# Disable ADB secure
 ro.adb.secure=0
-ro.sys.sdcardfs=0
-persist.sys.overlay.nightmode=true
+
+# Some devices have sdcardfs kernel panicing on 8.0
+ro.sys.sdcardfs=false
+
+# Tell realme fingerprint driver we're running unlocked bootloader
+ro.boot.realme.lockstate=0

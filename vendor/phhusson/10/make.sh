@@ -31,7 +31,7 @@ sed -i '/debug.sf/d' $1/build.prop
 sed -i '/persist.sar.mode/d' $1/build.prop
 sed -i '/opengles.version/d' $1/build.prop
 
-# Drop VNDK prop inside product
+# Disable specific product VNDK version
 sed -i '/product.vndk.version/d' $1/product/build.prop
 
 # Drop CAF media.settings
@@ -43,7 +43,9 @@ sed -i '/ro.control_privapp_permissions/d' $1/product/build.prop
 
 # Deal with non-flattened apex
 $thispath/../../../scripts/apex_extractor.sh $1/apex
+echo "# Force non-updatable APEX" >> $1/product/build.prop
 echo "ro.apex.updatable=false" >> $1/product/build.prop
+echo "" >> $1/product/build.prop
 
 # Copy system files
 rsync -ra $thispath/system/ $systempath
@@ -63,7 +65,9 @@ else
 fi
 
 cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
+echo "# BT Audio Hal" >> $1/build.prop
 echo "persist.bluetooth.bluetooth_audio_hal.disabled=true" >> $1/build.prop
+echo "" >> $1/build.prop
 
 # Append file_context
 cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts
@@ -84,7 +88,9 @@ sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/build.prop
 sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/product/build.prop
 sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/product/build.prop
 sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/product/build.prop
+echo "# Force enable debugging" >> $1/product/build.prop
 echo "ro.force.debuggable=1" >> $1/product/build.prop
+echo "" >> $1/product/build.prop
 
 # Some systems are using custom wifi services, don't apply this patch on those roms
 if [ -f $romdir/DONTPATCHWIFI ]; then

@@ -130,35 +130,48 @@ sed -i "/dalvik.vm.heapmaxfree/d" $1/build.prop
 
 # Disable vndk lite
 if [[ -f $1/product/etc/build.prop ]]; then
+    echo "# Disable vndk lite" >> $1/product/etc/build.prop
     echo "ro.vndk.lite=false" >> $1/product/etc/build.prop
-else
+    echo "" >> $1/product/etc/build.prop
+elif [[ -f $1/product/build.prop ]]; then
     echo "ro.vndk.lite=false" >> $1/etc/prop.default
+    echo "# Disable vndk lite" >> $1/product/build.prop
     echo "ro.vndk.lite=false" >> $1/product/build.prop
+    echo "" >> $1/product/build.prop
 fi
 
 # Fix app missing
 sed -i '/ro.opengles.version/d' -i $1/build.prop
-echo "# You can nuke this if necessary" >> $1/build.prop
+echo "# Fix app missing" >> $1/build.prop
 echo "ro.opengles.version=196610" >> $1/build.prop
+echo "" >> $1/build.prop
 
 # disable RescureParty
 if [[ -f $1/product/etc/build.prop ]]; then
+    echo "# Disable RescueParty" >> $1/product/etc/build.prop
     echo "persist.sys.disable_rescue=true" >> $1/product/etc/build.prop
+    echo "" >> $1/product/etc/build.prop 
 else
     echo "persist.sys.disable_rescue=true" >> $1/etc/prop.default
 fi
 
 # disable privapp_permissions checking
 if [[ -f $1/product/etc/build.prop ]]; then
+    echo "# Disable privapp_permissions checking" >> $1/product/etc/build.prop
     echo "ro.control_privapp_permissions=disable" >> $1/product/etc/build.prop
-else
+    echo "" >> $1/product/etc/build.prop
+elif [[ -f $1/product/build.prop ]]; then
     echo "ro.control_privapp_permissions=disable" >> $1/etc/prop.default
+    echo "# Disable privapp_permissions checking" >> $1/product/build.prop
     echo "ro.control_privapp_permissions=disable" >> $1/product/build.prop
+    echo "" >> $1/product/build.prop
 fi
 
 # Use qti Bluetooth lib if avaliable
 if [ -f $1/lib64/libbluetooth_qti.so ]; then
+    echo "# Force QTI BT usage" >> $1/build.prop
     echo "ro.bluetooth.library_name=libbluetooth_qti.so" >> $1/build.prop
+    echo "" >> $1/build.prop
 fi
 
 # cleanup build prop

@@ -20,7 +20,9 @@ if [ -d "$1/apex/com.android.vndk.current" ]; then
     # Flat apex detected! Extract the rest (v28, 29, 30)
     $thispath/../../../scripts/apex_extractor.sh $1/apex
 fi
+echo "# Force updatable APEX" >> $1/product/etc/build.prop
 echo "ro.apex.updatable=true" >> $1/product/etc/build.prop
+echo "" >> $1/product/etc/build.prop
 
 # Nuke dpi prop
 sed -i 's/ro.sf.lcd/#&/' $1/build.prop
@@ -31,9 +33,15 @@ sed -i 's/ro.sf.lcd/#&/' $1/system_ext/etc/build.prop
 sed -i '/telephony.lteOnCdmaDevice/d' $1/build.prop
 sed -i '/telephony.lteOnCdmaDevice/d' $1/product/etc/build.prop
 sed -i '/telephony.lteOnCdmaDevice/d' $1/system_ext/etc/build.prop
+echo "# Always enable CdmaLTEPhone" >> $1/build.prop
+echo "# Always enable CdmaLTEPhone" >> $1/product/etc/build.prop
+echo "# Always enable CdmaLTEPhone" >> $1/system_ext/etc/build.prop
 echo "telephony.lteOnCdmaDevice=1" >> $1/build.prop
 echo "telephony.lteOnCdmaDevice=1" >> $1/product/etc/build.prop
 echo "telephony.lteOnCdmaDevice=1" >> $1/system_ext/etc/build.prop
+echo "" >> $1/build.prop
+echo "" >> $1/product/etc/build.prop
+echo "" >> $1/system_ext/etc/build.prop
 
 # Drop some props (again)
 sed -i '/vendor.display/d' $1/build.prop
@@ -44,6 +52,9 @@ sed -i '/opengles.version/d' $1/build.prop
 
 # Drop CAF media.settings
 sed -i '/media.settings.xml/d' $1/build.prop
+
+# Disable specific product VNDK version
+sed -i '/product.vndk.version/d' $1/product/etc/build.prop
 
 # Drop control privapp permissions
 sed -i '/ro.control_privapp_permissions/d' $1/build.prop
@@ -76,7 +87,9 @@ cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts
 # Minor changes
 if $(grep -q 'ro.product.property_source_order=' $1/build.prop); then
     sed -i '/ro.product.property\_source\_order\=/d' $1/build.prop
+    echo "# Fix product source order" >> $1/product/etc/build.prop
     echo "ro.product.property_source_order=system,product,system_ext,vendor,odm" >> $1/build.prop
+    echo "" >> $1/build.prop
 fi
 
 # Fix vendor CAF sepolicies
@@ -85,24 +98,35 @@ mv $1/../../../plat_property_contexts $1/etc/selinux/plat_property_contexts
 sed -i "/typetransition location_app/d" $1/etc/selinux/plat_sepolicy.cil
 
 # GSI always generate dex pre-opt in system image
+echo "# GSI always generate dex pre-opt in system image" >> $1/product/etc/build.prop
 echo "ro.cp_system_other_odex=0" >> $1/product/etc/build.prop
+echo "" >> $1/product/etc/build.prop
 
 # GSI disables non-AOSP nnapi extensions on product partition
+echo "# GSI disables non-AOSP nnapi extensions on product partition" >> $1/product/etc/build.prop
 echo "ro.nnapi.extensions.deny_on_product=true" >> $1/product/etc/build.prop
+echo "" >> $1/product/etc/build.prop
 
 # TODO(b/136212765): the default for LMK
+echo "# TODO(b/136212765): the default for LMK" >> $1/product/etc/build.prop
 echo "ro.lmk.kill_heaviest_task=true" >> $1/product/etc/build.prop
 echo "ro.lmk.kill_timeout_ms=100" >> $1/product/etc/build.prop
 echo "ro.lmk.use_minfree_levels=true" >> $1/product/etc/build.prop
+echo "" >> $1/product/etc/build.prop
 
 # Don't write binary XML files
+echo "# Don't write binary XML files" >> $1/build.prop
 echo "persist.sys.binary_xml=false" >> $1/build.prop
+echo "" >> $1/product/etc/build.prop
 
 # Disable bpfloader
 rm -rf $1/etc/init/bpfloader.rc
+echo "# Disable bpf loader" >> $1/product/etc/build.prop
 echo "bpf.progs_loaded=1" >> $1/product/etc/build.prop
+echo "" >> $1/product/etc/build.prop
 
 # Bypass SF validateSysprops
+echo "# Bypass SF validateSysprops" >> $1/product/etc/build.prop
 echo "ro.surface_flinger.vsync_event_phase_offset_ns=-1" >> $1/product/etc/build.prop
 echo "ro.surface_flinger.vsync_sf_event_phase_offset_ns=-1" >> $1/product/etc/build.prop
 echo "debug.sf.high_fps_late_app_phase_offset_ns=" >> $1/product/etc/build.prop
@@ -115,6 +139,7 @@ echo "debug.sf.high_fps_early_phase_offset_ns=" >> $1/product/etc/build.prop
 echo "debug.sf.high_fps_early_gl_phase_offset_ns=" >> $1/product/etc/build.prop
 echo "debug.sf.high_fps_early_app_phase_offset_ns=" >> $1/product/etc/build.prop
 echo "debug.sf.high_fps_early_gl_app_phase_offset_ns=" >> $1/product/etc/build.prop
+echo "" >> $1/product/etc/build.prop
 
 # Enable debugging
 sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/build.prop
@@ -126,7 +151,9 @@ sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/system_ext/etc/build.prop
 sed -i 's/persist.sys.usb.config=none/persist.sys.usb.config=adb/g' $1/product/etc/build.prop
 sed -i 's/ro.debuggable=0/ro.debuggable=1/g' $1/product/etc/build.prop
 sed -i 's/ro.adb.secure=1/ro.adb.secure=0/g' $1/product/etc/build.prop
+echo "# Force enable debugging" >> $1/product/etc/build.prop
 echo "ro.force.debuggable=1" >> $1/product/etc/build.prop
+echo "" >> $1/product/etc/build.prop
 
 # Minor changes
 sed -i '/software.version/d' $1/etc/selinux/plat_property_contexts
