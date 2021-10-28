@@ -170,6 +170,8 @@ for partition in $GPARTITIONS; do
       echo "- Merging $partition into /" >> "$TMPDIR/$TAG" 2>&1
       cp -vfrp $WORKING/$partition/* $MPARTITION >> "$TMPDIR/$TAG" 2>&1 || FATAL "$partition"
       umount -l $WORKING/$partition && rm -rf $WORKING/$partition $WORKING/$partition.img
+      # TODO(b/1): Drop useless system-other-odex-marker rootfs file
+      [ -f $MPARTITION/system-other-odex-marker ] && rm -rf $MPARTITION/system-other-odex-marker
    fi
 done
 
