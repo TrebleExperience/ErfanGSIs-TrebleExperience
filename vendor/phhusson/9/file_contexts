@@ -1,0 +1,2 @@
+/system/bin/hdrfix.sh u:object_r:update_engine_exec:s0
+/system/bin/hdrfix_post-data.sh u:object_r:update_engine_exec:s0

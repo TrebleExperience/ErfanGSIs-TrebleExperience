@@ -15,6 +15,9 @@ echo "# Always enable CdmaLTEPhone" >> $1/build.prop
 echo "telephony.lteOnCdmaDevice=1" >> $1/build.prop
 echo "" >> $1/build.prop
 
+# Append file_context
+cat $thispath/file_contexts >> $1/etc/selinux/plat_file_contexts
+
 # Drop some props (again)
 sed -i '/vendor.display/d' $1/build.prop
 sed -i '/vendor.perf/d' $1/build.prop
