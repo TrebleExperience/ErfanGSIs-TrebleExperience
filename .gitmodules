@@ -1,5 +1,5 @@
-[submodule "prebuilt/vendor_vndk"]
-	path = prebuilt/vendor_vndk
+[submodule "vendor/vndk"]
+	path = vendor/vndk
 	url = https://github.com/TrebleExperience/vendor_vndk.git
 [submodule "tools/ROM_resigner"]
 	path = tools/ROM_resigner

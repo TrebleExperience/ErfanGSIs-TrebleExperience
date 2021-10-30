@@ -7,7 +7,7 @@
 LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 tempdirname="tmp"
 tempdir="$LOCALDIR/$tempdirname"
-patchesdir="$LOCALDIR/build"
+builddir="$LOCALDIR/build"
 prebuiltdir="$LOCALDIR/prebuilt"
 romsdir="$LOCALDIR/roms"
 scriptsdir="$LOCALDIR/scripts"
@@ -206,16 +206,16 @@ outputtreename="trebleExp[$romtypename]-$codename-[GSI+SGSI]-$displayid-$sourcev
 outputtree="$outdir/$outputtreename"
 
 if [ ! -f "$outputtree" ]; then
-    echo "-> Creating system tree..."
+    echo "-> Generating the system tree..."
     tree $systemdir >> "$outputtree" 2> "$outputtree"
     echo " - Done!"
 fi
 
 # Check if GApps has been requested
 if [[ $gapps == "false" ]]; then
-    echo "-> No GApps requested, skip."
+    echo "-> Google Apps supply was not requested, ignore."
 else
-    echo "-> Copying prebuilt GApps from Android $sourcever, note: Experimental feature."
+    echo "-> Google Apps supply was requested, copying into system..."
     $vendordir/google/make.sh "$systemdir/system" "$sourcever" 2>/dev/null
 fi
 
@@ -223,25 +223,26 @@ fi
 echo "-> De-bloating"
 $romsdir/$sourcever/$romtype/debloat.sh "$systemdir/system" 2>/dev/null
 $romsdir/$sourcever/$romtype/$romtypename/debloat.sh "$systemdir/system" 2>/dev/null
+$builddir/debloat/$sourcever/debloat.sh "$systemdir/system" 2>/dev/null # "Common" debloat for 9, 10, 11 & 12 (It's useful for Generic GSI)
 
 # Start patching
 echo "-> Patching started..."
 $scriptsdir/fixsymlinks.sh "$systemdir/system" 2>/dev/null
 $scriptsdir/nukeABstuffs.sh "$systemdir/system" 2>/dev/null
-$patchesdir/common/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" "$sourcever"
+$builddir/patches/common/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" "$sourcever"
 
 # Check if extra VNDK has been requested
 if [[ $novndk == "false" ]]; then
-    echo "-> Extra VNDK requested, copying VNDK from Android $sourcever into GSI"
-    $prebuiltdir/vendor_vndk/make$sourcever.sh "$systemdir/system" 2>/dev/null
+    echo "-> Extra Vendor Native Development Kit supply was requested, copying into system..."
+    $vendordir/vndk/make$sourcever.sh "$systemdir/system" 2>/dev/null
 else
-    echo "-> No extra VNDK requested, skip."
+    echo "-> Extra Vendor Native Development Kit supply not requested, ignore."
 fi
 
 # Patching moment
-$vendordir/phhusson/$sourcever/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
-$vendordir/phhusson/$sourcever/makeroot.sh "$systemdir" "$romsdir/$sourcever/$romtype" 2>/dev/null
-$vendordir/phhusson/common/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
+$builddir/gsi/$sourcever/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
+$builddir/gsi/$sourcever/makeroot.sh "$systemdir" "$romsdir/$sourcever/$romtype" 2>/dev/null
+$builddir/gsi/common/make.sh "$systemdir/system" "$romsdir/$sourcever/$romtype" 2>/dev/null
 [[ -f $LOCALDIR/tmp/FATALERROR ]] && exit 1
 $romsdir/$sourcever/$romtype/make.sh "$systemdir/system" 2>/dev/null
 $romsdir/$sourcever/$romtype/makeroot.sh "$systemdir" 2>/dev/null
@@ -253,7 +254,7 @@ if [ "$outputtype" == "Aonly" ] && [ ! "$romtype" == "$romtypename" ]; then
     $romsdir/$sourcever/$romtype/$romtypename/makeA.sh "$systemdir/system" 2>/dev/null
 fi
 if [ "$outputtype" == "Aonly" ]; then
-    $vendordir/phhusson/$sourcever/makeA.sh "$systemdir/system" 2>/dev/null
+    $builddir/gsi/$sourcever/makeA.sh "$systemdir/system" 2>/dev/null
     $romsdir/$sourcever/$romtype/makeA.sh "$systemdir/system" 2>/dev/null
 fi
 
@@ -268,7 +269,7 @@ if [[ ! -e $romsdir/$sourcever/$romtype/$romtypename/DONTRESIGN ]]; then
             python2=python
         fi
         $python2 $toolsdir/ROM_resigner/resign.py "$systemdir/system" $toolsdir/ROM_resigner/AOSP_security > $tempdir/resign.log 2>&1
-        $vendordir/phhusson/resigned/make.sh "$systemdir/system" 2>/dev/null
+        $builddir/gsi/resigned/make.sh "$systemdir/system" 2>/dev/null
     fi
 fi
 
