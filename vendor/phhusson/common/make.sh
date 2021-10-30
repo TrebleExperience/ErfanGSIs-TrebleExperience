@@ -142,34 +142,56 @@ fi
 
 # Fix app missing
 sed -i '/ro.opengles.version/d' -i $1/build.prop
-echo "# Fix app missing" >> $1/build.prop
-echo "ro.opengles.version=196610" >> $1/build.prop
+echo "
+# OpenGLES
+# 196608 is decimal for 0x30000 to report major/minor versions as 3/0
+# 196609 is decimal for 0x30001 to report major/minor versions as 3/1
+# 196610 is decimal for 0x30002 to report major/minor versions as 3/2
+ro.opengles.version=196610" >> $1/build.prop
 echo "" >> $1/build.prop
 
 # disable RescureParty
 if [[ -f $1/product/etc/build.prop ]]; then
-    echo "# Disable RescueParty" >> $1/product/etc/build.prop
+    echo "# TODO(b/120679683): disable RescueParty before all problem apps solved" >> $1/product/etc/build.prop
     echo "persist.sys.disable_rescue=true" >> $1/product/etc/build.prop
-    echo "" >> $1/product/etc/build.prop 
+    echo "" >> $1/product/etc/build.prop
+elif [[ -f $1/product/build.prop ]]; then
+    echo "# TODO(b/120679683): disable RescueParty before all problem apps solved" >> $1/product/build.prop
+    echo "persist.sys.disable_rescue=true" >> $1/product/build.prop
+    echo "" >> $1/product/build.prop
 else
-    echo "persist.sys.disable_rescue=true" >> $1/etc/prop.default
+    echo "# TODO(b/120679683): disable RescueParty before all problem apps solved" >> $1/product/etc/build.prop
+    echo "persist.sys.disable_rescue=true" >> $1/build.prop
+    echo "" >> $1/build.prop
 fi
 
 # disable privapp_permissions checking
 if [[ -f $1/product/etc/build.prop ]]; then
-    echo "# Disable privapp_permissions checking" >> $1/product/etc/build.prop
+    sed -i '/ro.control_privapp_permissions/d' -i $1/product/etc/build.prop
+    echo "# TODO(b/78105955): disable privapp_permissions checking before the bug solved" >> $1/product/etc/build.prop
     echo "ro.control_privapp_permissions=disable" >> $1/product/etc/build.prop
     echo "" >> $1/product/etc/build.prop
+elif [[ -f $1/system_ext/etc/build.prop ]]; then
+    sed -i '/ro.control_privapp_permissions/d' -i $1/system_ext/etc/build.prop
+    echo "# TODO(b/78105955): disable privapp_permissions checking before the bug solved" >> $1/system_ext/etc/build.prop
+    echo "ro.control_privapp_permissions=disable" >> $1/system_ext/etc/build.prop
+    echo "" >> $1/system_ext/etc/build.prop
 elif [[ -f $1/product/build.prop ]]; then
-    echo "ro.control_privapp_permissions=disable" >> $1/etc/prop.default
-    echo "# Disable privapp_permissions checking" >> $1/product/build.prop
+    sed -i '/ro.control_privapp_permissions/d' -i $1/product/build.prop
+    echo "# TODO(b/78105955): disable privapp_permissions checking before the bug solved" >> $1/product/build.prop
     echo "ro.control_privapp_permissions=disable" >> $1/product/build.prop
     echo "" >> $1/product/build.prop
+else
+    sed -i '/ro.control_privapp_permissions/d' -i $1/build.prop
+    echo "# TODO(b/78105955): disable privapp_permissions checking before the bug solved" >> $1/build.prop
+    echo "ro.control_privapp_permissions=disable" >> $1/build.prop
+    echo "" >> $1/build.prop
 fi
 
 # Use qti Bluetooth lib if avaliable
 if [ -f $1/lib64/libbluetooth_qti.so ]; then
-    echo "# Force QTI BT usage" >> $1/build.prop
+    sed -i '/ro.bluetooth.library_name/d' -i $1/build.prop
+    echo "# Bluetooth SoC Type" >> $1/build.prop
     echo "ro.bluetooth.library_name=libbluetooth_qti.so" >> $1/build.prop
     echo "" >> $1/build.prop
 fi

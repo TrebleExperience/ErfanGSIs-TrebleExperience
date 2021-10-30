@@ -117,7 +117,7 @@ echo "" >> $1/product/etc/build.prop
 # Don't write binary XML files
 echo "# Don't write binary XML files" >> $1/build.prop
 echo "persist.sys.binary_xml=false" >> $1/build.prop
-echo "" >> $1/product/etc/build.prop
+echo "" >> $1/build.prop
 
 # Disable bpfloader
 rm -rf $1/etc/init/bpfloader.rc
