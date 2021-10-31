@@ -69,5 +69,10 @@ for patch_files in $permissions_files; do
     sed -i "s#/odm/#/system/system_ext/#g" $patch_files
 done
 
+# Copy build.prop stuff to system
+sed -i '/import/d' $odmdir/build.prop
+echo "" >> $systemdir/build.prop
+cat $odmdir/build.prop >> $systemdir/build.prop
+
 # Done!
 echo " - Done!"
