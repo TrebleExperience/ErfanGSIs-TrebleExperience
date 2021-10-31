@@ -160,7 +160,10 @@ for partition in $SPARTITIONS; do
       rm -rf $MPARTITION/$partition $MPARTITION/system/$partition && mkdir -p $MPARTITION/system/$partition
       cp -vfrp $WORKING/$partition/* $MPARTITION/system/$partition >> "$TMPDIR/$TAG" 2>&1 || FATAL "$partition"
       ln -s /system/$partition/ $MPARTITION/$partition
-      umount -l $WORKING/$partition && rm -rf $WORKING/$partition $WORKING/$partition.img
+      umount -l $WORKING/$partition
+      rm -rf $WORKING/$partition
+      [ $partition == odm ] && continue
+      rm -rf $WORKING/$partition.img
    fi
 done
 
@@ -180,7 +183,8 @@ for partition in $ONPPARTITIONS; do
    if [ -f "$WORKING/$partition.img" ]; then
       echo "- Merging $partition into /system/$partition" >> "$TMPDIR/$TAG" 2>&1
       cp -vfrp $WORKING/$partition/* $MPARTITION/system/$partition >> "$TMPDIR/$TAG" 2>&1 || FATAL "$partition"
-      umount -l $WORKING/$partition && rm -rf $WORKING/$partition $WORKING/$partition.img
+      umount -l $WORKING/$partition
+      rm -rf $WORKING/$partition
    fi
 done
 
