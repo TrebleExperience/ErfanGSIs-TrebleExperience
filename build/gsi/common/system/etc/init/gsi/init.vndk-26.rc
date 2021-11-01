@@ -1,3 +1,0 @@
-on early-init
-    # Set ro.vndk.version to 26 so that O-VENDOR can run latest GSI.
-    setprop ro.vndk.version 26
