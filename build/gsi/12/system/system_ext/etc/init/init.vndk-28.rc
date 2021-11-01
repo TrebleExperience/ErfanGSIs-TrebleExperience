@@ -1,0 +1,9 @@
+service vndk /system/bin/sh -c "resetprop_phh ro.vndk.version 28"
+    seclabel u:r:shell:s0
+    user root
+    oneshot
+    disabled
+
+on early-init
+    # Re-set ro.vndk.version prop (Some ROMs for unknown reason need it)
+    start vndk
