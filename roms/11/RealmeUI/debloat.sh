@@ -4,7 +4,6 @@ systempath=$1
 thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 
 rm -rf $1/../my_heytap/app/*ARCore*
-rm -rf $1/../my_heytap/app/*Google*
 rm -rf $1/../my_heytap/app/FinShellWallet
 rm -rf $1/../my_heytap/app/GlobalSearch
 rm -rf $1/../my_heytap/app/Instant
@@ -13,14 +12,9 @@ rm -rf $1/../my_heytap/app/Music
 rm -rf $1/../my_heytap/app/TrichromeLibraryCN
 rm -rf $1/../my_heytap/decouping_wallpaper/default/liveWallpaper/*
 rm -rf $1/../my_heytap/del-app/*
-rm -rf $1/../my_heytap/priv-app/*GmsCore*
-rm -rf $1/../my_heytap/priv-app/*Google&
 rm -rf $1/../my_heytap/priv-app/ConfigUpdater
 rm -rf $1/../my_heytap/priv-app/GooglePlayServicesUpdater
 rm -rf $1/../my_heytap/priv-app/HeyTapSpeechAssist
-rm -rf $1/../my_heytap/priv-app/Music
-rm -rf $1/../my_heytap/priv-app/Music
-rm -rf $1/../my_heytap/priv-app/Music
 rm -rf $1/../my_heytap/priv-app/Music
 rm -rf $1/../my_product/app/OVoiceManagerService2Mic
 rm -rf $1/../my_product/app/OVoiceManagerSkillService
