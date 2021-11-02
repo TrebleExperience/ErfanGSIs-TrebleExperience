@@ -94,7 +94,7 @@ rm -rf $1/etc/vintf/manifest/manifest_media_c2_software.xml
 # Minor changes
 if $(grep -q 'ro.product.property_source_order=' $1/build.prop); then
     sed -i '/ro.product.property\_source\_order\=/d' $1/build.prop
-    echo "# Fix product source order" >> $1/product/etc/build.prop
+    echo "# Fix product source order" >> $1/build.prop
     echo "ro.product.property_source_order=system,product,system_ext,vendor,odm" >> $1/build.prop
     echo "" >> $1/build.prop
 fi
