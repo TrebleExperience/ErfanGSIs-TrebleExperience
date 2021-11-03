@@ -60,5 +60,39 @@ if [ ! -d "$1/etc/device_features" ]; then
     fi
 fi
 
+# Check if this build is MISSI (MIUI Single System Image)
+if $(cat $1/build.prop | grep -qo 'missi'); then
+    echo "-> MISSI build detected! Trying to fix some props..."
+
+    if [ -d "$thispath/../../../working/vendor/etc/device_features" ]; then
+        brand=$(cat $thispath/../../../working/vendor/build.prop | grep 'ro.product.vendor.brand')
+        device=$(cat $thispath/../../../working/vendor/build.prop | grep 'ro.product.vendor.device')
+        manufacturer=$(cat $thispath/../../../working/vendor/build.prop | grep 'ro.product.vendor.manufacturer')
+        model=$(cat $thispath/../../../working/vendor/build.prop | grep 'ro.product.vendor.model')
+        mame=$(cat $thispath/../../../working/vendor/build.prop | grep 'ro.product.vendor.name')
+        marketname=$(cat $thispath/../../../working/vendor/build.prop | grep 'ro.product.vendor.marketname')
+
+        [[ $(cat $1/build.prop | grep "# Device fixed info") ]] && echo " - Seems there's already exists a device info patch, override it." && sed -i '/# Device fixed info/d' $1/build.prop
+
+        sed -i '/ro.product.system./d' $1/build.prop
+
+        echo "" >> $1/build.prop
+        echo "# System & MIUI props fixed "
+        echo "$brand" >> $1/build.prop
+        echo "$device" >> $1/build.prop
+        echo "$manufacturer" >> $1/build.prop
+        echo "$model" >> $1/build.prop
+        echo "$mame" >> $1/build.prop
+        echo "$marketname" >> $1/build.prop
+        echo "" >> $1/build.prop
+
+        sed -i 's/ro.product.vendor./ro.product.system./g' $1/build.prop
+
+        echo " - Done!"
+    else
+        echo " - Failed! Vendor seems unmounted."
+    fi
+fi
+
 # Cat own rw-system.add.sh
 cat $thispath/rw-system.add.sh >> $1/bin/rw-system.sh
