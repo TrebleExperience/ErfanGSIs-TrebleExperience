@@ -74,6 +74,14 @@ MOUNT() {
     mkdir -p "$PROJECT_DIR/working/$2"
     if $(sudo mount -o auto -t auto "$PROJECT_DIR/working/$1" "$PROJECT_DIR/working/$2" >/dev/null 2>&1); then
         echo "-> $3 image successfully mounted"
+    elif $(sudo mount -o ro -t erofs "$PROJECT_DIR/working/$1" "$PROJECT_DIR/working/$2" >/dev/null 2>&1); then
+        echo "-> $3 image successfully mounted with Enhanced Read-Only File System"
+    elif $(sudo mount -o loop -t erofs "$PROJECT_DIR/working/$1" "$PROJECT_DIR/working/$2" >/dev/null 2>&1); then
+        echo "-> $3 image successfully mounted with Enhanced Read-Only File System"
+    elif $(sudo mount -o loop "$PROJECT_DIR/working/$1" "$PROJECT_DIR/working/$2" >/dev/null 2>&1); then
+        echo "-> $3 image successfully mounted"
+    elif $(sudo mount -o ro "$PROJECT_DIR/working/$1" "$PROJECT_DIR/working/$2" >/dev/null 2>&1); then
+        echo "-> $3 image successfully mounted"
     else
         # If it fails again, abort
         echo "-> Failed to mount $3 image, try to check this manually, abort."

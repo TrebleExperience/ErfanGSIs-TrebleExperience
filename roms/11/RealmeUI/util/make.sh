@@ -11,6 +11,14 @@ SYSTEMDIR="$2"
 MOUNT() {
     if $(sudo mount -o auto -t auto "$1" "$2" >/dev/null 2>&1); then
         GOOD=true
+    elif $(sudo mount -o loop "$1" "$2" > /dev/null 2>&1); then
+        GOOD=true
+    elif $(sudo mount -o ro "$1" "$2" > /dev/null 2>&1); then
+        GOOD=true
+    elif $(sudo mount -o ro -t erofs "$1" "$2" > /dev/null 2>&1); then
+        GOOD=true
+    elif $(sudo mount -o loop -t erofs "$1" "$2" > /dev/null 2>&1); then
+        GOOD=true
     else
         echo " - Failed to mount $3 image, abort!"
         exit 1
