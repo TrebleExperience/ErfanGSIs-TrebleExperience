@@ -125,6 +125,12 @@ echo "# Disable bpf loader" >> $1/product/etc/build.prop
 echo "bpf.progs_loaded=1" >> $1/product/etc/build.prop
 echo "" >> $1/product/etc/build.prop
 
+# Support multi-sim
+sed -i "/persist.sys.fflag.override.settings_provider_model/d" $1/build.prop
+echo "# Support multi-sim" >> $1/build.prop
+echo "persist.sys.fflag.override.settings_provider_model=false" >> $1/build.prop
+echo "" >> $1/build.prop
+
 # Bypass SF validateSysprops
 echo "# Bypass SF validateSysprops" >> $1/product/etc/build.prop
 echo "ro.surface_flinger.vsync_event_phase_offset_ns=-1" >> $1/product/etc/build.prop
