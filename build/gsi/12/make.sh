@@ -131,20 +131,17 @@ echo "# Support multi-sim" >> $1/build.prop
 echo "persist.sys.fflag.override.settings_provider_model=false" >> $1/build.prop
 echo "" >> $1/build.prop
 
-# Bypass SF validateSysprops
-echo "# Bypass SF validateSysprops" >> $1/product/etc/build.prop
-echo "ro.surface_flinger.vsync_event_phase_offset_ns=-1" >> $1/product/etc/build.prop
-echo "ro.surface_flinger.vsync_sf_event_phase_offset_ns=-1" >> $1/product/etc/build.prop
-echo "debug.sf.high_fps_late_app_phase_offset_ns=" >> $1/product/etc/build.prop
-echo "debug.sf.early_phase_offset_ns=" >> $1/product/etc/build.prop
-echo "debug.sf.early_gl_phase_offset_ns=" >> $1/product/etc/build.prop
-echo "debug.sf.early_app_phase_offset_ns=" >> $1/product/etc/build.prop
-echo "debug.sf.early_gl_app_phase_offset_ns=" >> $1/product/etc/build.prop
-echo "debug.sf.high_fps_late_sf_phase_offset_ns=" >> $1/product/etc/build.prop
-echo "debug.sf.high_fps_early_phase_offset_ns=" >> $1/product/etc/build.prop
-echo "debug.sf.high_fps_early_gl_phase_offset_ns=" >> $1/product/etc/build.prop
-echo "debug.sf.high_fps_early_app_phase_offset_ns=" >> $1/product/etc/build.prop
-echo "debug.sf.high_fps_early_gl_app_phase_offset_ns=" >> $1/product/etc/build.prop
+# Custom SF sysprops
+echo "# Custom SF sysprops
+debug.sf.use_phase_offsets_as_durations=1
+debug.sf.late.sf.duration=10500000
+debug.sf.late.app.duration=20500000
+debug.sf.early.sf.duration=16000000
+debug.sf.early.app.duration=16500000
+debug.sf.earlyGl.sf.duration=13500000
+debug.sf.earlyGl.app.duration=21000000
+debug.sf.disable_client_composition_cache=1
+vendor.display.disable_rotator_downscale=1" >> $1/product/etc/build.prop
 echo "" >> $1/product/etc/build.prop
 
 # Enable debugging
