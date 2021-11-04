@@ -84,6 +84,9 @@ for oppo_builds in $oppo_build_name; do
     fi
 done
 
+# Fix screenshot service issue
+sed -i '/persist.oplus.display.surfaceflinger.screenshot.cwb' $1/../my_product/build.prop
+
 # import oppo custom build.prop (due custom partition path)
 if [ -e $1/../my_product/build.prop ]; then
     echo "import /my_product/build.prop" >> $1/../my_product/build.prop
