@@ -30,7 +30,7 @@ else
     echo " - Additional vendor properties obtained successfully! Process completed."
 
     # Make it clean (& natural)
-    sed -i '1 i\# ADDITIONAL VENDOR BUILD PROPERTIES (Obtained automatically via prebuilt/common/getVendorProps.sh)' $TMPFILE
+    sed -i '1 i\# ADDITIONAL VENDOR BUILD PROPERTIES (Obtained automatically via build/gsi/common/getVendorProps.sh)' $TMPFILE
     sed -i '1 i\\n' $TMPFILE
 
     # Common drops: Necessary!
