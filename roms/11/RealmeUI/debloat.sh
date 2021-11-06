@@ -3,13 +3,11 @@
 systempath=$1
 thispath=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
 
-rm -rf $1/../my_heytap/app/*ARCore*
 rm -rf $1/../my_heytap/app/FinShellWallet
 rm -rf $1/../my_heytap/app/GlobalSearch
 rm -rf $1/../my_heytap/app/Instant
 rm -rf $1/../my_heytap/app/InstantService
 rm -rf $1/../my_heytap/app/Music
-rm -rf $1/../my_heytap/app/TrichromeLibraryCN
 rm -rf $1/../my_heytap/decouping_wallpaper/default/liveWallpaper/*
 rm -rf $1/../my_heytap/del-app/*
 rm -rf $1/../my_heytap/priv-app/ConfigUpdater
@@ -38,6 +36,7 @@ rm -rf $1/../my_stock/app/OppoCamera
 rm -rf $1/../my_stock/app/Pictorial
 rm -rf $1/../my_stock/app/SmartLock
 rm -rf $1/../my_stock/del-app/*
+rm -rf $1/../my_stock/priv-app/FindMyPhone
 rm -rf $1/../my_stock/priv-app/OppoGallery2
 rm -rf $1/../my_stock/priv-app/SmartDrive
 rm -rf $1/../my_stock/priv-app/VideoGallery
