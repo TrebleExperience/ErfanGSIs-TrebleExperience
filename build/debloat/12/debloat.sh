@@ -1,9 +1,6 @@
 #!/bin/bash
 rm -rf $1/product/app/AndroidAutoStubPrebuilt
 rm -rf $1/product/app/arcore
-rm -rf $1/product/app/CalculatorGooglePrebuilt
-rm -rf $1/product/app/CalendarGooglePrebuilt
-rm -rf $1/product/app/Chrome
 rm -rf $1/product/app/DevicePolicyPrebuilt
 rm -rf $1/product/app/DiagnosticsToolPrebuilt
 rm -rf $1/product/app/Drive
