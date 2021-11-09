@@ -108,7 +108,7 @@ else
     $thispath/brightnessfix/make.sh "$systempath"
 fi
 
-# Drop empty selinux mappings inside product and make minor changes
+# Drop empty selinux mappings inside product because that causes selinux problem, then bootloop ocurrs
 find $1/product/etc/selinux/mapping/ -type f -empty | xargs rm -rf
 if [ -e $1/product/etc/selinux/mapping ]; then
     sed -i '/software.version/d' $1/product/etc/selinux/product_property_contexts

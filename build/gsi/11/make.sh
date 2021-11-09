@@ -141,7 +141,7 @@ sed -i '/software.version/d' $1/etc/selinux/plat_property_contexts
 sed -i 's/sys.usb.config          u:object_r:system_radio_prop:s0//g' $1/etc/selinux/plat_property_contexts
 sed -i 's/ro.build.fingerprint    u:object_r:fingerprint_prop:s0//g' $1/etc/selinux/plat_property_contexts
 
-# Drop empty selinux mappings inside product and make minor changes
+# Drop empty selinux mappings inside product because that causes selinux problem, then bootloop ocurrs
 find $1/product/etc/selinux/mapping/ -type f -empty | xargs rm -rf
 if [ -e $1/product/etc/selinux/mapping ]; then
     sed -i '/software.version/d' $1/product/etc/selinux/product_property_contexts
@@ -151,7 +151,7 @@ if [ -e $1/product/etc/selinux/mapping ]; then
     sed -i '/oem/d' $1/product/etc/selinux/product_property_contexts
 fi
 
-# Drop empty selinux mappings inside system_ext
+# Drop empty selinux mappings inside system_ext because that causes selinux problem, then bootloop ocurrs
 find $1/system_ext/etc/selinux/mapping/ -type f -empty | xargs rm -rf
 if [ -e $1/system_ext/etc/selinux/mapping ]; then
     sed -i '/software.version/d' $1/system_ext/etc/selinux/system_ext_property_contexts
