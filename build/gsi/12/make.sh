@@ -16,10 +16,7 @@ sed -i '/ro.apex.updatable/d' $1/product/etc/build.prop
 sed -i '/ro.apex.updatable/d' $1/system_ext/etc/build.prop
 
 # Deal with non-flattened apex
-if [ -d "$1/apex/com.android.vndk.current" ]; then
-    # Flat apex detected! Extract the rest (v28, 29, 30)
-    $thispath/../../../scripts/apex_extractor.sh $1/apex
-fi
+$thispath/../../../scripts/apex_extractor.sh $1/apex
 echo "# Force updatable APEX" >> $1/product/etc/build.prop
 echo "ro.apex.updatable=true" >> $1/product/etc/build.prop
 echo "" >> $1/product/etc/build.prop
