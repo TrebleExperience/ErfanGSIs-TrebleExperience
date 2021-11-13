@@ -32,6 +32,7 @@ sudo bash https://bigota.d.miui.com/V12.5.4.0.RCUMIXM/miui_BILOBAGlobal_V12.5.4.
 
 ## Note
 * If you are going to edit the fork, please respect the License and NOTICE!
+* At the short period of less than 12 months, Project Treble Experience (from the second foundation), is shutting down its activities. I'll not pass the leadership of the project to anyone (as it was initially supposed to start and end with me as owner/first founder of the second and last foundation), nor to Hitalo, the first founder of the first Project Treble Experience, you're free to do whatever you want with this source code, just remember to give the credits to all contributors, helpers & etc. In my opinion, the second foundation should never have existed, YuMi GSIs was the main and rising but unfortunately bad natured people destroyed my project. Well, I've nothing to say, be happy and live well, if you are going to help others, please take care of yourself.
 
 ## Tips
 * Use our [Bo³+t](https://github.com/TrebleExperience/Bot3) fork if you want a telegram bot which is supported and adapted to our ErfanGSI fork.
