@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Project OEM-GSI Porter by Erfan Abdi <erfangplus@gmail.com>
-# Project TrebleExperience by Hitalo <hitalo331@outlook.com> and Velosh <daffetyxd@gmail.com>
+# Project Treble Experience by Hitalo <hitalo331@outlook.com> and Velosh <daffetyxd@gmail.com>
 
 # Core variables, do not edit.
 LOCALDIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`

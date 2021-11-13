@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Copyright (C) 2021 Xiaoxindada <2245062854@qq.com>
-# Project Hitalo <hitalo331@outlook.com> and Velosh <daffetyxd@gmail.com>
+# Project Treble Experience by Hitalo <hitalo331@outlook.com> and Velosh <daffetyxd@gmail.com> <hitalo331@outlook.com> and Velosh <daffetyxd@gmail.com>
 
 # Core variables, don't edit.
 LOCALDIR=`cd "$( dirname $0 )" && pwd`

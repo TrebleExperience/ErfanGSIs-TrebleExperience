@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Project TrebleExperience by Hitalo <hitalo331@outlook.com> and Velosh <daffetyxd@gmail.com>
+# Project Treble Experience by Hitalo <hitalo331@outlook.com> and Velosh <daffetyxd@gmail.com>
 # Written by Velosh <daffetyxd@gmail.com>
 
 # Core variables, don't edit.
